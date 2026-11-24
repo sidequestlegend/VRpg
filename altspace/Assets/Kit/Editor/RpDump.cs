@@ -3,8 +3,6 @@ using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 namespace RpToolkit
@@ -56,64 +54,6 @@ namespace RpToolkit
                 if (c is UnityEngine.UI.GridLayoutGroup gl) text.AppendLine($"{pad}    grid cell {gl.cellSize} spacing {gl.spacing}");
             }
             foreach (Transform child in t) Walk(child, depth + 1, text);
-        }
-
-        /// <summary>
-        /// The kit's photo (Library/PortKit/kits/photos/rp-toolkit.jpg, which Export Artifacts takes) framed on the menu board: the
-        /// generic PortKit/Kit/Take Photos frames every renderer, and the floor grid (20 m) and the label pool would fill it.
-        /// Also Logs/rp_layout.jpg, larger, for checking the layout. Run it after PortKit/Kit/Take Photos.
-        /// </summary>
-        [MenuItem("PortKit/RpToolkit/Take Menu Photo")]
-        public static void Photo()
-        {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Kit/rp-toolkit.prefab");
-            var scene = EditorSceneManager.NewPreviewScene();
-            try
-            {
-                var copy = Object.Instantiate(prefab);
-                SceneManager.MoveGameObjectToScene(copy, scene);
-                foreach (var t in copy.GetComponentsInChildren<Transform>(true))
-                    if (t.name == "Labels" || t.name == "GridPlane" || t.name == "FadeTarget" || t.name.StartsWith("Panel ") && t.name != "Panel 0 - Main"
-                        || t.name == "Dice d20" || t.name == "OperUI") t.gameObject.SetActive(false);
-                var canvas = copy.GetComponentsInChildren<Canvas>(true).First(c => c.name == "Menu Canvas");
-                var corners = new Vector3[4];
-                ((RectTransform)canvas.transform).GetWorldCorners(corners);
-                var centre = (corners[0] + corners[2]) / 2f;
-                float width = Vector3.Distance(corners[0], corners[3]);
-                Canvas.ForceUpdateCanvases();
-                foreach (var (path, w, h, scale) in new[] { ("Library/PortKit/kits/photos/rp-toolkit.jpg", 1024, 768, 1.0f), ("Logs/rp_layout.jpg", 2000, 1600, 1.0f) })
-                {
-                    var rt = new RenderTexture(w, h, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB) { antiAliasing = 8 };
-                    var tex = new Texture2D(w, h, TextureFormat.RGB24, false);
-                    var camObject = new GameObject("Camera");
-                    SceneManager.MoveGameObjectToScene(camObject, scene);
-                    var cam = camObject.AddComponent<Camera>();
-                    cam.scene = scene;
-                    cam.fieldOfView = 40f;
-                    cam.clearFlags = CameraClearFlags.SolidColor;
-                    cam.backgroundColor = new Color(0.16f, 0.18f, 0.22f);
-                    float reach = width * 0.62f / Mathf.Tan(20f * Mathf.Deg2Rad) * scale;
-                    cam.transform.position = centre - canvas.transform.forward * reach;
-                    cam.transform.rotation = Quaternion.LookRotation(canvas.transform.forward, canvas.transform.up);
-                    cam.nearClipPlane = 0.02f;
-                    cam.targetTexture = rt;
-                    canvas.worldCamera = cam;
-                    cam.Render();
-                    RenderTexture.active = rt;
-                    tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
-                    tex.Apply();
-                    RenderTexture.active = null;
-                    cam.targetTexture = null;
-                    Directory.CreateDirectory(Path.GetDirectoryName(path));
-                    File.WriteAllBytes(path, tex.EncodeToJPG(90));
-                    rt.Release();
-                    Object.DestroyImmediate(rt);
-                    Object.DestroyImmediate(tex);
-                    Object.DestroyImmediate(camObject);
-                }
-                File.WriteAllText("Logs/rp_photo.txt", "DONE\n");
-            }
-            finally { EditorSceneManager.ClosePreviewScene(scene); }
         }
 
         static string Short(string s) { s = (s ?? "").Replace("\n", "\\n"); return s.Length > 80 ? s.Substring(0, 80) + "..." : s; }

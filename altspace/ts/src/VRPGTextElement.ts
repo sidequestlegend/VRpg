@@ -12,7 +12,12 @@
 // (clearing after a send).
 
 import { Color, type HostActions } from "../portkit/src/index.ts";
-import { Utils } from "./VRPGUtils.ts";
+import { Utils, stripAllTags } from "./VRPGUtils.ts";
+
+/** The name VRPGMenu.SetOOC writes: the words "Out of Character" in one colour, nothing else. */
+export function isOocName(text: string): boolean {
+  return /^<color=#[0-9A-F]{6}>Out of Character<\/color>$/i.test(text);
+}
 
 export const TextElementStyle = { Text: 0, Dots_empty: 1, Dots_filled: 2, Squares_empty: 3, Squares_filled: 4 } as const;
 export type TextElementStyleValue = (typeof TextElementStyle)[keyof typeof TextElementStyle];
@@ -48,11 +53,15 @@ export class VRPGTextElement {
     this.SetText("");
   }
 
-  /** TXT:61-72: removes every rich-text tag, unless the text says "Out of Character". */
+  /**
+   * TXT:61-72: removes every rich-text tag, unless the text says "Out of Character". Upstream keeps the tags of any
+   * text that merely contains those words, so a name such as "Out of Character<size=99>..." kept every tag (review
+   * finding 4); here only the menu's own Out-of-Character name (a colour around those words, VRPGMenu.SetOOC) is kept.
+   */
   StripTags(): void {
-    if (this.value === null || this.value.includes("Out of Character")) return;
-    const rich = /<[^>]*>/g;
-    if (/<[^>]*>/.test(this.value)) this.SetText(this.value.replace(rich, ""));
+    if (this.value === null || isOocName(this.value)) return;
+    const stripped = stripAllTags(this.value);
+    if (stripped !== this.value) this.SetText(stripped);
   }
 
   /** TXT:88-94 */

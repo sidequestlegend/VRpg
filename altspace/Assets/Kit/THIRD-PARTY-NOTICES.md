@@ -2,12 +2,13 @@
 
 Roleplay Toolkit (snippet `rp-toolkit`, script `pk-rp-toolkit.js`, kit bundles `rp-toolkit`) is a port of VRpg 2 to
 Altspace. Port source: https://github.com/sidequestlegend/VRpg (branch `altspace`, folder `altspace/`).
-A copy of this file is inside every kit bundle (`Assets/Kit/THIRD-PARTY-NOTICES.md`).
+A copy of this file is inside every kit bundle (`Assets/Kit/THIRD-PARTY-NOTICES.md`), with the full licence texts it
+names (`Assets/Kit/Licenses/`, and TextMesh Pro's `LiberationSans - OFL.txt`, which the kit build adds).
 
 ## VRpg 2 (code, prefabs, art)
 
 - Source: https://github.com/GIBGames/VRpg, folder `VRPG2/` (commit `8e2c2cc`)
-- Licence: MIT, Copyright (c) 2024 GIB Games (`VRPG2/LICENSE`, below)
+- Licence: MIT, Copyright (c) 2024 GIB Games (`VRPG2/LICENSE`, below and in `Assets/Kit/Licenses/VRpg2-LICENSE-MIT.txt`)
 - What of it is here: the gameplay scripts are translated to TypeScript (`altspace/ts/src/`) and bundled into
   `pk-rp-toolkit.js`; the menu, label, fade sphere and d20 roller prefabs, the logo (`VRPG.png`), the perlin texture, the
   fade animator and clip are in the kit, changed as `altspace/PORT.md` lists (removed: remote configuration, the author's
@@ -45,20 +46,25 @@ SOFTWARE.
   (fetched 2026-11-24; last change there 2023-10-12, commit `892dc85`; sha1 `b2c33e888223e7c65aa6c3f2d61d087438a9802f`)
 - Copyright 2018 The Roboto Slab Project Authors (https://github.com/googlefonts/robotoslab)
 - Licence: Apache License, Version 2.0 (`METADATA.pb`: `license: "APACHE2"`; full text below and in
-  `Assets/Kit/Fonts/RobotoSlab-LICENSE-Apache-2.0.txt`)
+  `Assets/Kit/Licenses/RobotoSlab-LICENSE-Apache-2.0.txt`)
 - Changed: a TextMesh Pro static atlas (`Assets/Kit/Fonts/RobotoSlab SDF.asset`) was generated from it (Latin-1 and a
   few symbols). The `.ttf` is not in the bundles; the atlas is.
 
 ## Liberation Sans (font)
 
-- From TextMesh Pro's essentials (`LiberationSans SDF`), SIL Open Font License 1.1, Copyright (c) 2012 Red Hat, Inc.,
-  reserved font name "Liberation". Used for some texts and as the fallback for characters Roboto Slab's atlas lacks.
+- From TextMesh Pro's essentials (`LiberationSans SDF`). Used for some texts and as the fallback for characters Roboto
+  Slab's atlas lacks.
+- Digitized data copyright (c) 2010 Google Corporation, with Reserved Font Arimo, Tinos and Cousine.
+  Copyright (c) 2012 Red Hat, Inc., with Reserved Font Name Liberation.
+- Licence: SIL Open Font License, Version 1.1; the full text (`LiberationSans - OFL.txt`, from TextMesh Pro) is in
+  every bundle.
 
 ## Sounds
 
 - `bong_001.ogg` (game-master alert) and `glass_002.ogg` (in-character line alert) from **Interface Sounds** 1.0 by
   Kenney (www.kenney.nl), https://kenney.nl/assets/interface-sounds, downloaded 2026-11-24. They replace the upstream
-  clips, which are not in the repository. Licence: Creative Commons Zero (CC0), as the pack's `License.txt` says:
+  clips, which are not in the repository. Licence: Creative Commons Zero (CC0), as the pack's `License.txt` says
+  (`Assets/Kit/Licenses/Kenney-Interface-Sounds-License.txt`):
 
 ```
 Interface Sounds (1.0)
@@ -91,7 +97,8 @@ The hex floor-grid texture, the role-icon disc and the URP materials are generat
 
 ## portkit runtime
 
-The script bundles the portkit runtime:
+The script bundles the portkit runtime (its notice is also at the top of the script, and in
+`Assets/Kit/Licenses/portkit-LICENSE-MIT.txt`):
 
 ```
 MIT License

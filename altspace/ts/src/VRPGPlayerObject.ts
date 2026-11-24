@@ -12,20 +12,24 @@
 //   - The label over the player's head: upstream moves it to the owner's head every physics tick (PO:101-112),
 //     which needs other players' head positions the page does not have (G4). Here the kit holds a pool of label
 //     objects (`label<n>`); each player claims a free slot (`labelSlot`, settled by player id when two claim one),
-//     and every client writes the texts and the role icon into that slot. The page reads no other player's head
-//     (G4), so each player publishes their own head position (`head`, centimetres, at most twice a second and only
-//     after a move of 15 cm) and every client puts the slot `label-height` (0.75 m) above it (PO:106). Turning the
-//     label to the viewer every frame (PO:109) is the kit's (a look-at constraint on a head-attached anchor).
+//     every client writes the texts and the role icon into that slot, and the slot's owner attaches it to their own
+//     head with the app's synced attachment (`AttachToHead`, autoSync), so everyone sees it follow that avatar. The
+//     kit keeps the label's canvas `label-height` (0.75 m, PO:106) straight above the attachment point (a position
+//     constraint), and turns it to the viewer (a look-at constraint on the fade sphere, which follows the local head).
+//   - What the referee publishes for everyone (the toolkit keeps nothing in public space state): the recent IC and
+//     OOC lines for players who arrive later (`recent`) and the `first-joiner-gm` record (`firstJoiner`), both in the
+//     referee's own player object, which only the referee can write (its user state). Readers take them only from the
+//     current referee's object.
 //   - Not translated: the author's flags `usedToast` / `wasToast` (PO:91-99), the cheater shaming (PO:467-487,
 //     513-551), voice zones and channels (PO:176-214, 266-284), the map dot (PO:111, 217-238), the empty SetTags
 //     (PO:298-304), the selected-player key nobody reads (PO:362-370), VarsString / VarsDict, which is always an
 //     empty object upstream (PO:77-88, 375-378).
 
-import { Vector3, type DeserializationResult, type Player } from "../portkit/src/index.ts";
+import { Quaternion, Vector3, type DeserializationResult, type Player } from "../portkit/src/index.ts";
 import { IconController, SiteRole } from "./IconController.ts";
 import { VRPGComponent } from "./VRPGComponent.ts";
 import { VRPGTextElement } from "./VRPGTextElement.ts";
-import { cleanTyped, filterRichText } from "./VRPGUtils.ts";
+import { cleanTyped, filterRichText, plainName } from "./VRPGUtils.ts";
 
 /** Label objects in the kit (PORT.md R10). */
 export const LABEL_POOL = 32;
@@ -40,18 +44,25 @@ export const KEY_DESC = "vrpg-charDesc";
 /** A grant as its granter stores it: the role and the synced time it was made. */
 export type GrantRecord = [number, number];
 
+/** The label height the kit's position constraint keeps (RpToolkitKitBuilder.LabelHeight). */
+export const KIT_LABEL_HEIGHT = 0.75;
+
 export class VRPGPlayerObject extends VRPGComponent {
-  static override perPlayer = true;
-  static override synced = ["labelSlot", "grants", "head"];
+  // Per player: the kit builder marks it (KitStage.PerPlayer, bindings "perPlayer").
+  static override synced = ["labelSlot", "grants", "recent", "firstJoiner"];
 
   /** Synced: the label slot this player uses, -1 for none. */
   labelSlot = -1;
   /** Synced: roles this player granted, by user id. */
   grants: Record<string, GrantRecord> = {};
-  /** Synced: where this player's head was last published, [x, y, z] in centimetres; empty before the first. */
-  head: number[] = [];
-  private headPublishedAt = -Infinity;
+  /** Synced, meaningful only while this player is the referee: the recent IC and OOC lines (VRPGLogs). */
+  recent: string[][] = [];
+  /** Synced, meaningful only while this player is the referee: the user id `first-joiner-gm` names (GMD:109). */
+  firstJoiner = "";
   private lastGrants = "{}";
+  private lastFirstJoiner = "";
+  /** The label slot this player's own client has attached to its head, -1 for none. */
+  private attachedSlot = -1;
 
   /** PO:30. */
   get Owner(): Player | null {
@@ -86,47 +97,53 @@ export class VRPGPlayerObject extends VRPGComponent {
   /** PO:126-129 */
   override OnDeserialization(_result: DeserializationResult): void {
     this._OnValueChanged();
-    this._PlaceLabel();
-    // The grants this player made may have changed: every role is worked out again (only then: the head moves often).
+    // The grants this player made, or (from the referee) the first joiner, may have changed: every role is worked out
+    // again (only then).
     const grants = JSON.stringify(this.grants ?? {});
-    if (grants !== this.lastGrants) {
+    const first = typeof this.firstJoiner === "string" ? this.firstJoiner : "";
+    if (grants !== this.lastGrants || first !== this.lastFirstJoiner) {
       this.lastGrants = grants;
+      this.lastFirstJoiner = first;
       this.VRPG.GMData.RecomputeRoles();
     }
   }
 
-  /** PO:101-112: the owner publishes where its head is; every client puts the label over it. */
-  override Update(): void {
-    const owner = this.Owner;
-    if (!owner?.isLocal) return;
-    const at = this.Input.Poses?.head.position ?? this.Input.Position;
-    if (!at) return;
-    const now = this.Time.time;
-    if (now - this.headPublishedAt < 0.5) return;
-    const cm = [Math.round(at.x * 100), Math.round(at.y * 100), Math.round(at.z * 100)];
-    if (this.head.length === 3 && Math.hypot(cm[0]! - this.head[0]!, cm[1]! - this.head[1]!, cm[2]! - this.head[2]!) < 15) return;
-    this.head = cm;
-    this.headPublishedAt = now;
-    this.RequestSerialization();
-    this._PlaceLabel();
-  }
-
-  /** The head position this player last published, or null. */
-  get HeadPosition(): Vector3 | null {
-    const h = this.head;
-    if (!Array.isArray(h) || h.length !== 3 || !h.every((n) => typeof n === "number" && Number.isFinite(n))) return null;
-    return new Vector3(h[0]! / 100, h[1]! / 100, h[2]! / 100);
-  }
-
-  /** Puts the label slot this client draws into over the head this player published. */
-  _PlaceLabel(): void {
+  /** The local player's label follows its head: the slot it holds is attached there (PO:101-112). */
+  private _AttachLabel(): void {
+    if (!this.Owner?.isLocal) return;
     const slot = this.slotShown;
-    const head = this.HeadPosition;
-    if (slot < 0 || !head) return;
-    const label = this.VRPG.Labels[slot];
+    if (slot === this.attachedSlot) return;
+    if (this.attachedSlot >= 0) this.VRPG.Labels[this.attachedSlot]?.Detach();
+    this.attachedSlot = slot;
+    const label = slot >= 0 ? this.VRPG.Labels[slot] : undefined;
     if (!label) return;
-    const height = this.VRPG.ConfigData.GetNumber("label-height", 0.75);
-    label.transform.position = head.add(new Vector3(0, height, 0));
+    // The kit's constraint puts the canvas KIT_LABEL_HEIGHT straight above the attachment point; a different
+    // `label-height` moves the attachment point itself (along the head's up, so that part tilts with the head).
+    const extra = this.VRPG.ConfigData.GetNumber("label-height", KIT_LABEL_HEIGHT) - KIT_LABEL_HEIGHT;
+    label.AttachToHead(new Vector3(0, extra, 0), Quaternion.identity, true);
+  }
+
+  /** The label slot the local player has attached to its head (tests read it). */
+  get AttachedSlot(): number {
+    return this.attachedSlot;
+  }
+
+  // ---- what the referee publishes (see the file header) ---------------------------------------------------------
+
+  /** The local player, as referee, publishes the recent lines. */
+  _PublishRecent(recent: string[][]): void {
+    if (!this.Owner?.isLocal) return;
+    if (JSON.stringify(recent) === JSON.stringify(this.recent)) return;
+    this.recent = recent;
+    this.RequestSerialization();
+  }
+
+  /** The local player, as referee, publishes the first joiner. */
+  _PublishFirstJoiner(uid: string): void {
+    if (!this.Owner?.isLocal || this.firstJoiner === uid) return;
+    this.firstJoiner = uid;
+    this.lastFirstJoiner = uid;
+    this.RequestSerialization();
   }
 
   /** PO:131-150 */
@@ -196,6 +213,7 @@ export class VRPGPlayerObject extends VRPGComponent {
     if (slot < 0 || slot >= LABEL_POOL) {
       this.NameLabel = this.TitleLabel = null;
       this.Icons = null;
+      this._AttachLabel();
       return;
     }
     this.NameLabel = new VRPGTextElement(this.Host, `label${slot}Name`);
@@ -205,7 +223,7 @@ export class VRPGPlayerObject extends VRPGComponent {
     this.lastVisibleRoleIndex = -1;
     this.UpdateRoleUi();
     this.UpdateObjectGUI();
-    this._PlaceLabel();
+    this._AttachLabel();
   }
 
   /** Hides a slot unless another present player now holds it. */
@@ -229,6 +247,8 @@ export class VRPGPlayerObject extends VRPGComponent {
   override OnDestroy(): void {
     if (this.slotShown >= 0) this._ReleaseSlot(this.slotShown);
     this.slotShown = -1;
+    if (this.attachedSlot >= 0) this.VRPG.Labels[this.attachedSlot]?.Detach();
+    this.attachedSlot = -1;
     if (this.VRPG.LocalPlayerObject === this) this.VRPG.LocalPlayerObject = null;
   }
 
@@ -383,7 +403,7 @@ export class VRPGPlayerObject extends VRPGComponent {
     if (!owner?.IsValid()) return;
     this.CheckPatronColor();
 
-    const tempName = cleanTyped(this.PlayerData.GetString(owner, KEY_NAME), MAX_NAME, false);
+    const tempName = filterRichText(cleanTyped(this.PlayerData.GetString(owner, KEY_NAME), MAX_NAME, false));
     this.NameLabel?.SetText(tempName);
 
     // prevent custom colors for non-staff
@@ -414,7 +434,7 @@ export class VRPGPlayerObject extends VRPGComponent {
   /** PO:564-574 */
   GetCharacterName(): string {
     const owner = this.Owner;
-    if (owner?.IsValid() && this.PlayerData.Has(owner, KEY_NAME)) return cleanTyped(this.PlayerData.GetString(owner, KEY_NAME), MAX_NAME, false);
+    if (owner?.IsValid() && this.PlayerData.Has(owner, KEY_NAME)) return filterRichText(cleanTyped(this.PlayerData.GetString(owner, KEY_NAME), MAX_NAME, false));
     return "";
   }
   GetTitle(): string {
@@ -427,7 +447,7 @@ export class VRPGPlayerObject extends VRPGComponent {
   }
   /** PO:575 */
   GetOwnerName(): string {
-    return this.Owner?.displayName ?? "";
+    return plainName(this.Owner?.displayName ?? "");
   }
   /** PO:576 */
   IsMod(): boolean {

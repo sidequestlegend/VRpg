@@ -43,7 +43,7 @@ test("GetDots (UTL:35-62)", () => {
   assert.equal(Utils.GetDots("x", "o"), "");
 });
 
-test("StripTags removes every tag unless the text says Out of Character (TXT:61-72)", () => {
+test("StripTags removes every tag except from the menu's own Out-of-Character name (TXT:61-72)", () => {
   const sent: string[] = [];
   const host = { setText: (_k: string, t: string) => void sent.push(t), uiColor() {} } as unknown as HostActions;
   const el = new VRPGTextElement(host, "x");
@@ -54,6 +54,24 @@ test("StripTags removes every tag unless the text says Out of Character (TXT:61-
   el.SetText("<color=#00FFFF>Out of Character</color>");
   el.StripTags();
   assert.equal(el.Text, "<color=#00FFFF>Out of Character</color>");
+  // Only the menu's own Out-of-Character name is kept (review finding 4): the words alone no longer switch it off.
+  el.SetText("Out of Character<size=999>X</size>");
+  el.StripTags();
+  assert.equal(el.Text, "Out of CharacterX");
+  el.SetText("<color=#00FFFF>Out of Character</color><size=9>x");
+  el.StripTags();
+  assert.equal(el.Text, "Out of Characterx");
+  el.SetText("<b<x>>A");
+  el.StripTags();
+  assert.equal(el.Text, "A");
+});
+
+test("the rich-text filter: tags with spaces, hyphens and #, tags made by removing others, colours with alpha, open tags", () => {
+  assert.equal(filterRichText('<sprite name="x">a<line-height=500%>b<#FF0000>c<noparse>d</noparse>'), "abcd");
+  assert.equal(filterRichText("<si<x>ze=99>big"), "big");
+  assert.equal(filterRichText("<color=#00000000>hidden</color> <color=#FFF>w</color>"), "hidden</color> <color=#FFF>w</color>");
+  assert.equal(filterRichText("<b>open <i>and <color=red>more"), "<b>open <i>and <color=red>more</color></i></b>");
+  assert.equal(filterRichText("a <3 b > c"), "a <3 b > c");
 });
 
 test("typed text: control characters out, line breaks kept or folded, cut to length; only color, b and i tags kept", () => {

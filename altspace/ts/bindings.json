@@ -326,6 +326,7 @@
       "fields": {},
       "id": "player",
       "object": "manager",
+      "perPlayer": true,
       "type": "VRPGPlayerObject"
     },
     {

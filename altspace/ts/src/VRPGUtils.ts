@@ -130,14 +130,59 @@ export function cleanTyped(text: string, max: number, keepLineBreaks: boolean): 
   return out;
 }
 
-const ALLOWED_TAGS = new Set(["color", "b", "i"]);
+/**
+ * Anything TextMesh Pro may read as a tag: `<`, an optional `/`, a letter or `#`, then up to the next `>` (with spaces,
+ * hyphens and quotes: `<line-height=99>`, `<sprite name="x">`, `<#FF0000>`). `<3` and `a < b` are not tags.
+ */
+const TAG = /<\/?[A-Za-z#][^<>]*>/g;
+/** The tags a player's text may keep: bold, italic, and an opaque colour by name or as #RGB / #RRGGBB. */
+const KEPT_TAG = /^(?:<\/?[bi]>|<\/color>|<color=(?:#[0-9A-F]{3}|#[0-9A-F]{6}|"#[0-9A-F]{6}"|"?[A-Z]{1,20}"?)>)$/i;
 
 /**
- * Keeps the rich-text tags `<color>`, `<b>` and `<i>` (opening and closing) and removes every other tag, so one
- * `<size=9999>` cannot wreck everyone's log (PORT.md C6). Text that is not a tag (`<3`) is left alone.
+ * Keeps the rich-text tags `<color>`, `<b>` and `<i>` (opening and closing; a colour without alpha) and removes every
+ * other tag, so one `<size=9999>` cannot wreck everyone's log (PORT.md C6). A removal that joins two pieces into a
+ * new tag (`<si<x>ze=99>`) is caught by going again until nothing changes. Kept tags left open are closed at the end,
+ * so a line cannot colour or embolden the lines after it. Text that is not a tag (`<3`) is left alone.
  */
 export function filterRichText(text: string): string {
-  return text.replace(/<\/?([A-Za-z]+)(?:=[^<>]*)?>/g, (tag, name: string) => (ALLOWED_TAGS.has(name.toLowerCase()) ? tag : ""));
+  let out = String(text ?? "");
+  for (;;) {
+    const next = out.replace(TAG, (tag) => (KEPT_TAG.test(tag) ? tag : ""));
+    if (next === out) break;
+    out = next;
+  }
+  return closeOpenTags(out);
+}
+
+/** Removes every tag (for display names and the names of players without a role). */
+export function stripAllTags(text: string): string {
+  let out = String(text ?? "");
+  for (;;) {
+    const next = out.replace(TAG, "");
+    if (next === out) return out;
+    out = next;
+  }
+}
+
+/** A display name as text shows it: one line, no tags, at most 64 characters. */
+export function plainName(name: string): string {
+  return stripAllTags(cleanTyped(name, 64, false));
+}
+
+/** Appends the closing tags of kept tags left open, innermost first (closers without an opener are left: they close nothing). */
+function closeOpenTags(text: string): string {
+  const open: string[] = [];
+  for (const match of text.matchAll(TAG)) {
+    const tag = match[0];
+    const closing = tag.startsWith("</");
+    const name = tag.slice(closing ? 2 : 1).replace(/[=>].*$/s, "").toLowerCase();
+    if (!closing) open.push(name);
+    else {
+      const at = open.lastIndexOf(name);
+      if (at >= 0) open.splice(at, 1);
+    }
+  }
+  return text + open.reverse().map((name) => `</${name}>`).join("");
 }
 
 /** Parses "r g b" or "r g b a" (0 to 1) into a Color; `fallback` when it does not parse. */

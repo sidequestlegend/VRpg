@@ -5,6 +5,7 @@
 //   - players in player-id order, the same on every client;
 //   - the list also refreshes when someone joins or leaves, when a name changes and when a role changes;
 //   - a selected player who leaves is cleared;
+//   - names and texts are filtered as everywhere else (only color, b and i kept; display names without tags);
 //   - SyncPoolObject (SOC:105) only re-sent upstream's always-empty VarsString: not needed.
 
 import type { GameObject, Player } from "../portkit/src/index.ts";
@@ -12,6 +13,7 @@ import { VRPGComponent } from "./VRPGComponent.ts";
 import type { VRPGPlayerButton } from "./VRPGPlayerButton.ts";
 import type { VRPGPlayerObject } from "./VRPGPlayerObject.ts";
 import { VRPGTextElement } from "./VRPGTextElement.ts";
+import { plainName } from "./VRPGUtils.ts";
 
 export class VRPGSocial extends VRPGComponent {
   // From bindings.json (SOC:26-36).
@@ -58,7 +60,7 @@ export class VRPGSocial extends VRPGComponent {
   SetSelectedPlayerApi(targetApi: Player): void {
     if (!targetApi.IsValid()) return;
     const object = this.VRPG.GetPlayerObject(targetApi);
-    this.playerLabel?.SetText(targetApi.displayName);
+    this.playerLabel?.SetText(plainName(targetApi.displayName));
     this.nameLabel?.SetText(object?.GetCharacterName() ?? "");
     this.titleLabel?.SetText(object?.GetTitle() ?? "");
     this.descLabel?.SetText(object?.GetDescription() ?? "");

@@ -39,6 +39,8 @@ namespace RpToolkit
         public const int Labels = 32;
         /// <summary>Rows of the player list on one page: the upstream scroll view showed 2 x 4 of its 84 at a time.</summary>
         public const int Rows = 8;
+        /// <summary>How far above its head attachment a label's canvas sits (PO:106; VRPGPlayerObject.ts KIT_LABEL_HEIGHT).</summary>
+        public const float LabelHeight = 0.75f;
 
         public override string Slug => "rp-toolkit";
         public override string Title => "Roleplay Toolkit";
@@ -51,6 +53,8 @@ namespace RpToolkit
             "roles, bring players, teleport everyone to points A to F and respawn everyone. Saved names follow the device.";
         /// <summary>Where the menu board is parked while closed.</summary>
         public override string SnippetPosition => "0 1.5 0";
+        /// <summary>The photo shows the menu board (the floor grid is 20 m, the labels are a pool of 32).</summary>
+        public override string PhotoRoot => "VRPG Manager/VRPG Local Menu";
         public override IReadOnlyList<(string name, string value)> SnippetSettings => new[]
         {
             ("title-text", "VRpg RP System"), ("game-name", "Your Game Name!"), ("menu-key", "Q"), ("menu-button", "left-secondary"),
@@ -129,7 +133,7 @@ namespace RpToolkit
             var tTele = stage.Behaviour(root, "VRPGPlayerTeleport", fTele);
             var tOptions = stage.Behaviour(root, "VRPGOptions", fOptions);
             var tPatrons = stage.Behaviour(root, "VRPGPatronData", fPatrons);
-            stage.Behaviour(root, "VRPGPlayerObject");                                  // per player (the class says so)
+            stage.PerPlayer(stage.Behaviour(root, "VRPGPlayerObject"));                 // one per player, synced through their user state
             stage.Object(M.gameObject, key: "menu");
             var tMenu = stage.Behaviour(M.gameObject, "VRPGMenu", fMenu);
 
@@ -248,7 +252,7 @@ namespace RpToolkit
             Ui(O("d20Dec", d20.Find("DecMod")), tD20, "DecreaseMod");
             var d20Mod = O("d20ModLabel", Ref(d5Stand, "modLabel").transform);
             var d20Pool = O("d20Pool", Ref(d5Stand, "dicePoolBoxText").transform);
-            var d20Gm = O("d20Gm", d20.Find("Toggle"));                          // (gmToggle is the base class's: not on the stand-in)
+            var d20Gm = O("d20Gm", Ref(d5Stand, "gmToggle").transform);          // VRPGRollerBase's field (stand-ins keep their base class)
             Ui(d20Gm, tD20, "ToggleGm");
             var d20GmCheck = O("d20GmCheck", d20Gm.transform.Find("Background/Checkmark"));
             // d2 (wired to BoxAddD20 upstream) and d100 (unwired) are Dead (checklist 39); the single d20 rolls get buttons (C11)
@@ -349,6 +353,9 @@ namespace RpToolkit
             if (tl != null) Object.DestroyImmediate(tl);
             var operUi = O("operUI", F(P + "/OperUI"));
             Ui(O("noBoxSpawn", F(P + "/OperUI/NoBoxSpawn")), tGm, "GoNoBox");
+            // What the page switches off when it starts (only the Main panel shows, the DS roller, no operators' block) is
+            // saved off too (bindings "active": false), so the kit's photo shows the board as a player first sees it.
+            foreach (var hidden in panels.Skip(1).Append(operUi).Append(d20.gameObject)) hidden.SetActive(false);
 
             // ---- sounds: CC0 replacements for the three clips missing upstream (the version alert went with its feature) ----
             var gmAlert = O("gmAlert", F("VRPG GM Handler/GMAlert"));
@@ -382,8 +389,10 @@ namespace RpToolkit
             gridPlane.localScale = new Vector3(2f, 1f, 2f);
             O("grid", gridPlane);
 
-            // ---- the name labels: 32 copies of the player object's label canvas, turned to the viewer by a look-at constraint
-            //      on the fade sphere (which the page keeps at the local head) ----
+            // ---- the name labels: 32 copies of the player object's label canvas. Each player's page attaches the label it holds
+            //      to its own head (synced by the app); a position constraint keeps the canvas LabelHeight straight above that
+            //      point whichever way the head tilts, and a look-at constraint turns it to the viewer (the fade sphere, which
+            //      every page attaches to its own head) ----
             var labelsRoot = stage.Create("Labels", root.transform);
             var labelTokens = new JArray();
             var discSprite = Disc();
@@ -405,6 +414,12 @@ namespace RpToolkit
                 look.roll = 0f;
                 look.constraintActive = true;
                 look.locked = true;
+                var above = lc.gameObject.AddComponent<PositionConstraint>();
+                above.AddSource(new ConstraintSource { sourceTransform = label.transform, weight = 1f });
+                above.translationOffset = new Vector3(0f, LabelHeight, 0f);                   // world axes: straight up
+                above.translationAxis = Axis.X | Axis.Y | Axis.Z;
+                above.constraintActive = true;
+                above.locked = true;
                 CleanUi(label);
                 O($"label{i}", label.transform);
                 O($"label{i}Name", lc.Find("Labels/Text/Nameplate"));
@@ -679,31 +694,22 @@ namespace RpToolkit
         }
 
         /// <summary>
-        /// A clip on an object's BS Audio Source and in its PkClips list (the relay's audio op reads that one), as KitStage does for
-        /// a stand-in's clip field. Returns the bindings value {"$clip": 0, "on": key}.
+        /// A clip on the holder's clip list (KitStage.ClipValue: AudioSource, BS Audio Source, PkClips, refs), played at
+        /// `volume` without 3D falloff. Returns the bindings value {"$clip": n, "on": key}.
         /// </summary>
         static JObject Clip(KitStage stage, GameObject holder, string path, float volume)
         {
-            var clip = Load<AudioClip>(path);
-            var source = holder.GetComponent<AudioSource>() ?? holder.AddComponent<AudioSource>();
+            var value = stage.ClipValue(holder, Load<AudioClip>(path));
+            var source = holder.GetComponent<AudioSource>();
             source.playOnAwake = false;
             source.spatialBlend = 0f;
             source.volume = volume;
-            var type = GraphTypes.Find("BS.BSAudioSource");
-            var audio = holder.GetComponent(type) ?? holder.AddComponent(type);
-            var so = new SerializedObject(audio);
-            var clips = so.FindProperty("clips");
-            clips.arraySize = 1;
-            clips.GetArrayElementAtIndex(0).objectReferenceValue = clip;
+            var so = new SerializedObject(holder.GetComponent(GraphTypes.Find("BS.BSAudioSource")));
             so.FindProperty("playOnAwake").boolValue = false;
             so.FindProperty("volume").floatValue = volume;
             so.FindProperty("spatialBlend").floatValue = 0f;
             so.ApplyModifiedPropertiesWithoutUndo();
-            var variables = holder.GetComponent<Unity.VisualScripting.Variables>() ?? holder.AddComponent<Unity.VisualScripting.Variables>();
-            variables.declarations.Set(RelayGraph.ClipsVariable, new Unity.VisualScripting.AotList { clip });
-            stage.Ref(holder);
-            var value = stage.ObjectValue(holder);
-            return new JObject { ["$clip"] = 0, ["on"] = value["$obj"] };
+            return value;
         }
 
         static void SetMesh(GameObject go, PrimitiveType type, float scale)

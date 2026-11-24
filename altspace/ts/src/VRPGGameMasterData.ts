@@ -5,21 +5,28 @@
 //
 //   Role 3 "Game Master" (upstream: "Janitor", the author's own account, GMD:125-138)
 //       a player the platform reports as the world's owner or a moderator (`isSpaceAdmin`), or one who has
-//       registered in protected space state (`gm-<uid>`, which only such players can write).
+//       registered in protected space state (`gm-<uid>`, which only such players can write). Other clients do not
+//       see a moderator's `isSpaceAdmin`, hence the record; it names the session that wrote it and counts only for
+//       that session, so a moderator who loses the role is no Game Master the next time they come (review finding 3).
 //   Role 2 "Operator": on the `staff-uids` setting (upstream: StaffList of display names from the author's site), or
 //       granted.
 //   Role 1 "Instance Lead": granted; or, only with the setting `first-joiner-gm` (off by default), the player the
-//       referee recorded as the first in the instance (upstream: always the instance master, GMD:109).
-//   Role 0 everyone else, and always anyone on `no-staff-uids` (upstream: ExileManifest).
+//       referee recorded as the first in the instance (upstream: always the instance master, GMD:109). The record is
+//       in the referee's own player object (its user state), read only from the current referee.
+//   Role 0 everyone else, and always anyone on `no-staff-uids` (upstream: ExileManifest): the setting overrules
+//       every record, so it is also how a world's owner takes back a lasting grant from someone they cannot reach.
 //
 //   Grants: a Game Master's grant is written to protected space state (`st-<uid>` = {r, at, by}) and lasts; any
 //   other staff member's grant is written to their own user state (VRPGPlayerObject.grants) and counts while they
 //   are present and hold at least that role. The latest valid record for a player wins; a record cannot overrule a
-//   grant above its granter's own role. Upstream's guard is kept (GMD:233): nothing above your own role, nothing
+//   grant above its granter's own role. A user-state grant dated later than the server clock when this client first
+//   saw it (plus GRANT_SLACK) is refused: the granter writes its own date, and a date in the future would outlast every
+//   later change (review finding 6). Upstream's guard is kept (GMD:233): nothing above your own role, nothing
 //   above Operator by grant, and an Instance Lead cannot change the world's owner.
 //
-// Every client works out every player's role from those sources alone (RecomputeRoles), so a forged event or a
-// player writing about itself changes nothing. Every network event that acts (bring, teleport everyone, respawn
+// Every client works out every player's role from those sources alone (RecomputeRoles): protected state, the
+// granters' own user state, the referee's user state and the element's settings. None of them is public space state,
+// so a forged event or a player writing about itself changes nothing. Every network event that acts (bring, teleport everyone, respawn
 // everyone, asking where a player is) checks its sender's role on the receiving side; upstream checks none
 // (PORT.md 3.2, C3).
 //
@@ -36,7 +43,6 @@ import {
   fnv1a,
   type AudioClipRef,
   type AudioSourceRef,
-  type DeserializationResult,
   type GameObject,
   type Player,
 } from "../portkit/src/index.ts";
@@ -65,9 +71,10 @@ interface RoleRecord {
 }
 
 const POINT_NAMES = ["a", "b", "c", "d", "e", "f"];
+/** Seconds a user-state grant may be dated ahead of this client's server clock (clocks differ a little). */
+export const GRANT_SLACK = 10;
 
 export class VRPGGameMasterData extends VRPGComponent {
-  static override synced = ["firstJoiner"];
   /**
    * What other clients may ask of this client (README: nothing else can be named by an event). Each handler that
    * acts checks who sent it (AskWhere, AnswerWhere, DoForceBring, GoSpawn*, GoRespawn); SyncCallST only plays the
@@ -87,8 +94,10 @@ export class VRPGGameMasterData extends VRPGComponent {
     "GoRespawn",
   ];
 
-  /** Synced, written by the referee: the user id `first-joiner-gm` names. */
-  firstJoiner = "";
+  /** The first joiner as last read from a referee's player object (kept across a change of referee). */
+  private firstJoinerRead = "";
+  /** When this client first saw each user-state grant (server seconds), by granter, target and record. */
+  private readonly grantSeen = new Map<string, number>();
 
   // From bindings.json (GMD:22-26, 43-47).
   GMObjects: GameObject[] = [];
@@ -160,19 +169,30 @@ export class VRPGGameMasterData extends VRPGComponent {
   OnConfigDataDownloaded(): void {
     const config = this.VRPG.ConfigData;
     const me = this.Networking.LocalPlayer;
-    // A Game Master registers in protected state, which only such players can write; the room refuses others.
+    // A Game Master registers in protected state, which only such players can write; the room refuses others. The
+    // record names this session: it counts for nobody else, and not after this session ends.
     if (this.Protected.CanWrite && !this.ProtectedSelf(me)) {
-      this.Protected.Set(`gm-${uidKey(me.uid)}`, { r: SiteRole.Janitor, by: me.uid, at: this.Networking.GetServerTimeInSeconds() });
+      this.Protected.Set(`gm-${uidKey(me.uid)}`, { r: SiteRole.Janitor, by: me.uid, sid: me.sid, at: this.Networking.GetServerTimeInSeconds() });
     }
     // first-joiner-gm: the referee keeps the record pointing at a present player, as VRChat passes on the master.
     if (config.GetBool("first-joiner-gm") && this.Networking.IsMaster) {
       const present = this.Networking.GetPlayers();
-      if (present.length && !present.some((p) => p.uid === this.firstJoiner)) {
-        this.firstJoiner = present[0]!.uid;
-        this.RequestSerialization();
+      const current = this.firstJoiner;
+      const first = present.length && !present.some((p) => p.uid === current) ? present[0]!.uid : current;
+      if (first !== "") {
+        this.firstJoinerRead = first;
+        this.VRPG.GetLocalPlayerObject()?._PublishFirstJoiner(first);
       }
     }
     this.RecomputeRoles();
+  }
+
+  /** The user id `first-joiner-gm` names: from the current referee's player object, else the last one read. */
+  get firstJoiner(): string {
+    const master = this.Networking.Master;
+    const from = master ? this.PlayerBehaviour<VRPGPlayerObject>(master, "VRPGPlayerObject") : null;
+    if (from && typeof from.firstJoiner === "string" && from.firstJoiner !== "") this.firstJoinerRead = from.firstJoiner;
+    return this.firstJoinerRead;
   }
 
   /** Works out every present player's role from the trusted sources, and applies it. */
@@ -184,7 +204,9 @@ export class VRPGGameMasterData extends VRPGComponent {
     const base = new Map<string, number>();
     for (const p of players) base.set(p.sid, this.BaseRole(p));
     let roles = new Map(base);
-    for (let round = 0; round < 6; round++) {
+    const now = this.Networking.GetServerTimeInSeconds();
+    // A chain of grants (a lead made by a lead made by ...) settles one link per round: as many rounds as players.
+    for (let round = 0; round <= players.length; round++) {
       const next = new Map<string, number>();
       for (const target of players) {
         if (this.IsOnNoOpList(target)) {
@@ -202,7 +224,11 @@ export class VRPGGameMasterData extends VRPGComponent {
           const record = objects.get(granter.sid)?.GrantFor(target.uid);
           if (!record) continue;
           const [r, at] = record;
-          if (!Number.isInteger(r) || r < 0 || r > 2) continue;
+          if (!Number.isInteger(r) || r < 0 || r > 2 || !Number.isFinite(at)) continue;
+          const seenKey = `${granter.sid}|${target.uid}|${r}|${at}`;
+          let seen = this.grantSeen.get(seenKey);
+          if (seen === undefined) this.grantSeen.set(seenKey, (seen = now));
+          if (at > seen + GRANT_SLACK) continue; // dated in the future when it arrived: refused
           const granterRole = roles.get(granter.sid) ?? 0;
           if (granterRole < Math.max(r, 1)) continue;
           if (granterRole === SiteRole.Controller && target.isSpaceAdmin) continue;
@@ -267,12 +293,12 @@ export class VRPGGameMasterData extends VRPGComponent {
     return role;
   }
 
-  /** Has the player registered as a Game Master in protected state? */
+  /** Has the player registered as a Game Master in protected state, in the session it is in now? */
   private ProtectedSelf(player: Player): boolean {
     const stored = this.Protected.Get<unknown>(`gm-${uidKey(player.uid)}`, null);
     if (!stored || typeof stored !== "object") return false;
-    const rec = stored as { r?: unknown; by?: unknown };
-    return rec.r === SiteRole.Janitor && rec.by === player.uid;
+    const rec = stored as { r?: unknown; by?: unknown; sid?: unknown };
+    return rec.r === SiteRole.Janitor && rec.by === player.uid && rec.sid === player.sid;
   }
 
   /** The role this client worked out for a player. */
@@ -286,8 +312,9 @@ export class VRPGGameMasterData extends VRPGComponent {
     this.RecomputeRoles();
   }
 
-  override OnDeserialization(_result: DeserializationResult): void {
-    this.RecomputeRoles();
+  /** A new referee carries the first-joiner record on (from the copy it last read). */
+  override OnMasterTransferred(_newMaster: Player | null): void {
+    this.OnConfigDataDownloaded();
   }
 
   override OnPlayerLeft(_player: Player): void {

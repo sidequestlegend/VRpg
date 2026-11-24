@@ -69,7 +69,6 @@ function debugHooks(instance: GameInstance): Record<string, unknown> {
     roster: () =>
       players().map((p) => {
         const o = objectOf(p.sid);
-        const head = o?.HeadPosition ?? null;
         return {
           sid: p.sid,
           uid: p.uid,
@@ -79,8 +78,22 @@ function debugHooks(instance: GameInstance): Record<string, unknown> {
           charName: o?.GetCharacterName() ?? "",
           title: o?.GetTitle() ?? "",
           slot: o?.ShownSlot ?? -1,
-          head: head ? [head.x, head.y, head.z] : null,
+          /** The slot this page attached to its own head (only for the local player), -1 for none. */
+          attached: o?.AttachedSlot ?? -1,
         };
+      }),
+    /**
+     * What every page should agree on, for comparing two pages: every player's role, names and label slot, and the IC
+     * and OOC lines. (The runtime's digest() covers space-state behaviours only, and this toolkit keeps none there.)
+     */
+    view: () =>
+      JSON.stringify({
+        roster: players().map((p) => {
+          const o = objectOf(p.sid);
+          return [p.uid, mgr().GMData.RoleOf(p), o?.GetCharacterName() ?? "", o?.GetTitle() ?? "", o?.ShownSlot ?? -1];
+        }),
+        ic: (mgr().Logger.lines[0] ?? []).slice(),
+        ooc: (mgr().Logger.lines[1] ?? []).slice(),
       }),
     /** The lines of a log as this page keeps them: 0 IC, 1 OOC, 2 GM. */
     lines: (k: number) => (mgr().Logger.lines[k] ?? []).slice(),

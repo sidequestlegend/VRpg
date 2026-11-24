@@ -132,7 +132,7 @@ test("d20 roller (upstream 'D&D 5E'): pool text, single rolls, advantage, pool r
   assert.deepEqual(t.world.problems(), []);
 });
 
-test("dice lines reach every player, and a roll a remote player forges as a network event is ignored", async () => {
+test("dice lines reach every player; a remote player can neither roll on another's roller nor send a dice line in their name", async () => {
   const t = new Table();
   const ann = t.join({ uid: "ann", name: "Ann" });
   const bob = t.join({ uid: "bob", name: "Bob" });
@@ -159,4 +159,14 @@ test("dice lines reach every player, and a roll a remote player forges as a netw
   assert.equal(after.filter((l) => l.startsWith("Ann rolled")).length, 1, "Ann's roller did not roll for Bob");
   assert.ok(after.slice(1).every((l) => l.startsWith("Bob rolled")));
   assert.equal(t.d20(ann).currentMod, 0);
+
+  // Bob sends a finished dice line in Ann's name, as upstream's roller builds it (DS:116, LOG:119-132): every client
+  // shows it under Bob's name (the receiver names the sender, review finding 1). What nobody can check is the roll
+  // itself: a modified page can still report any number for its own roll, as upstream (PORT.md trust section).
+  t.logs(bob).SendCustomNetworkEvent("All", "ReceiveLogNew", "Ann rolled <color=#00FF00>20</color> + 0 = 20!", 1, true);
+  await t.run();
+  for (const c of [ann, bob]) {
+    assert.equal(t.lines(c, 1).filter((l) => l.startsWith("Ann rolled")).length, 1, `${c.name}: still only Ann's own roll`);
+    assert.equal(t.lines(c, 1).at(-1), "Bob: Ann rolled <color=#00FF00>20</color> + 0 = 20!");
+  }
 });

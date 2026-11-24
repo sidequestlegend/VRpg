@@ -6,13 +6,14 @@
 //   - the label is written for every player, also one who never stored a name (upstream skips them, PBTN:59, so a
 //     reused row kept the previous player's label);
 //   - a row is hidden instead of made non-interactable (G8);
+//   - the character name comes filtered (VRPGPlayerObject.GetCharacterName) and the display name without tags;
 //   - the selected-player key upstream writes to PlayerData (PBTN:75, PO:362-370) is read nowhere: not written.
 
 import { Color, type GameObject } from "../portkit/src/index.ts";
 import { VRPGComponent } from "./VRPGComponent.ts";
 import type { VRPGPlayerObject } from "./VRPGPlayerObject.ts";
 import { VRPGTextElement } from "./VRPGTextElement.ts";
-import { Utils } from "./VRPGUtils.ts";
+import { Utils, plainName } from "./VRPGUtils.ts";
 
 export const STAFF_ROW_COLOR = new Color(1, 165 / 255, 0, 1);
 
@@ -63,7 +64,7 @@ export class VRPGPlayerButton extends VRPGComponent {
   GenerateButtonContent(player: VRPGPlayerObject, characterName: string): string {
     const owner = player.Owner;
     if (!owner?.IsValid()) return "";
-    const playerLabel = `${this.GiveModAbbreviation(player)}${owner.displayName}`;
+    const playerLabel = `${this.GiveModAbbreviation(player)}${plainName(owner.displayName)}`;
     // If player has no name set, ignore subtitle and just return player name
     if (characterName === "" || characterName === " ") return playerLabel;
     let playerSubtitle = "\n";

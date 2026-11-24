@@ -292,13 +292,14 @@ test("in-character, out-of-character and GM logs: text with | ^ quotes and line 
   await t.settle();
   const tricky = `a|b ^c "double" 'single' 100% back\\slash\nsecond line`;
 
-  // OOC: "{displayName}: {text}" (LOG:128).
+  // OOC: "{displayName}: {text}" (LOG:128); the receiver puts the name in front of every line of the text.
   t.type(ann, "oocInput", tricky);
   t.press(ann, "oocSend");
   await t.run(STEP);
+  const stamped = "Ann: " + tricky.split("\n").join("\nAnn: ");
   for (const c of [ann, bob]) {
-    assert.deepEqual(t.lines(c, 1), [`Ann: ${tricky}`], c.name);
-    assert.equal(t.text(c, "oocOutput"), `Ann: ${tricky}`, `${c.name}: what the kit's text shows, through the relay's encoding`);
+    assert.deepEqual(t.lines(c, 1), [stamped], c.name);
+    assert.equal(t.text(c, "oocOutput"), stamped, `${c.name}: what the kit's text shows, through the relay's encoding`);
   }
   assert.equal(t.logs(ann).InputOf(1).text, "", "the field is cleared after sending (LOG:190)");
   assert.equal(t.text(ann, "oocInput"), "");
@@ -422,34 +423,32 @@ test("name labels follow players joining and leaving; names are stripped for non
   assert.deepEqual(problems(t), []);
 });
 
-test("each label sits over its player's published head, on every client; the alert volume reaches the audio source", async () => {
+test("each player's label is attached to that player's own head, synced; the alert volume reaches the audio source", async () => {
   const t = new Table({}, { owner: "ann" });
   const ann = t.join({ uid: "ann", name: "Ann" });
   const bob = t.join({ uid: "bob", name: "Bob" });
   await t.settle();
-  stand(ann, new Vector3(1, 1.6, 2));
-  stand(bob, new Vector3(-3, 1.7, 4));
-  await t.run(STEP);
-  const at = (viewer: FakeClient, who: FakeClient) => {
-    const p = viewer.object(SLUG, "0", `label${t.object(viewer, who).ShownSlot}`).transform.position;
-    return new Vector3(p.x, p.y, p.z);
+  const attachedOn = (c: FakeClient) => [...c.attached.entries()].filter(([path]) => /\/Labels\/Label \d+$/.test(path));
+  const expectOwn = (c: FakeClient) => {
+    const slot = t.object(c, c).ShownSlot;
+    assert.ok(slot >= 0, `${c.name} holds a slot`);
+    assert.equal(t.object(c, c).AttachedSlot, slot);
+    const path = bindings.objects[`label${slot}`].path as string;
+    // One label on this client, its own, on its own head (point 0), synced by the app under the instance's id.
+    assert.deepEqual(attachedOn(c).map(([p, at]) => [p.endsWith("/" + path), at]), [[true, { uid: c.uid, point: 0, autoSync: true, networkId: `pk1/${SLUG}/0/label${slot}` }]], c.name);
   };
-  for (const viewer of [ann, bob]) {
-    near(at(viewer, ann), new Vector3(1, 2.35, 2), `${viewer.name} puts Ann's label 0.75 m over her head`);
-    near(at(viewer, bob), new Vector3(-3, 2.45, 4), `${viewer.name} puts Bob's label 0.75 m over his head`);
-  }
-  // A small move is not published; a move of more than 15 cm is, at most twice a second.
-  stand(bob, new Vector3(-3.05, 1.7, 4));
-  await t.run(STEP);
-  near(at(ann, bob), new Vector3(-3, 2.45, 4), "a 5 cm move is not sent");
-  stand(bob, new Vector3(0, 1.7, 0));
-  await t.run(STEP);
-  near(at(ann, bob), new Vector3(0, 2.45, 0), "a 3 m move is");
-  // A late joiner places the labels from the published heads.
-  const cat = t.join({ uid: "cat", name: "Cat" });
+  expectOwn(ann);
+  expectOwn(bob);
+  // Nobody places labels from published head positions any more: nothing about heads is in anyone's user state.
+  for (const c of [ann, bob]) assert.ok(!JSON.stringify(t.world.room.userStateOf(c.sid)).includes("head"), `${c.name}: no head record`);
+  // Bob leaves and comes back: his new session attaches the slot it takes.
+  t.world.leave(bob);
+  await t.run(40000);
+  const bob2 = t.join({ uid: "bob", name: "Bob" });
   await t.world.settle();
   await t.run(STEP);
-  near(at(cat, ann), new Vector3(1, 2.35, 2), "the late joiner puts Ann's label over her head");
+  expectOwn(bob2);
+  expectOwn(ann);
 
   // The volume buttons set the IM alert's AudioSource.volume through the relay (op audioVolume).
   t.press(ann, "volUp");
@@ -553,7 +552,8 @@ test("a late joiner sees everyone's roles, names and the recent log lines", asyn
   assert.deepEqual([ann, bob, eve, cat].map((w) => t.role(cat, w)), [3, 1, 2, 0]);
   assert.deepEqual(t.lines(cat, 1), ["Ann: welcome | all"]);
   assert.deepEqual(t.lines(cat, 0), ["Sir Bob: I bow."]);
-  assert.deepEqual(t.lines(cat, 2), ["Eve: staff note"]);
+  // GM-log lines are never published for late joiners (review finding 2): Eve's note stays in the event stream.
+  assert.deepEqual(t.lines(cat, 2), []);
   assert.equal(t.text(cat, "oocOutput"), "Ann: welcome | all");
   assert.equal(t.text(cat, `label${t.object(cat, bob).ShownSlot}Name`), "Sir Bob");
   assert.equal(t.text(cat, `label${t.object(cat, bob).ShownSlot}Title`), "Knight");
@@ -607,7 +607,7 @@ test("the toolkit's state fits the room: space leaves per copy, user leaves per 
     const cls = t.world.game.behaviours[type];
     return cls ? { synced: (cls.synced ?? []).length, perPlayer: cls.perPlayer === true } : null;
   });
-  assert.equal(budget.slots, 2, "game master handler and logs");
+  assert.equal(budget.slots, 0, "nothing in public space state: the referee publishes in its own user state");
   assert.ok(budget.spaceLeaves <= 10, `${budget.spaceLeaves} space leaves`);
   assert.ok(budget.userLeavesPerPlayer <= 6);
   assert.equal(bindings.slug, SLUG);

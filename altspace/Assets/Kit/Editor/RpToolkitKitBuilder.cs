@@ -97,6 +97,10 @@ namespace RpToolkit
             })
                 Object.DestroyImmediate(F(path).gameObject);
 
+            // ---- the behaviour holders stood where the upstream world had them (the teleporter 32 m away): at the root now, so
+            //      the kit's footprint is the board and the floor grid ----
+            foreach (Transform t in F("VRPG Behaviors")) t.localPosition = Vector3.zero;
+
             // ---- the board: parked at the snippet's position, readable from the snippet's -Z side ----
             M.localPosition = Vector3.zero;
             M.localRotation = Quaternion.identity;
@@ -461,12 +465,12 @@ namespace RpToolkit
             Fill(fPatrons, new JObject { ["PatronCreditsObject"] = Obj(credits), ["PatronItems"] = new JArray() });
             _ = tTrack;
 
-            // the board's look: one canvas for 300 texts rebuilds on every log line, so the three log boxes and the player list
-            // get canvases of their own (PORT.md 6.4)
+            // the board's look: one canvas for 300 texts rebuilds on every log line, so the three log boxes get canvases of their
+            // own (PORT.md 6.4)
             foreach (var text in manager.GetComponentsInChildren<TMP_InputField>(true)) { text.richText = false; text.characterLimit = text.gameObject.name.Contains("Mod") ? 16 : 500; }
             foreach (var t in new[] { Ref(logStandIn, "ICOutputBox"), Ref(logStandIn, "OOCOutputBox"), Ref(logStandIn, "GMOutputBox") })
                 SubCanvas(t.gameObject);
-            SubCanvas(content.gameObject);
+            // (not the player list: a nested canvas's buttons need a raycaster of their own, and a row is clicked)
 
             // Only a control catches the pointer: a background or a label drawn over a button (the log boxes over the log
             // tabs, the panel backgrounds) would take its click, and uGUI hands a click to the topmost graphic only.

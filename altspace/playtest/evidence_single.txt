@@ -1,6 +1,6 @@
 local: script and bundles from the test server http://localhost:43100
 [main] INFO main in Play, page port 43000
-[main] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 5.5 s
+[main] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 6.5 s
 [main] CMD r1 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main
 [main] REPLY r1 True
 [main] CMD r2 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%204%20-%20Social
@@ -50,7 +50,7 @@ local: script and bundles from the test server http://localhost:43100
 [main] REPLY r21 ok camera at 0.00,1.60,0.00
 [main] CMD r22 click 0.319 1.881 0.915
 [main] REPLY r22 ok screen 643,421 of 1285x842
-[main] PASS name and title typed into the fields reach the page (field events) and Set stores them: {"sid":"rsess_f5d12595-813c-4f6c-9f3d-12af48a4f092","uid":"ea71beabbcdd9d67f76671884c9073a7","name":"Main Editor","admin":true,"role":3,"charName":"Sir Test","title":"Knight of Play","slot":0,"head":[0,1.6,0]}
+[main] PASS name and title typed into the fields reach the page (field events) and Set stores them: {"sid":"rsess_68e76c0c-b0b3-43b4-8b70-2d2ee2c1a516","uid":"ea71beabbcdd9d67f76671884c9073a7","name":"Main Editor","admin":true,"role":3,"charName":"Sir Test","title":"Knight of Play","slot":0,"head":[0,1.6,0]}
 [main] CMD r23 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Top/CharPlate/CharName
 [main] REPLY r23 Sir Test
 [main] CMD r24 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Top/CharPlate/CharTitle
@@ -69,10 +69,10 @@ local: script and bundles from the test server http://localhost:43100
 [main] REPLY r29 ok camera at 0.00,1.60,0.00
 [main] CMD r30 click -0.309 1.407 0.891
 [main] REPLY r30 ok screen 643,421 of 1285x842
-[main] PASS the DS roller's ROLL puts its line in the OOC log (DS:99-116): Main Editor rolled <color=#FFFFFF>14</color> + 0 = 14!
+[main] PASS the DS roller's ROLL puts its line in the OOC log (DS:99-116): Main Editor rolled <color=#FF5500>1</color> + 0 = 1!
 [main] CMD r31 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Scroll%20View/Viewport/Content/OOC%20Log%20Text%20Box
-[main] REPLY r31 Main Editor rolled <color=#FFFFFF>14</color> + 0 = 14!
-[main] PASS the OOC box in Unity shows it: Main Editor rolled <color=#FFFFFF>14</color> + 0 = 14!
+[main] REPLY r31 Main Editor rolled <color=#FF5500>1</color> + 0 = 1!
+[main] PASS the OOC box in Unity shows it: Main Editor rolled <color=#FF5500>1</color> + 0 = 1!
 [main] CMD r32 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20Switch
 [main] REPLY r32 -0.300 1.154 0.879
 [main] CMD r33 look -0.300 1.154 0.879
@@ -105,7 +105,7 @@ local: script and bundles from the test server http://localhost:43100
 [main] REPLY r45 ok camera at 0.00,1.60,0.00
 [main] CMD r46 click -0.309 1.407 0.891
 [main] REPLY r46 ok screen 643,421 of 1285x842
-[main] PASS the d20 roller's Roll puts the pool's line in the OOC log (D5E:89-123): Main Editor: Main Editor rolled d6: 3, d20: 10, Total + 0: 13
+[main] PASS the d20 roller's Roll puts the pool's line in the OOC log (D5E:89-123): Main Editor: Main Editor rolled d6: 4, d20: 11, Total + 0: 15
 [main] CMD r47 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/IC%20Log%20Button
 [main] REPLY r47 0.280 1.650 0.904
 [main] CMD r48 look 0.280 1.650 0.904
@@ -159,10 +159,10 @@ local: script and bundles from the test server http://localhost:43100
 [main] REPLY r69 ok screen 642,421 of 1285x842
 [main] PASS an out-of-character line goes out under the display name, separators intact: Main Editor: brb | 100% "real" ^_^
 [main] CMD r70 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Scroll%20View/Viewport/Content/OOC%20Log%20Text%20Box
-[main] REPLY r70 Main Editor rolled <color=#FFFFFF>14</color> + 0 = 14!
-[main] itor: Main Editor rolled d6: 3, d20: 10, Total + 0: 13
+[main] REPLY r70 Main Editor rolled <color=#FF5500>1</color> + 0 = 1!
+[main] itor: Main Editor rolled d6: 4, d20: 11, Total + 0: 15
 [main] itor: brb | 100% "real" ^_^
-[main] PASS the OOC box in Unity shows it: n Editor rolled d6: 3, d20: 10, Total + 0: 13
+[main] PASS the OOC box in Unity shows it: n Editor rolled d6: 4, d20: 11, Total + 0: 15
 [main] CMD r71 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Base%20GUI/CloseButton/Button
 [main] REPLY r71 0.375 2.079 0.925
 [main] CMD r72 look 0.375 2.079 0.925

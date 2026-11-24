@@ -55,13 +55,18 @@ behaviour is the kit's or a graph's: needs the Unity side), **No**, **Removed** 
 
 | Status | Count | Items |
 |---|---|---|
-| Tested | 64 | 2-12, 14, 17-21, 23-29, 31-65, 70, 72, 75, 77, 78 |
+| Tested | 66 | 1-12, 14, 16-21, 23-29, 31-65, 70, 72, 75, 77, 78 |
 | Done | 4 | 13 (Off preset), 30 (network debug line), 68 (Exile Room; Exile and Un-Exile are Dead), 71 (grid toggle) |
-| Kit | 2 | 1 (the canvas), 16 (label placement over the head: runtime gap RG2) |
+| Kit | 0 | (1, the canvas, and 16, label placement, are built and tested: 0.6) |
 | No | 5 | 66, 67, 80, 81, 82 |
 | Removed | 6 | 74, 79, 84, 92, 93, 94 |
 | Left out | 4 | 83 (map), 85, 86, 87 |
 | Dead | 9 | 15, 22, 69, 73, 76, 88, 89, 90, 91 |
+
+Also exercised in editor Play mode (TESTS.md rungs 3 and 4, through the desktop player's mouse and key and typing
+into the kit's fields): 1, 2, 4-6, 9, 10, 11, 17, 23, 25, 26, 31, 32, 35, 37, 39, 42, 46, 47, 49, 53, 54, 55, 60 and
+the late-join behaviour of 0.2 (roles, names and recent lines after a reload). 16 as built: the label sits
+`label-height` over the head the player published (Diff: in steps, at most twice a second; 0.6.2).
 
 Notes on Tested items that differ from what section 2 proposed: 3 has two of its three sources (controller
 button, board button; the radial menu has no runtime call, RG3); 10 tests the caption (the logo image is the
@@ -90,7 +95,7 @@ with positions; "everyone" moves are `GoSpawn0`..`GoSpawn5` and `GoRespawn`.
 | RG4 | No relay op for `AudioSource.volume` | The alert volume is kept and saved by the page but changes nothing | A `volume` relay op |
 | RG5 | No respawn call, and the runtime does not pass on `player-teleported` with `isSpawn` | Respawn goes to the setting `respawn`, else to where the board is parked | Pass the spawn teleport through, or a respawn call |
 | RG6 | A network event can call any public method of any behaviour (only `_` names are blocked) | `VRPGComponent.FromRemote()`: every button method returns at once when another client's event runs it; internal steps are `_`-named | A per-class allow-list of network-callable methods (UdonSharp's `[NetworkCallable]`) |
-| RG7 | `Input.Position` is the head, not the feet; `TeleportTo` takes a position | Bring and teleport-to use the head position as is, so a teleportee may land at head height | The local player's feet position, or a note of what `TeleportTo` expects |
+| RG7 | `Input.Position` is the head, not the feet; `TeleportTo` takes a position | Bring and teleport-to use the head position as is, so a teleportee lands at head height (measured in Play mode: a GM bring put the brought player's head at 3.2 m for a GM head at 1.6 m, TESTS.md rung 4) | The local player's feet position, or a note of what `TeleportTo` expects |
 | RG8 | The relay's `audio` op is not built yet (portkit README) | The two alert objects are left out of refs, so the page plays their clips itself (`BS.AudioSource.PlayOneShot`, marked UNVERIFIED in the adapter) | The `audio` op, or confirmation of the page path |
 
 After the re-sync (0.6): **RG1 closed** (the kit's field events and the `text` op), **RG4 closed** (`audioVolume`),
@@ -127,7 +132,7 @@ Nothing ran in the Altspace app or on a Quest (rung 5). See 0.6.4 for what stays
 | Name labels | the pool of 32 (`Labels/Label n`, made from `VRpgPlayerObject.prefab`'s label canvas). Each player publishes their own head position in their user state (`head`, cm, at most twice a second, only after a move of 15 cm) and every client puts that player's slot `label-height` above it | No graph member reads another player's head (allow list: `BS.BSUser` has no position) and the page gets the local head only. An attachment with `autoSync` would follow the avatar smoothly but cannot be made from game code here (the runtime's `AttachToHand` is hand-only) and is unverified from a kit. Stated limit: labels follow in steps (at most two a second) |
 | Labels facing the viewer | a `LookAtConstraint` on each label canvas whose source is the fade sphere, which the page keeps at the local head (`TrackBone`) | No camera is reachable from a graph (`Camera.main` is not on the allow list); a native constraint needs no graph and no bridge traffic per label |
 | Player list | **8 rows a page** (the 2 x 4 grid the upstream scroll view showed), page buttons; the other 76 rows are gone | A scroll view cannot be dragged from the page; 8 rows is what fits the panel. Ids `row0`..`row7` keep their keys |
-| Logs | fixed boxes (scroll views, scrollbars and masks removed; a RectMask2D), the newest `log-view` lines at the bottom, up/down page buttons over the box; each log's children moved under a `View` object its tab switches; the three boxes and the player list have canvases of their own | G8, C7, C12; one canvas for 300 texts would rebuild on every line (6.4) |
+| Logs | fixed boxes (scroll views, scrollbars and masks removed; a RectMask2D), the newest `log-view` lines at the bottom, up/down page buttons over the box; each log's children moved under a `View` object its tab switches; the three log boxes have canvases of their own (the player list cannot: a nested canvas needs its own raycaster for its buttons) | G8, C7, C12; one canvas for 300 texts would rebuild on every line (6.4) |
 | Toggles, dropdowns, slider | toggles (GM roll, IM alert, grid, the d20 roller's "to GM") become buttons whose check mark the page switches; the Local/All and threat dropdowns become buttons with a label; the volume slider becomes `-`, value, `+` | G8 |
 | Both dice rollers | the d20 roller ("Dice 5E.prefab") is placed in the same Actions slot as the DS roller (upstream made it for that slot); with `dice="both"` a "DS / d20" button switches between them (`VRPGManager.SwitchDice`). Its d2 (wired to d20) and d100 (unwired) buttons are gone; 1d20, Adv and Dis buttons added (C11) | One column, two rollers |
 | Open button | a uGUI "Open" button on the board (next to the close button), bound to `VRPGMenuCaller.Interact` | the board's open button of 8.7 |

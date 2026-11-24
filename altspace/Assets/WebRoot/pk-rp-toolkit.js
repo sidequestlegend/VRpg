@@ -46,7 +46,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/* pk-rp-toolkit.js: portkit runtime with the rules of 'rp-toolkit' (protocol pk1, bindings 2eea4731dbbb51ea071bee4ce400165e34f6a441). Built file: do not edit. */
+/* pk-rp-toolkit.js: portkit runtime with the rules of 'rp-toolkit' (protocol pk1, bindings d53e682c55306ec883738d848df4cb60c619e5fa). Built file: do not edit. */
 (() => {
   var __defProp = Object.defineProperty;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -7472,7 +7472,8 @@ ${label}`)));
       const label = slot >= 0 ? this.VRPG.Labels[slot] : void 0;
       if (!label) return;
       const extra = this.VRPG.ConfigData.GetNumber("label-height", KIT_LABEL_HEIGHT) - KIT_LABEL_HEIGHT;
-      label.AttachToHead(new Vector3(0, extra, 0), Quaternion.identity, true);
+      label.TakeOwnership();
+      label.AttachToHead(new Vector3(0, extra, 0), Quaternion.identity, false);
     }
     /** The label slot the local player has attached to its head (tests read it). */
     get AttachedSlot() {
@@ -9405,7 +9406,7 @@ ${label}`)));
         object: "noBoxSpawn"
       }
     ],
-    hash: "2eea4731dbbb51ea071bee4ce400165e34f6a441",
+    hash: "d53e682c55306ec883738d848df4cb60c619e5fa",
     objects: {
       bringToMe: {
         click: false,
@@ -9815,7 +9816,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 0",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label0Icon0: {
         click: false,
@@ -9868,7 +9869,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 1",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label10: {
         active: false,
@@ -9876,7 +9877,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 10",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label10Icon0: {
         click: false,
@@ -9929,7 +9930,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 11",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label11Icon0: {
         click: false,
@@ -9982,7 +9983,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 12",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label12Icon0: {
         click: false,
@@ -10035,7 +10036,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 13",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label13Icon0: {
         click: false,
@@ -10088,7 +10089,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 14",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label14Icon0: {
         click: false,
@@ -10141,7 +10142,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 15",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label15Icon0: {
         click: false,
@@ -10194,7 +10195,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 16",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label16Icon0: {
         click: false,
@@ -10247,7 +10248,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 17",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label17Icon0: {
         click: false,
@@ -10300,7 +10301,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 18",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label18Icon0: {
         click: false,
@@ -10353,7 +10354,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 19",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label19Icon0: {
         click: false,
@@ -10451,7 +10452,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 2",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label20: {
         active: false,
@@ -10459,7 +10460,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 20",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label20Icon0: {
         click: false,
@@ -10512,7 +10513,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 21",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label21Icon0: {
         click: false,
@@ -10565,7 +10566,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 22",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label22Icon0: {
         click: false,
@@ -10618,7 +10619,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 23",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label23Icon0: {
         click: false,
@@ -10671,7 +10672,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 24",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label24Icon0: {
         click: false,
@@ -10724,7 +10725,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 25",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label25Icon0: {
         click: false,
@@ -10777,7 +10778,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 26",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label26Icon0: {
         click: false,
@@ -10830,7 +10831,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 27",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label27Icon0: {
         click: false,
@@ -10883,7 +10884,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 28",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label28Icon0: {
         click: false,
@@ -10936,7 +10937,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 29",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label29Icon0: {
         click: false,
@@ -11034,7 +11035,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 3",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label30: {
         active: false,
@@ -11042,7 +11043,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 30",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label30Icon0: {
         click: false,
@@ -11095,7 +11096,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 31",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label31Icon0: {
         click: false,
@@ -11193,7 +11194,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 4",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label4Icon0: {
         click: false,
@@ -11246,7 +11247,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 5",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label5Icon0: {
         click: false,
@@ -11299,7 +11300,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 6",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label6Icon0: {
         click: false,
@@ -11352,7 +11353,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 7",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label7Icon0: {
         click: false,
@@ -11405,7 +11406,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 8",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label8Icon0: {
         click: false,
@@ -11458,7 +11459,7 @@ ${label}`)));
         grab: false,
         path: "VRPG Manager/Labels/Label 9",
         seat: false,
-        sync: "none"
+        sync: "transform"
       },
       label9Icon0: {
         click: false,

@@ -172,14 +172,14 @@
     check(labelName === "Sir Test" && labelTitle === "Knight of Play" && !!labelAt && labelAt.on, "the player's own name label shows them", `slot ${slot}: '${labelName}' / '${labelTitle}', on ${labelAt && labelAt.on}`);
 
     // ---- the label follows the head: attached to it (AttachToHead, synced), its canvas 0.75 m straight above ----
-    check(mine().attached === slot, "the page attached its own label to its head (AttachToHead with autoSync)", `slot ${slot}, attached ${mine().attached}`);
+    check(mine().attached === slot, "the page took its label's synced transform and attached the label to its head", `slot ${slot}, attached ${mine().attached}`);
     const canvasAbove = async () => {
       const h = vec(await headAt());
-      const c = await findpos(`Label ${slot}/Canvas`);
+      const c = await findpos(`Label ${slot}/Canvas/Labels`);
       return { h, c, ok: !!c && Math.hypot(c.at[0] - h[0], c.at[2] - h[2]) < 0.2 && Math.abs(c.at[1] - h[1] - 0.75) < 0.25 };
     };
     const level = await settle(canvasAbove, (v) => v.ok, 6000);
-    check(level.ok, "the label's canvas sits about 0.75 m over the head in Unity (attachment and position constraint)", `canvas ${level.c && level.c.at.join(" ")} under ${level.c && level.c.parent}, head ${level.h.join(" ")}`);
+    check(level.ok, "the label's canvas sits about 0.75 m over the head in Unity (head attachment; a billboard)", `canvas ${level.c && level.c.at.join(" ")} under ${level.c && level.c.parent}, head ${level.h.join(" ")}`);
     // look down at the floor in front: the head tilts, the label stays straight above it (the constraint works in world axes)
     const hv = level.h;
     await cmd(`look ${hv[0]} ${hv[1] - 1.5} ${hv[2] + 0.6}`);
@@ -337,12 +337,20 @@
       const p = other();
       if (p.slot >= 0 && arrived && arrived.head) {
         const want = vec(arrived.head);
+        const eye = vec(await headAt());
+        // The label is a billboard turned to this viewer: its text is 0.75 m from Player 2's head along the billboard's up,
+        // which is square to this viewer's line of sight and leans upward, so from here it shows straight above the head.
         const near = async () => {
-          const c = await findpos(`Label ${p.slot}/Canvas`);
-          return { c, ok: !!c && c.on && Math.hypot(c.at[0] - want[0], c.at[2] - want[2]) < 0.35 && Math.abs(c.at[1] - want[1] - 0.75) < 0.35 };
+          const c = await findpos(`Label ${p.slot}/Canvas/Labels`);
+          if (!c || !c.on) return { c, ok: false };
+          const off = [c.at[0] - want[0], c.at[1] - want[1], c.at[2] - want[2]];
+          const sight = [eye[0] - want[0], eye[1] - want[1], eye[2] - want[2]];
+          const len = Math.hypot(...off);
+          const square = Math.abs(off[0] * sight[0] + off[1] * sight[1] + off[2] * sight[2]) / (len * Math.hypot(...sight));
+          return { c, len, square, ok: Math.abs(len - 0.75) < 0.1 && square < 0.15 && off[1] > 0.3 };
         };
         const seen = await settle(near, (v) => v.ok, 10000);
-        check(seen.ok, "Player 2's label sits about 0.75 m over Player 2's head in the GM's Unity (Player 2's synced head attachment)", `canvas ${seen.c && seen.c.at.join(" ")} under ${seen.c && seen.c.parent}, Player 2's view ${want.join(" ")}`);
+        check(seen.ok, "Player 2's label follows Player 2's head in the GM's Unity and shows above it from the GM's view (Player 2 attached it to its head; its synced transform carries it)", `text ${seen.c && seen.c.at.join(" ")}, Player 2's head ${want.join(" ")}, GM's view ${eye.join(" ")}, ${seen.len && seen.len.toFixed(3)} m, |cos| to the line of sight ${seen.square && seen.square.toFixed(3)}`);
         const name = await cmd("findtext " + enc(`Label ${p.slot}/Canvas/Labels/Text/Nameplate`));
         check(name === "Squire Two", "Player 2's label shows the name Player 2 set", name);
       } else check(false, "Player 2's label sits over Player 2's head", `slot ${p.slot}, head ${arrived && arrived.head}`);
@@ -395,7 +403,14 @@
       const flat = Math.hypot(vec(to)[0] - gmHead[0], vec(to)[2] - gmHead[2]);
       const ok = dist(vec(from), vec(to)) > 0.5 && Math.abs(flat - 1.5) < 0.4;
       check(ok, "GM 'bring' moves Player 2 to about 1.5 m in front of the GM (GMD:524-554)", `from ${from} to ${to}; GM head ${bring && bring.head}; ${flat.toFixed(2)} m across`);
+      const own = await findpos(`Label ${mine().slot}/Canvas/Labels`);
+      say("INFO", "Player 2's own label in its own Unity", own ? `${own.at.join(" ")} under ${own.parent}` : "not found");
       send({ kind: "brought", ok, head: to, detail: `from ${from} to ${to}, ${flat.toFixed(2)} m from the GM's head` });
+      // a person's head is never quite still: turn it a little, as the GM checks where the label is
+      for (const dx of [0.3, -0.3, 0]) {
+        await cmd(`look ${vec(to)[0] + dx} ${vec(to)[1]} ${vec(to)[2] + 2}`);
+        await sleep(1500);
+      }
       // ---- the GM's GM-log line arrives here live ----
       const gmLine = await until(() => debug().lines(2).some((l) => l === "Main Editor: GM eyes only"), 60000, 250);
       if (gmLine) send({ kind: "gmSeen", lines: debug().lines(2) });

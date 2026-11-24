@@ -55,6 +55,11 @@ namespace RpToolkit
         public override string SnippetPosition => "0 1.5 0";
         /// <summary>The photo shows the menu board (the floor grid is 20 m, the labels are a pool of 32).</summary>
         public override string PhotoRoot => "VRPG Manager/VRPG Local Menu";
+        /// <summary>
+        /// The box gizmo: the floor grid's default size (`grid-size` 20 x 20 m, on by default). The footprint the kit would
+        /// work out is empty: the board is uGUI (no renderers) and every other part starts switched off.
+        /// </summary>
+        public override string GizmoSize => "20 0.2 20";
         public override IReadOnlyList<(string name, string value)> SnippetSettings => new[]
         {
             ("title-text", "VRpg RP System"), ("game-name", "Your Game Name!"), ("menu-key", "Q"), ("menu-button", "left-secondary"),
@@ -390,9 +395,9 @@ namespace RpToolkit
             O("grid", gridPlane);
 
             // ---- the name labels: 32 copies of the player object's label canvas. Each player's page attaches the label it holds
-            //      to its own head (synced by the app); a position constraint keeps the canvas LabelHeight straight above that
-            //      point whichever way the head tilts, and a look-at constraint turns it to the viewer (the fade sphere, which
-            //      every page attaches to its own head) ----
+            //      to its own head and syncs its transform; the canvas pivots there, a look-at constraint turns it to the viewer
+            //      (the fade sphere, which every page attaches to its own head), and its text sits LabelHeight along the
+            //      canvas's up, so the viewer sees it above the head whichever way the head tilts ----
             var labelsRoot = stage.Create("Labels", root.transform);
             var labelTokens = new JArray();
             var discSprite = Disc();
@@ -408,20 +413,29 @@ namespace RpToolkit
                 Object.DestroyImmediate(lc.Find("Labels/Text/Tags").gameObject);
                 var raycaster = lc.GetComponent<GraphicRaycaster>();
                 if (raycaster != null) Object.DestroyImmediate(raycaster);
+                // Turned to the viewer (+Z at the fade sphere, world up): a billboard. The text sits LabelHeight along the
+                // canvas's up, which is square to the viewer's line of sight, so from where the viewer is it shows straight
+                // above the head. (An aim about the vertical only keeps the head's pitch on the local player's own label:
+                // measured, so not used.)
                 var look = lc.gameObject.AddComponent<LookAtConstraint>();
                 look.AddSource(new ConstraintSource { sourceTransform = fade.transform, weight = 1f });
                 look.useUpObject = false;
                 look.roll = 0f;
                 look.constraintActive = true;
                 look.locked = true;
-                var above = lc.gameObject.AddComponent<PositionConstraint>();
-                above.AddSource(new ConstraintSource { sourceTransform = label.transform, weight = 1f });
-                above.translationOffset = new Vector3(0f, LabelHeight, 0f);                   // world axes: straight up
-                above.translationAxis = Axis.X | Axis.Y | Axis.Z;
-                above.constraintActive = true;
-                above.locked = true;
+                // The canvas pivots at the attachment point (the head); the look-at constraint above sets its world rotation
+                // whatever the head does; the text sits LabelHeight above the pivot along the canvas's up. (Measured in Play mode: an offset
+                // given to a PositionConstraint followed the head's tilt.)
+                lc.localPosition = Vector3.zero;
+                lc.localRotation = Quaternion.identity;
+                var labelText = lc.Find("Labels");
+                labelText.position += Vector3.up * LabelHeight;
                 CleanUi(label);
                 O($"label{i}", label.transform);
+                // A synced transform: the label's holder owns it and attaches it to its own head; the app sends the pose to
+                // everyone. (An autoSync attachment is not used: other clients' copies of a kit object carry no network id,
+                // so the app cannot reproduce the attachment there; measured in Local Multiplayer, PORT.md 0.7.)
+                stage.Object(label, sync: "transform");
                 O($"label{i}Name", lc.Find("Labels/Text/Nameplate"));
                 O($"label{i}Title", lc.Find("Labels/Text/Title Plate"));
                 var icons = new[] { "NormalImage", "ControllerImage", "AdminImage", "JanitorImage" };

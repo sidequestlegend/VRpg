@@ -24,7 +24,7 @@ Tests (`altspace/ts/test/`):
 |---|---|
 | `dice.test.ts` | every DS vector (DS:26-137) and every d20 vector (D5E:19-146) through the kit's buttons and fields with a scripted Random.Range: line text, which log, the (min, max) of each draw, the 1 s re-roll and the three-tie stop; a remote client's forged `NewRoll` / `SetMod` does nothing on another client, and a finished dice line it sends in another player's name shows under its own name (what nobody can check is a player's own roll: 0.7.3) |
 | `utils.test.ts` | int.TryParse as C# (signs, white space, trailing NULs, overflow, "5.0"), GetColorHex with float32 and round-half-even, GetDots, StripTags, typed-text cleaning, the rich-text filter |
-| `scenarios.test.ts` | each player's label attached to that player's own head with the app's synced attachment, again after a rejoin; the volume buttons reaching the IM alert's AudioSource (op `audioVolume`); menu state per player (open by key, controller button and the board's button; panels; plates; forged events ignored); a GM grants and revokes a role, a lead's own grant counts while the lead is present and lapses when they leave, "Gm Title"; a non-GM's privileged requests refused on every client (GoSpawn, GoRespawn, DoForceBring, AskWhere, own-state grant, protected writes, forged "Give GM"); bring one player, go to one player, point A Local, point B All (fade timing, second press ignored, menu closed), respawn All; `disable-gm-bring`; IC, OOC and GM logs with text holding `\|`, `^`, double and single quotes, `%`, a backslash and a line break, identical in every client's buffer and in the kit text the relay sets; alert on and off; empty send; tag filter; 500-character cut; GM-log visibility; tabs; paging; name labels on join, leave and a new join into the freed slot; staff keep colours, others stripped; OOC preset; whitelists by user id (`staff-uids`, `no-staff-uids`, `vip-uids`, `enable-operators` off); `first-joiner-gm` off and on (and handed on when the first player leaves); a late joiner gets roles, names, labels and the recent IC and OOC lines (not the GM lines); name, title and options back on the same device and not on another; leaf budget (no space-state slot, at most 3 user-state leaves per player) |
+| `scenarios.test.ts` | each player's label attached to that player's own head, its synced transform owned by that player, again after a rejoin; the volume buttons reaching the IM alert's AudioSource (op `audioVolume`); menu state per player (open by key, controller button and the board's button; panels; plates; forged events ignored); a GM grants and revokes a role, a lead's own grant counts while the lead is present and lapses when they leave, "Gm Title"; a non-GM's privileged requests refused on every client (GoSpawn, GoRespawn, DoForceBring, AskWhere, own-state grant, protected writes, forged "Give GM"); bring one player, go to one player, point A Local, point B All (fade timing, second press ignored, menu closed), respawn All; `disable-gm-bring`; IC, OOC and GM logs with text holding `\|`, `^`, double and single quotes, `%`, a backslash and a line break, identical in every client's buffer and in the kit text the relay sets; alert on and off; empty send; tag filter; 500-character cut; GM-log visibility; tabs; paging; name labels on join, leave and a new join into the freed slot; staff keep colours, others stripped; OOC preset; whitelists by user id (`staff-uids`, `no-staff-uids`, `vip-uids`, `enable-operators` off); `first-joiner-gm` off and on (and handed on when the first player leaves); a late joiner gets roles, names, labels and the recent IC and OOC lines (not the GM lines); name, title and options back on the same device and not on another; leaf budget (no space-state slot, at most 3 user-state leaves per player) |
 | `trust.test.ts` | the review findings, one test each, every one failing on the code before its fix (0.7.2): no line in another's name; recent lines and the first joiner only from the referee's own user state, never GM lines; a moderator's record tied to its session; the rich-text filter in labels, titles, logs, list and card; future-dated grants refused; a chain of nine grants |
 
 ### 0.2 Decisions (decided by the coordinator, 2026-11-24)
@@ -101,7 +101,7 @@ with positions; "everyone" moves are `GoSpawn0`..`GoSpawn5` and `GoRespawn`.
 
 After the re-sync (0.6): **RG1 closed** (the kit's field events and the `text` op), **RG4 closed** (`audioVolume`),
 **RG6 closed** (`networkCallable`), **RG8 closed** (the `audio` op; the alerts are in refs). **RG2 closed** in the fix
-pass (0.7): each player attaches its own label to its head (`AttachToHead`, autoSync). **RG3**, **RG5** and **RG7** are
+pass (0.7): each player attaches its own label to its head (`AttachToHead`) and owns its synced transform. **RG3**, **RG5** and **RG7** are
 still open.
 
 ### 0.5 Not done (still)
@@ -130,7 +130,7 @@ Nothing ran in the Altspace app or on a Quest (rung 5). See 0.6.4 for what stays
 | Subject | Decision | Why |
 |---|---|---|
 | Buttons | **uGUI buttons**, heard by the relay graph (`uiButton`), not layer-5 colliders | The canvas keeps its GraphicRaycaster anyway (a TMP_InputField takes focus through uGUI), spike S6 showed uGUI clicks reach the page from a kit, and the canvas would sit in front of colliders. Cost measured: the relay graph is 1,608 units (51 distinct members, all allowed) relaying 75 events; 871 KiB of graph data in each bundle (Android 1,268 KiB, Windows 1,310 KiB in all) |
-| Name labels | the pool of 32 (`Labels/Label n`, made from `VRpgPlayerObject.prefab`'s label canvas). Each player's page attaches the slot it holds to its own head (`AttachToHead`, autoSync: the app shows the attachment to everyone, under the slot's per-instance network id); a `PositionConstraint` on the label's canvas keeps it `LabelHeight` (0.75 m) straight above the attachment point in world axes, so it does not swing when the head tilts. Fix pass (0.7); until then each player published its head position and every client placed the label | No graph member reads another player's head (allow list: `BS.BSUser` has no position) and the page gets the local head only. `label-height` other than 0.75 moves the attachment point along the head's own up axis (that part tilts) |
+| Name labels | the pool of 32 (`Labels/Label n`, made from `VRpgPlayerObject.prefab`'s label canvas). Each player's page takes the slot it holds (its synced transform, `sync: "transform"`) and attaches it to its own head (`AttachToHead`, not the attachment's own autoSync: see 0.7.1); the app sends the pose to everyone. The canvas pivots at the attachment point, a look-at constraint makes it a billboard, and the text sits `LabelHeight` (0.75 m) along the billboard's up, so every viewer sees it above the head whichever way the head tilts. Fix pass (0.7); until then each player published its head position and every client placed the label | No graph member reads another player's head (allow list: `BS.BSUser` has no position) and the page gets the local head only. `label-height` other than 0.75 moves the attachment point along the head's own up axis (that part tilts) |
 | Labels facing the viewer | a `LookAtConstraint` on each label canvas whose source is the fade sphere, which each page attaches to its own head (`TrackBone`, `AttachToHead` without sync) | No camera is reachable from a graph (`Camera.main` is not on the allow list); a native constraint needs no graph and no bridge traffic per label |
 | Player list | **8 rows a page** (the 2 x 4 grid the upstream scroll view showed), page buttons; the other 76 rows are gone | A scroll view cannot be dragged from the page; 8 rows is what fits the panel. Ids `row0`..`row7` keep their keys |
 | Logs | fixed boxes (scroll views, scrollbars and masks removed; a RectMask2D), the newest `log-view` lines at the bottom, up/down page buttons over the box; each log's children moved under a `View` object its tab switches; the three log boxes have canvases of their own (the player list cannot: a nested canvas needs its own raycaster for its buttons) | G8, C7, C12; one canvas for 300 texts would rebuild on every line (6.4) |
@@ -180,13 +180,22 @@ by a moderator (Play mode has the owner only), and the radial-menu button (RG3: 
   the stand-in); self-published head positions (`AttachToHead`, below).
 - Added for the Play-mode test: `findpos` / `findtext` in `RpTestCommands.cs`. The SDK re-parents an attached object
   under the avatar's bone, so KitProbe's path from the kit root no longer reaches a label (kit gap).
-- Labels (RG2 closed): each page attaches the label slot it holds to its own head (`GameObject.AttachToHead`, autoSync,
-  network id `pk1/rp-toolkit/<inst>/label<n>`); a `PositionConstraint` on the canvas keeps it 0.75 m straight above the
-  attachment point. The fade sphere, which the labels' look-at constraints aim at, is attached to the local head
+- Labels (RG2 closed): each page takes the label slot it holds (a synced transform, network id
+  `pk1/rp-toolkit/<inst>/label<n>`) and attaches it to its own head (`GameObject.AttachToHead`); the app sends its pose to
+  everyone. The attachment's own `autoSync` was tried first and measured in Local Multiplayer: the other player's copy
+  never moved, because only the attaching page gives the object its network id and the app reproduces a remote
+  attachment by that id (kit gap). The canvas pivots at the attachment point and is a billboard (look-at constraint on
+  the fade sphere); the text sits 0.75 m along the billboard's up. Two other layouts were measured and dropped: a
+  `PositionConstraint` offset and a vertical-only aim constraint both let the local player's own label tilt with the
+  head. The fade sphere, which the labels' look-at constraints aim at, is attached to the local head
   (`TrackBone`, no sync) instead of being moved by the page on each pose.
 - Licences: `Assets/Kit/Licenses/` holds VRpg 2's MIT text, Roboto Slab's Apache-2.0 text, Kenney's CC0 note and
   portkit's MIT text; the kit adds TextMesh Pro's `LiberationSans - OFL.txt`. The notices name Liberation Sans's two
   copyright lines.
+- Rungs after the pass (TESTS.md): `npm test` 28 of 28; `PortKit/Kit/Check` PASS; rung 3 23 of 23 and rung 4 26 of 26,
+  each twice in a row on the final bundles. Bundles: Android 1,268 KiB before, 1,273 KiB after; Windows 1,310 KiB before,
+  1,313 KiB after. The box gizmo is set to the floor grid (`GizmoSize` 20 x 0.2 x 20 m): the kit's own footprint is empty
+  now that the board is the photo's root and every other part starts switched off.
 
 #### 0.7.2 Review findings (REVIEW-FINDINGS.md, rp-toolkit)
 
@@ -203,7 +212,7 @@ Every fix has a Node test that failed on the code before it (`test/trust.test.ts
 | 7 | "Bring to me" trusts the caller's position | Not closable here; stated in 0.7.3. The proposed fix ("use its head") relied on the self-published `head`, which was the caller's own claim too and is gone with `AttachToHead` |
 | 8 | The comment on `first-joiner-gm` overclaimed (public `firstJoiner`) | Closed rather than reworded: the record is in the referee's own player object, read only from the current referee; the comment says so. Test: "findings 1 and 2" (a forged public leaf and a non-referee's record change nobody's role) |
 | 9 | Role chains cut after 6 steps | As many rounds as players. Test: "finding 9" (nine links) |
-| 10 | Kit copy at `1118ef0`; use `AttachToHead` for labels | 0.7.1. Test: `scenarios.test.ts` "each player's label is attached to that player's own head" |
+| 10 | Kit copy at `1118ef0`; use `AttachToHead` for labels | 0.7.1 (attached locally, carried to others by the label's synced transform). Test: `scenarios.test.ts` "each player's label is attached to that player's own head"; Play mode: TESTS.md rungs 3 and 4 |
 
 #### 0.7.3 Trust: what a modified client can still do, compared with upstream
 
@@ -237,6 +246,11 @@ any line in anyone's name). The port leaves a modified client this much:
   feet) are still open.
 - `label-height` other than 0.75 moves the attachment point along the head's own up axis, so that part of the offset
   tilts with the head (the kit's constraint carries the 0.75 m).
+- Labels: a synced transform per label slot sends its pose while its holder's head moves (up to 30 Hz, the SDK's
+  publish gate). The attachment's own `autoSync` would cost nothing per frame but does not reach other clients (kit gap,
+  0.7.1).
+- The bundles still carry the upstream prefab's placeholder plate texts ("Sir William Bagg", "Player: Monzill84",
+  "Asst. DM"); the page overwrites them at start, as before.
 - The runtime's `digest()` covers space-state behaviours only; this toolkit now keeps none there, so the rung 4 page
   comparison uses the game's own `view()` (roles, names, slots, IC and OOC lines) instead (kit gap).
 
@@ -1326,7 +1340,7 @@ with 20 labels.
 | # | Risk | If it goes wrong |
 |---|---|---|
 | R1 | **uGUI from a kit bundle.** Nothing yet shows that a world-space canvas loaded from a bundle gets pointer clicks in the app, or that a graph can hear a uGUI button there. Spike S6 has no result (`portkit/spikes/RESULTS.md` does not exist yet) | Fall back to a layer-5 collider per button and `click` events. It costs about 90 colliders and loses nothing visible |
-| R2 | **Labels over other players** (as built after 0.7: attachments with `autoSync` and a position constraint; the rest of this row is the analysis). The design relies on `BS.AttachedObject` with `autoSync` on pool objects whose network ids the script sets: untested from a kit, including whether a late joiner sees existing attachments. An object on the head bone also tilts with the head, so a per-frame graph must hold the label upright at head + 0.75 m and turn it to the viewer, using only allow-listed members | Fallback: each player publishes a rounded head position in user state about twice a second and labels glide between samples. Coarser, and it uses the user-state rate budget |
+| R2 | **Labels over other players** (as built after 0.7: a head attachment carried by the label's synced transform, a billboard canvas; checked in Local Multiplayer; the rest of this row is the analysis). The design relies on `BS.AttachedObject` with `autoSync` on pool objects whose network ids the script sets: untested from a kit, including whether a late joiner sees existing attachments. An object on the head bone also tilts with the head, so a per-frame graph must hold the label upright at head + 0.75 m and turn it to the viewer, using only allow-listed members | Fallback: each player publishes a rounded head position in user state about twice a second and labels glide between samples. Coarser, and it uses the user-state rate budget |
 | R3 | **Runtime contract.** This port needs three things the README does not have: event arguments (G1), per-player behaviours on user state (G2), a protected leaf (G9) | Without G2 and G9 the toolkit can only copy upstream's trust-everyone model, which is not acceptable in a public world |
 | R4 | **Two UI systems on one board.** UI-kit text fields laid over a uGUI canvas: alignment at any menu pose, draw order, which system takes the pointer; the app keyboard; typing in Play mode | Fallback: one separate UI-kit "typing bar" under the board holding all seven fields |
 | R5 | **The map.** Upstream's map is not reproducible from the repo. A new one needs a second camera into a render texture inside a kit bundle (untested), dots on a layer the host world does not use, and a second render on Quest while the panel is open | Ship with `map="false"` as the only tested state until a spike passes (Q4) |

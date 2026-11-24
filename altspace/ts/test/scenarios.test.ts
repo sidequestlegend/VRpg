@@ -423,7 +423,7 @@ test("name labels follow players joining and leaving; names are stripped for non
   assert.deepEqual(problems(t), []);
 });
 
-test("each player's label is attached to that player's own head, synced; the alert volume reaches the audio source", async () => {
+test("each player's label is attached to that player's own head, its synced transform theirs; the alert volume reaches the audio source", async () => {
   const t = new Table({}, { owner: "ann" });
   const ann = t.join({ uid: "ann", name: "Ann" });
   const bob = t.join({ uid: "bob", name: "Bob" });
@@ -434,8 +434,11 @@ test("each player's label is attached to that player's own head, synced; the ale
     assert.ok(slot >= 0, `${c.name} holds a slot`);
     assert.equal(t.object(c, c).AttachedSlot, slot);
     const path = bindings.objects[`label${slot}`].path as string;
-    // One label on this client, its own, on its own head (point 0), synced by the app under the instance's id.
-    assert.deepEqual(attachedOn(c).map(([p, at]) => [p.endsWith("/" + path), at]), [[true, { uid: c.uid, point: 0, autoSync: true, networkId: `pk1/${SLUG}/0/label${slot}` }]], c.name);
+    // One label on this client, its own, on its own head (point 0); its synced transform (the instance's id) is this
+    // player's, so the app sends the pose the attachment gives it to everyone.
+    assert.deepEqual(attachedOn(c).map(([p, at]) => [p.endsWith("/" + path), at]), [[true, { uid: c.uid, point: 0 }]], c.name);
+    assert.equal(bindings.objects[`label${slot}`].sync, "transform");
+    assert.equal(t.world.room.serverObjectOwner(`pk1/${SLUG}/0/label${slot}`), c.sid, `${c.name} owns its label's transform`);
   };
   expectOwn(ann);
   expectOwn(bob);

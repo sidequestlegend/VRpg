@@ -1,0 +1,10 @@
+{
+  "name": "rp-multi",
+  "timeout": 600,
+  "players": 2,
+  "elements": [
+    "<script>window.__rpPlan = \"multi\";</script>",
+    "<script src=\"{SERVER}/web/playtest/rp-playtest.js\"></script>",
+    "<bs-snippet name=\"rp-toolkit\" title=\"Roleplay Toolkit\" single=\"true\" script=\"{SERVER}/web/pk-rp-toolkit.js\" position=\"0 1.5 2\" rotation=\"0 0 0\" teleport-points=\"1\" tp-a=\"3 0 3\" windows=\"{SERVER}/kits/windows/rp-toolkit\" android=\"{SERVER}/kits/android/rp-toolkit\"></bs-snippet>"
+  ]
+}

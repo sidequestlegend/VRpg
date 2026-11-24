@@ -2,20 +2,21 @@
 
 Sections 1 to 10 are the analysis, read from the clone at `C:\workspace\AltspaceGames\rp-toolkit` (C# sources,
 and prefab/scene YAML with scripts matched by GUID from their `.meta` files). Section 0 is the state of the port:
-the rules are translated to TypeScript in `altspace/ts/` and tested in Node on the fake room (rung 1). No Unity
-project exists yet: no kit, no bundles, no Play-mode run.
+the rules are translated to TypeScript in `altspace/ts/` and tested in Node on the fake room (rung 1); the Unity
+project in `altspace/` builds the kit and its bundles (rung 2) and runs the Play-mode tests (rungs 3 and 4). 0.6 is
+the Unity phase; `TESTS.md` holds the evidence.
 
-## 0. Port status (2026-11-24): TypeScript rules, rung 1
+## 0. Port status (2026-11-24): rules in Node, kit and bundles, Play mode
 
 ### 0.1 What exists
 
 | | |
 |---|---|
 | Sources | `altspace/ts/src/`: one file per upstream file of the translation map (section 7, rows 1 to 16: 22 files), plus `index.ts`. `DiceRoller5E.cs` becomes `DiceRollerD20.ts` (renamed, 0.2). `VRPGTextElement`, `VRPGIconElement` and `IconController` are plain objects over kit objects, not behaviours; `VRPGTextElement.ts` also holds `VRPGInputField`, the page's copy of a uGUI input field |
-| Runtime | `altspace/ts/portkit/`: a copy of `portkit/ts` (robocopy /MIR without node_modules and dist), unedited |
-| Bindings | `altspace/ts/bindings.json` is **provisional**: written by `tools/provisional-bindings.ts` (`npm run bindings`) from section 5's object model, not by a kit builder. 399 objects, 395 refs, 50 behaviours (32 of them player-list rows), 91 `uiButton` events. Its `note` member says so. The kit builder must keep the object keys (bindings.lock.json) or the tests' keys change |
-| Tests | `npm test`: typecheck, lint (page and clock rules: clean), 20 Node tests, all passing. `vectors/dice.json`: 13 DS and 8 d20 vectors with upstream line references, derived by hand from the C# (no dotnet, no VRChat SDK: Q13) |
-| Build | `npm run build -- --out <folder>` builds `pk-rp-toolkit.js` (about 433 KB, MIT notice of GIB Games at the top from `script-header.txt`). Built to a scratch folder for this check; nothing is written to `Assets/WebRoot` because no Unity project exists |
+| Runtime | `altspace/ts/portkit/`: a copy of `portkit/ts` (robocopy /MIR without node_modules and dist), unedited; re-synced in the Unity phase (portkit `1118ef0`) |
+| Bindings | `altspace/ts/bindings.json` is written by the kit builder (`Assets/Kit/Editor/RpToolkitKitBuilder.cs`): 353 objects, 351 refs, 26 behaviours, 76 events (68 `uiButton`, 7 `field`, 1 more `uiButton` on the nav row). The object keys and behaviour ids are the ones the provisional file had (`bindings.lock.json` was seeded with them), except the 24 player-list rows beyond 8 (0.6) |
+| Tests | `npm test`: typecheck, lint (page and clock rules: clean), 21 Node tests, all passing. `vectors/dice.json`: 13 DS and 8 d20 vectors with upstream line references, derived by hand from the C# (no dotnet, no VRChat SDK: Q13) |
+| Build | `npm run build` writes `Assets/WebRoot/pk-rp-toolkit.js` (about 464 KB, MIT notice of GIB Games at the top from `script-header.txt`) |
 
 Tests (`altspace/ts/test/`):
 
@@ -23,7 +24,7 @@ Tests (`altspace/ts/test/`):
 |---|---|
 | `dice.test.ts` | every DS vector (DS:26-137) and every d20 vector (D5E:19-146) through the kit's buttons and fields with a scripted Random.Range: line text, which log, the (min, max) of each draw, the 1 s re-roll and the three-tie stop; a remote client's forged `NewRoll` / `SetMod` does nothing on another client |
 | `utils.test.ts` | int.TryParse as C# (signs, white space, trailing NULs, overflow, "5.0"), GetColorHex with float32 and round-half-even, GetDots, StripTags, typed-text cleaning, the rich-text filter |
-| `scenarios.test.ts` | menu state per player (open by key, controller button and the board's button; panels; plates; forged events ignored); a GM grants and revokes a role, a lead's own grant counts while the lead is present and lapses when they leave, "Gm Title"; a non-GM's privileged requests refused on every client (GoSpawn, GoRespawn, DoForceBring, AskWhere, own-state grant, protected writes, forged "Give GM"); bring one player, go to one player, point A Local, point B All (fade timing, second press ignored, menu closed), respawn All; `disable-gm-bring`; IC, OOC and GM logs with text holding `\|`, `^`, double and single quotes, `%`, a backslash and a line break, identical in every client's buffer and in the kit text the relay sets; alert on and off; empty send; tag filter; 500-character cut; GM-log visibility; tabs; paging; name labels on join, leave and a new join into the freed slot; staff keep colours, others stripped; OOC preset; whitelists by user id (`staff-uids`, `no-staff-uids`, `vip-uids`, `enable-operators` off); `first-joiner-gm` off and on (and handed on when the first player leaves); a late joiner gets roles, names, labels and the recent IC, OOC and GM lines; name, title and options back on the same device and not on another; leaf budget (2 synced slots, at most 3 user-state leaves per player) |
+| `scenarios.test.ts` | each label over its player's published head on every client, a late joiner included, small moves not sent; the volume buttons reaching the IM alert's AudioSource (op `audioVolume`); menu state per player (open by key, controller button and the board's button; panels; plates; forged events ignored); a GM grants and revokes a role, a lead's own grant counts while the lead is present and lapses when they leave, "Gm Title"; a non-GM's privileged requests refused on every client (GoSpawn, GoRespawn, DoForceBring, AskWhere, own-state grant, protected writes, forged "Give GM"); bring one player, go to one player, point A Local, point B All (fade timing, second press ignored, menu closed), respawn All; `disable-gm-bring`; IC, OOC and GM logs with text holding `\|`, `^`, double and single quotes, `%`, a backslash and a line break, identical in every client's buffer and in the kit text the relay sets; alert on and off; empty send; tag filter; 500-character cut; GM-log visibility; tabs; paging; name labels on join, leave and a new join into the freed slot; staff keep colours, others stripped; OOC preset; whitelists by user id (`staff-uids`, `no-staff-uids`, `vip-uids`, `enable-operators` off); `first-joiner-gm` off and on (and handed on when the first player leaves); a late joiner gets roles, names, labels and the recent IC, OOC and GM lines; name, title and options back on the same device and not on another; leaf budget (2 synced slots, at most 3 user-state leaves per player) |
 
 ### 0.2 Decisions (decided by the coordinator, 2026-11-24)
 
@@ -92,11 +93,72 @@ with positions; "everyone" moves are `GoSpawn0`..`GoSpawn5` and `GoRespawn`.
 | RG7 | `Input.Position` is the head, not the feet; `TeleportTo` takes a position | Bring and teleport-to use the head position as is, so a teleportee may land at head height | The local player's feet position, or a note of what `TeleportTo` expects |
 | RG8 | The relay's `audio` op is not built yet (portkit README) | The two alert objects are left out of refs, so the page plays their clips itself (`BS.AudioSource.PlayOneShot`, marked UNVERIFIED in the adapter) | The `audio` op, or confirmation of the page path |
 
-### 0.5 Not done in this job
+After the re-sync (0.6): **RG1 closed** (the kit's field events and the `text` op), **RG4 closed** (`audioVolume`),
+**RG6 closed** (`networkCallable`), **RG8 closed** (the `audio` op; the alerts are in refs). **RG2** stands: placement
+by published head positions (0.6.2); an `autoSync` head attachment from game code would be smoother (kit gap). **RG3**,
+**RG5** and **RG7** are still open.
 
-No Unity: no kit builder, prefabs, bundles, relay or label graphs, Play-mode or two-player runs (rungs 2 to 4),
-no THIRD-PARTY-NOTICES.md and no credits text content beyond the `credits` setting. Golden vectors from compiled
-C# (9.1) were not produced; the dice vectors are hand-derived with line references.
+### 0.5 Not done (still)
+
+Golden vectors from compiled C# (9.1) were not produced; the dice vectors are hand-derived with line references.
+Nothing ran in the Altspace app or on a Quest (rung 5). See 0.6.4 for what stays unverified.
+
+### 0.6 Unity phase (2026-11-24): kit, bundles, Play mode
+
+#### 0.6.1 Re-sync with the fixed kit
+
+- `ts/portkit` mirrors portkit `1118ef0`. Network events reach only what a class lists in `static networkCallable`:
+  `VRPGGameMasterData` lists `SyncCallST`, `AskWhere`, `AnswerWhere`, `DoForceBring`, `GoSpawn0`..`GoSpawn5`,
+  `GoRespawn`; `VRPGLogs` lists `ReceiveLogNew`, `DoNetworkDebug`. Every `FromRemote()` guard (78 of them: they only
+  stopped a method being run by name from another client) is gone with `FromRemote()` itself; the sender checks of the
+  handlers that act (`RoleOf(CallingPlayer)`, `SenderIsStaff`, the target-id checks) stay (RG6 closed).
+- Text fields: each of the seven `TMP_InputField`s is bound as a bindings event of kind `field` to a method of its own
+  (`NameTyped`, `TitleTyped`, `ICTyped`, `OOCTyped`, `GMTyped`, `AttTyped`, `DefTyped`); the kit's relay graph polls
+  `text` / `isFocused` and reports once editing ends; the page sets a field with the `text` op (RG1 closed).
+- The alerts are in `refs` and play through the relay's `audio` op (RG8 closed); the volume buttons set the IM alert's
+  `AudioSource.volume` (op `audioVolume`, RG4 closed).
+- `AttachToHand` is not used: it attaches to the local hand only, and labels go over **other** players' heads.
+
+#### 0.6.2 Decisions taken in the kit
+
+| Subject | Decision | Why |
+|---|---|---|
+| Buttons | **uGUI buttons**, heard by the relay graph (`uiButton`), not layer-5 colliders | The canvas keeps its GraphicRaycaster anyway (a TMP_InputField takes focus through uGUI), spike S6 showed uGUI clicks reach the page from a kit, and the canvas would sit in front of colliders. Cost measured: the relay graph is 1,608 units (51 distinct members, all allowed) relaying 75 events; 871 KiB of graph data in each bundle (Android 1,265 KiB, Windows 1,314 KiB in all) |
+| Name labels | the pool of 32 (`Labels/Label n`, made from `VRpgPlayerObject.prefab`'s label canvas). Each player publishes their own head position in their user state (`head`, cm, at most twice a second, only after a move of 15 cm) and every client puts that player's slot `label-height` above it | No graph member reads another player's head (allow list: `BS.BSUser` has no position) and the page gets the local head only. An attachment with `autoSync` would follow the avatar smoothly but cannot be made from game code here (the runtime's `AttachToHand` is hand-only) and is unverified from a kit. Stated limit: labels follow in steps (at most two a second) |
+| Labels facing the viewer | a `LookAtConstraint` on each label canvas whose source is the fade sphere, which the page keeps at the local head (`TrackBone`) | No camera is reachable from a graph (`Camera.main` is not on the allow list); a native constraint needs no graph and no bridge traffic per label |
+| Player list | **8 rows a page** (the 2 x 4 grid the upstream scroll view showed), page buttons; the other 76 rows are gone | A scroll view cannot be dragged from the page; 8 rows is what fits the panel. Ids `row0`..`row7` keep their keys |
+| Logs | fixed boxes (scroll views, scrollbars and masks removed; a RectMask2D), the newest `log-view` lines at the bottom, up/down page buttons over the box; each log's children moved under a `View` object its tab switches; the three boxes and the player list have canvases of their own | G8, C7, C12; one canvas for 300 texts would rebuild on every line (6.4) |
+| Toggles, dropdowns, slider | toggles (GM roll, IM alert, grid, the d20 roller's "to GM") become buttons whose check mark the page switches; the Local/All and threat dropdowns become buttons with a label; the volume slider becomes `-`, value, `+` | G8 |
+| Both dice rollers | the d20 roller ("Dice 5E.prefab") is placed in the same Actions slot as the DS roller (upstream made it for that slot); with `dice="both"` a "DS / d20" button switches between them (`VRPGManager.SwitchDice`). Its d2 (wired to d20) and d100 (unwired) buttons are gone; 1d20, Adv and Dis buttons added (C11) | One column, two rollers |
+| Open button | a uGUI "Open" button on the board (next to the close button), bound to `VRPGMenuCaller.Interact` | the board's open button of 8.7 |
+| Removed objects | Teleport Points (the upstream world's own), Character, Regions, Voice Controller, TeleTarget, Menu Caller sphere, Whitelists, World version Check, Randomizers, Panels 1 to 3, JanUi, RPS, Spends, the GM log's TryButton (the back door), OperUI Exile/Unexile, ST Voice, ST Speed, Janitor, Feeple, IconButtons, PostProc/Reflections/Chairs/Snow toggles, grid slider; the label's map dot, stream icon, Level and Tags | 0.2, 10.2 |
+| Sprites, materials | images that used Unity's built-in UI sprites draw plain rectangles (a bundle carries no `unity_builtin_extra`); the missing UI material is the default one; `VRPG.png` (logo) is kept | |
+| Fade sphere, target, grid | ProBuilder meshes (not importable without the package) become Unity's sphere, cube and plane meshes; URP Unlit materials, set up by URP's own `SetMaterialKeywords` (fade: black, alpha-clipped by the upstream perlin texture, both faces, `_Cutoff` animated by the upstream clip; target: black; grid: additive, a generated hex tile). The fade animator is wired (C9). Grid: `grid-position` / `grid-size` settings added | 6.3 |
+| Legacy uGUI Text | `KitText.ToTextMeshPro` runs in `Finishing`; after the removals none is left (JanUi's "No TP" was the only one) | |
+
+#### 0.6.3 Art replacements (THIRD-PARTY-NOTICES.md)
+
+| Upstream (missing or unlicensed) | Replacement | Source, licence |
+|---|---|---|
+| GM alert clip `22e0b772` (missing) | `Assets/Kit/Audio/bong_001.ogg` | Kenney "Interface Sounds" 1.0, https://kenney.nl/assets/interface-sounds, CC0 (the pack's `License.txt`, kept beside it); checked: Ogg Vorbis, mono, 44.1 kHz |
+| IM alert clip `63ad4880` (missing) | `Assets/Kit/Audio/glass_002.ogg` | the same pack, CC0 |
+| version-alert clip `973e940d` (missing) | none | the world version check is removed (0.2) |
+| UI material `35630e38` (missing) | Unity's default UI material | nothing shipped |
+| role-icon sprite `653f402f` (missing) | `Assets/Kit/Textures/RoleDisc.png`, a white disc the four role images tint | generated by the kit builder (port's MIT) |
+| hex grid texture `8e383558` (missing) | `Assets/Kit/Textures/HexGrid.png` | generated by the kit builder (port's MIT) |
+| two font assets `be95bf52`, `4b82cb99` (missing) | none needed | used only by the removed Character panel |
+| three Roboto Slab TMP font assets (in the repo, no licence file) | `Assets/Kit/Fonts/RobotoSlab SDF.asset`, baked by the kit builder from `RobotoSlab[wght].ttf` | Google Fonts, https://github.com/google/fonts/tree/main/apache/robotoslab (`METADATA.pb`: `license: "APACHE2"`, "Copyright 2018 The Roboto Slab Project Authors"); the Apache-2.0 text ships (`Assets/Kit/Fonts/RobotoSlab-LICENSE-Apache-2.0.txt`, and in the bundle's notices). Checked: TrueType, sha1 `b2c33e888223e7c65aa6c3f2d61d087438a9802f` |
+| fade target material `44e7a0ee`, ProBuilder material (missing) | URP Unlit black | made by the kit builder |
+
+Liberation Sans (TextMesh Pro essentials, OFL 1.1) stays for the texts upstream drew with it and is the fallback for
+characters outside Roboto Slab's atlas (Latin-1 and a few symbols).
+
+#### 0.6.4 Still unverified
+
+Everything in the app and on a Quest (rung 5): uGUI clicks and text fields with a laser and the app keyboard, the
+relay graph's per-frame field polling on Quest, label placement with real latency, the look-at constraint in the app,
+frame time with the 32-label pool and 300 texts, the alert sounds (nobody listened in Play mode), protected writes
+by a moderator (Play mode has the owner only), and the radial-menu button (RG3: no runtime call).
 
 Conventions used in this file:
 

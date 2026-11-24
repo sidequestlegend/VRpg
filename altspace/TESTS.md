@@ -8,13 +8,12 @@ How to run each rung again:
 ```
 cd altspace/ts && npm test                                                    rungs 0 and 1
 portkit/tools/remote.sh altspace menu "PortKit/Kit/Check"                    rung 2 (Logs/portkit_check.txt)
-altspace/playtest/run.sh single                                              rung 3
-portkit/tools/remote.sh altspace menu "PortKit/Multiplayer/Activate Player 2"
-altspace/playtest/run.sh multi                                               rung 4
+portkit/tools/playtest.sh altspace altspace/playtest/single.json rp-toolkit  rung 3
+portkit/tools/playtest.sh altspace altspace/playtest/multi.json rp-toolkit   rung 4 (starts Player 2 and waits for it)
 ```
 
-`playtest/run.sh` is `portkit/tools/playtest.sh` with `?v=<sha1>` put on the page's script addresses first: the
-Play-mode browser keeps a script it has fetched by its address (KitPlayTest versions only the bundles').
+`playtest.sh` versions the page's script and bundle addresses (`?v=<sha1>`) and empties the local relay's saved room
+before each run (the game's own `run.sh` did both until the fix pass).
 
 ## Rung 0: static
 

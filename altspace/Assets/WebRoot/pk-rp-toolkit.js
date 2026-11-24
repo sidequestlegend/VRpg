@@ -46,7 +46,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/* pk-rp-toolkit.js: portkit runtime with the rules of 'rp-toolkit' (protocol pk1, bindings c41f1ea0a7424a4fb283a87e7c8b97d01192a91c). Built file: do not edit. */
+/* pk-rp-toolkit.js: portkit runtime with the rules of 'rp-toolkit' (protocol pk1, bindings 2eea4731dbbb51ea071bee4ce400165e34f6a441). Built file: do not edit. */
 (() => {
   var __defProp = Object.defineProperty;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -9405,7 +9405,7 @@ ${label}`)));
         object: "noBoxSpawn"
       }
     ],
-    hash: "c41f1ea0a7424a4fb283a87e7c8b97d01192a91c",
+    hash: "2eea4731dbbb51ea071bee4ce400165e34f6a441",
     objects: {
       bringToMe: {
         click: false,
@@ -9563,6 +9563,7 @@ ${label}`)));
         sync: "none"
       },
       d20Root: {
+        active: false,
         click: false,
         grab: false,
         path: "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20",
@@ -11691,6 +11692,7 @@ ${label}`)));
         sync: "none"
       },
       panelSocial: {
+        active: false,
         click: false,
         grab: false,
         path: "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social",

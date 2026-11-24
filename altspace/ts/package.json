@@ -12,8 +12,7 @@
     "lint": "node --disable-warning=ExperimentalWarning portkit/tools/lint.ts src portkit/src",
     "unit": "node --disable-warning=ExperimentalWarning --test \"test/*.test.ts\"",
     "test": "npm run typecheck && npm run lint && npm run unit",
-    "build": "node --disable-warning=ExperimentalWarning portkit/tools/build.ts --game . --out ../Assets/WebRoot",
-    "bindings": "node --disable-warning=ExperimentalWarning tools/provisional-bindings.ts"
+    "build": "node --disable-warning=ExperimentalWarning portkit/tools/build.ts --game . --out ../Assets/WebRoot"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

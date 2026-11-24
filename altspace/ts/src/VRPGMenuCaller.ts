@@ -6,7 +6,7 @@
 //   - the desktop key, setting `menu-key` (default Q; empty for none), from the page's key events;
 //   - the left controller's secondary button (setting `menu-button`: "left-secondary" (default), "right-secondary",
 //     or "none"), from the page's button events;
-//   - the open button on the parked board (this behaviour's object, clickable): Interact.
+//   - the Open button on the board (a uGUI button, this behaviour's object; bindings bind its uiButton to Interact).
 // The radial-menu button PORT.md proposes has no runtime call yet (a runtime gap, listed there).
 // IsUserInVR (CALLER:31) only stopped the key in VR; keys do not reach the page in a headset anyway.
 

@@ -1,2829 +1,3643 @@
 {
-  "schema": 1,
-  "slug": "rp-toolkit",
-  "hash": "6b5f888a715d3a4e17e6354c4229178c0d9fa743",
-  "note": "PROVISIONAL: written by tools/provisional-bindings.ts from PORT.md's object model, not by the kit builder. Input fields report edits as bindings events of kind 'field'.",
+  "behaviours": [
+    {
+      "fields": {
+        "ConfigData": {
+          "$beh": "config"
+        },
+        "DiceD20": {
+          "$beh": "d20"
+        },
+        "DiceDS": {
+          "$beh": "ds"
+        },
+        "GMData": {
+          "$beh": "gm"
+        },
+        "Labels": [
+          {
+            "$obj": "label0"
+          },
+          {
+            "$obj": "label1"
+          },
+          {
+            "$obj": "label2"
+          },
+          {
+            "$obj": "label3"
+          },
+          {
+            "$obj": "label4"
+          },
+          {
+            "$obj": "label5"
+          },
+          {
+            "$obj": "label6"
+          },
+          {
+            "$obj": "label7"
+          },
+          {
+            "$obj": "label8"
+          },
+          {
+            "$obj": "label9"
+          },
+          {
+            "$obj": "label10"
+          },
+          {
+            "$obj": "label11"
+          },
+          {
+            "$obj": "label12"
+          },
+          {
+            "$obj": "label13"
+          },
+          {
+            "$obj": "label14"
+          },
+          {
+            "$obj": "label15"
+          },
+          {
+            "$obj": "label16"
+          },
+          {
+            "$obj": "label17"
+          },
+          {
+            "$obj": "label18"
+          },
+          {
+            "$obj": "label19"
+          },
+          {
+            "$obj": "label20"
+          },
+          {
+            "$obj": "label21"
+          },
+          {
+            "$obj": "label22"
+          },
+          {
+            "$obj": "label23"
+          },
+          {
+            "$obj": "label24"
+          },
+          {
+            "$obj": "label25"
+          },
+          {
+            "$obj": "label26"
+          },
+          {
+            "$obj": "label27"
+          },
+          {
+            "$obj": "label28"
+          },
+          {
+            "$obj": "label29"
+          },
+          {
+            "$obj": "label30"
+          },
+          {
+            "$obj": "label31"
+          }
+        ],
+        "Logger": {
+          "$beh": "logs"
+        },
+        "Menu": {
+          "$beh": "menu"
+        },
+        "Options": {
+          "$beh": "options"
+        },
+        "PatronData": {
+          "$beh": "patrons"
+        },
+        "Social": {
+          "$beh": "social"
+        },
+        "Teleporter": {
+          "$beh": "tele"
+        },
+        "diceSwitch": {
+          "$obj": "diceSwitch"
+        }
+      },
+      "id": "mgr",
+      "object": "manager",
+      "type": "VRPGManager"
+    },
+    {
+      "fields": {},
+      "id": "config",
+      "object": "manager",
+      "type": "VRPGConfigData"
+    },
+    {
+      "fields": {
+        "GMClip": {
+          "$clip": 0,
+          "on": "gmAlert"
+        },
+        "GMObjects": [
+          {
+            "$obj": "navGM"
+          },
+          {
+            "$obj": "gmLog"
+          },
+          {
+            "$obj": "tabGM"
+          },
+          {
+            "$obj": "socialGmOnly"
+          }
+        ],
+        "GMSound": {
+          "$comp": "gmAlert",
+          "kind": "AudioSource"
+        },
+        "OperatorObjects": [
+          {
+            "$obj": "operUI"
+          }
+        ],
+        "teleButtons": [
+          {
+            "$obj": "tp0"
+          },
+          {
+            "$obj": "tp1"
+          },
+          {
+            "$obj": "tp2"
+          },
+          {
+            "$obj": "tp3"
+          },
+          {
+            "$obj": "tp4"
+          },
+          {
+            "$obj": "tp5"
+          }
+        ],
+        "teleTargetLabel": {
+          "$obj": "teleTargetLabel"
+        }
+      },
+      "id": "gm",
+      "object": "manager",
+      "type": "VRPGGameMasterData"
+    },
+    {
+      "fields": {
+        "GMInputBox": {
+          "$obj": "gmInput"
+        },
+        "GMLogGroup": {
+          "$obj": "gmView"
+        },
+        "GMOutputBox": {
+          "$obj": "gmOutput"
+        },
+        "ICInputBox": {
+          "$obj": "icInput"
+        },
+        "ICLogGroup": {
+          "$obj": "icView"
+        },
+        "ICOutputBox": {
+          "$obj": "icOutput"
+        },
+        "ImClip": {
+          "$clip": 0,
+          "on": "imAlert"
+        },
+        "ImSound": {
+          "$comp": "imAlert",
+          "kind": "AudioSource"
+        },
+        "OOCInputBox": {
+          "$obj": "oocInput"
+        },
+        "OOCLogGroup": {
+          "$obj": "oocView"
+        },
+        "OOCOutputBox": {
+          "$obj": "oocOutput"
+        }
+      },
+      "id": "logs",
+      "object": "manager",
+      "type": "VRPGLogs"
+    },
+    {
+      "fields": {
+        "descLabelObject": {
+          "$obj": "resultDesc"
+        },
+        "nameLabelObject": {
+          "$obj": "resultName"
+        },
+        "pageTextObject": {
+          "$obj": "pageText"
+        },
+        "playerCountTextObject": {
+          "$obj": "playerCount"
+        },
+        "playerLabelObject": {
+          "$obj": "selectedName"
+        },
+        "titleLabelObject": {
+          "$obj": "resultTitle"
+        }
+      },
+      "id": "social",
+      "object": "manager",
+      "type": "VRPGSocial"
+    },
+    {
+      "fields": {
+        "FadeTarget": {
+          "$obj": "fadeTarget"
+        },
+        "teleAnim": {
+          "$comp": "fadeSphere",
+          "kind": "Animator"
+        }
+      },
+      "id": "tele",
+      "object": "manager",
+      "type": "VRPGPlayerTeleport"
+    },
+    {
+      "fields": {
+        "gridCheck": {
+          "$obj": "gridCheck"
+        },
+        "gridObject": {
+          "$obj": "grid"
+        },
+        "gridToggle": {
+          "$obj": "gridToggle"
+        },
+        "imAlertCheck": {
+          "$obj": "imAlertCheck"
+        },
+        "imAlertObject": {
+          "$obj": "imAlert"
+        },
+        "imAlertSource": {
+          "$comp": "imAlert",
+          "kind": "AudioSource"
+        },
+        "volumeLabelObject": {
+          "$obj": "volLabel"
+        }
+      },
+      "id": "options",
+      "object": "manager",
+      "type": "VRPGOptions"
+    },
+    {
+      "fields": {
+        "PatronCreditsObject": {
+          "$obj": "credits"
+        },
+        "PatronItems": []
+      },
+      "id": "patrons",
+      "object": "manager",
+      "type": "VRPGPatronData"
+    },
+    {
+      "fields": {},
+      "id": "player",
+      "object": "manager",
+      "type": "VRPGPlayerObject"
+    },
+    {
+      "fields": {
+        "captionObject": {
+          "$obj": "caption"
+        },
+        "characterNamePlateObject": {
+          "$obj": "plateCharName"
+        },
+        "characterTitlePlateObject": {
+          "$obj": "plateCharTitle"
+        },
+        "nameFieldObject": {
+          "$obj": "nameField"
+        },
+        "panels": [
+          {
+            "$obj": "panelMain"
+          },
+          {
+            "$obj": "panelSocial"
+          },
+          {
+            "$obj": "panelOptions"
+          },
+          {
+            "$obj": "panelGM"
+          }
+        ],
+        "playerNamePlateObject": {
+          "$obj": "platePlayerName"
+        },
+        "playerTitlePlateObject": {
+          "$obj": "platePlayerTitle"
+        },
+        "titleFieldObject": {
+          "$obj": "titleField"
+        }
+      },
+      "id": "menu",
+      "object": "menu",
+      "type": "VRPGMenu"
+    },
+    {
+      "fields": {},
+      "id": "caller",
+      "object": "openButton",
+      "type": "VRPGMenuCaller"
+    },
+    {
+      "fields": {
+        "panelIndex": 0
+      },
+      "id": "nav0",
+      "object": "navMain",
+      "type": "VRPGMenuNavButton"
+    },
+    {
+      "fields": {
+        "panelIndex": 1
+      },
+      "id": "nav1",
+      "object": "navSocial",
+      "type": "VRPGMenuNavButton"
+    },
+    {
+      "fields": {
+        "panelIndex": 2
+      },
+      "id": "nav2",
+      "object": "navOptions",
+      "type": "VRPGMenuNavButton"
+    },
+    {
+      "fields": {
+        "panelIndex": 3
+      },
+      "id": "nav3",
+      "object": "navGM",
+      "type": "VRPGMenuNavButton"
+    },
+    {
+      "fields": {
+        "attBoxObject": {
+          "$obj": "dsAtt"
+        },
+        "attDropLabel": {
+          "$obj": "dsAttThreatLabel"
+        },
+        "attDropObject": {
+          "$obj": "dsAttThreat"
+        },
+        "defBoxObject": {
+          "$obj": "dsDef"
+        },
+        "defDropLabel": {
+          "$obj": "dsDefThreatLabel"
+        },
+        "defDropObject": {
+          "$obj": "dsDefThreat"
+        },
+        "gmCheck": {
+          "$obj": "dsGmCheck"
+        }
+      },
+      "id": "ds",
+      "object": "dsRoot",
+      "type": "DiceRollerDS"
+    },
+    {
+      "fields": {
+        "dicePoolBoxTextObject": {
+          "$obj": "d20Pool"
+        },
+        "gmCheck": {
+          "$obj": "d20GmCheck"
+        },
+        "modLabelObject": {
+          "$obj": "d20ModLabel"
+        }
+      },
+      "id": "d20",
+      "object": "d20Root",
+      "type": "DiceRollerD20"
+    },
+    {
+      "fields": {
+        "buttonLabelObject": {
+          "$obj": "row0Label"
+        }
+      },
+      "id": "row0",
+      "object": "row0",
+      "type": "VRPGPlayerButton"
+    },
+    {
+      "fields": {
+        "buttonLabelObject": {
+          "$obj": "row1Label"
+        }
+      },
+      "id": "row1",
+      "object": "row1",
+      "type": "VRPGPlayerButton"
+    },
+    {
+      "fields": {
+        "buttonLabelObject": {
+          "$obj": "row2Label"
+        }
+      },
+      "id": "row2",
+      "object": "row2",
+      "type": "VRPGPlayerButton"
+    },
+    {
+      "fields": {
+        "buttonLabelObject": {
+          "$obj": "row3Label"
+        }
+      },
+      "id": "row3",
+      "object": "row3",
+      "type": "VRPGPlayerButton"
+    },
+    {
+      "fields": {
+        "buttonLabelObject": {
+          "$obj": "row4Label"
+        }
+      },
+      "id": "row4",
+      "object": "row4",
+      "type": "VRPGPlayerButton"
+    },
+    {
+      "fields": {
+        "buttonLabelObject": {
+          "$obj": "row5Label"
+        }
+      },
+      "id": "row5",
+      "object": "row5",
+      "type": "VRPGPlayerButton"
+    },
+    {
+      "fields": {
+        "buttonLabelObject": {
+          "$obj": "row6Label"
+        }
+      },
+      "id": "row6",
+      "object": "row6",
+      "type": "VRPGPlayerButton"
+    },
+    {
+      "fields": {
+        "buttonLabelObject": {
+          "$obj": "row7Label"
+        }
+      },
+      "id": "row7",
+      "object": "row7",
+      "type": "VRPGPlayerButton"
+    },
+    {
+      "fields": {
+        "offset": {
+          "$v3": [0, 0, 0]
+        }
+      },
+      "id": "track",
+      "object": "fadeSphere",
+      "type": "TrackBone"
+    }
+  ],
   "bundles": {
-    "windows": "",
-    "android": ""
+    "android": "",
+    "windows": ""
   },
+  "events": [
+    {
+      "behaviour": "menu",
+      "kind": "uiButton",
+      "method": "CloseMenu",
+      "object": "closeButton"
+    },
+    {
+      "behaviour": "caller",
+      "kind": "uiButton",
+      "method": "Interact",
+      "object": "openButton"
+    },
+    {
+      "behaviour": "nav0",
+      "kind": "uiButton",
+      "method": "ShowPanel",
+      "object": "navMain"
+    },
+    {
+      "behaviour": "social",
+      "kind": "uiButton",
+      "method": "UpdatePlayerList",
+      "object": "navSocial"
+    },
+    {
+      "behaviour": "nav1",
+      "kind": "uiButton",
+      "method": "ShowPanel",
+      "object": "navSocial"
+    },
+    {
+      "behaviour": "nav2",
+      "kind": "uiButton",
+      "method": "ShowPanel",
+      "object": "navOptions"
+    },
+    {
+      "behaviour": "nav3",
+      "kind": "uiButton",
+      "method": "ShowPanel",
+      "object": "navGM"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "CallST",
+      "object": "callST"
+    },
+    {
+      "behaviour": "menu",
+      "kind": "field",
+      "method": "NameTyped",
+      "object": "nameField"
+    },
+    {
+      "behaviour": "menu",
+      "kind": "field",
+      "method": "TitleTyped",
+      "object": "titleField"
+    },
+    {
+      "behaviour": "menu",
+      "kind": "uiButton",
+      "method": "SetNameAndTitle",
+      "object": "setButton"
+    },
+    {
+      "behaviour": "menu",
+      "kind": "uiButton",
+      "method": "SetOOC",
+      "object": "oocButton"
+    },
+    {
+      "behaviour": "menu",
+      "kind": "uiButton",
+      "method": "SetHidden",
+      "object": "offButton"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "uiButton",
+      "method": "ShowOOCLog",
+      "object": "tabOOC"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "uiButton",
+      "method": "ShowICLog",
+      "object": "tabIC"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "uiButton",
+      "method": "ShowGMLog",
+      "object": "tabGM"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "field",
+      "method": "ICTyped",
+      "object": "icInput"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "uiButton",
+      "method": "SendLogIC",
+      "object": "icSend"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "field",
+      "method": "OOCTyped",
+      "object": "oocInput"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "uiButton",
+      "method": "SendLogOOC",
+      "object": "oocSend"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "field",
+      "method": "GMTyped",
+      "object": "gmInput"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "uiButton",
+      "method": "SendLogGM",
+      "object": "gmSend"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "uiButton",
+      "method": "ScrollUp",
+      "object": "logUp"
+    },
+    {
+      "behaviour": "logs",
+      "kind": "uiButton",
+      "method": "ScrollDown",
+      "object": "logDown"
+    },
+    {
+      "behaviour": "ds",
+      "kind": "field",
+      "method": "AttTyped",
+      "object": "dsAtt"
+    },
+    {
+      "behaviour": "ds",
+      "kind": "field",
+      "method": "DefTyped",
+      "object": "dsDef"
+    },
+    {
+      "behaviour": "ds",
+      "kind": "uiButton",
+      "method": "NewRoll",
+      "object": "dsRoll"
+    },
+    {
+      "behaviour": "ds",
+      "kind": "uiButton",
+      "method": "ClearBox",
+      "object": "dsReset"
+    },
+    {
+      "behaviour": "ds",
+      "kind": "uiButton",
+      "method": "ToggleGm",
+      "object": "dsGm"
+    },
+    {
+      "behaviour": "ds",
+      "kind": "uiButton",
+      "method": "CycleAttThreat",
+      "object": "dsAttThreat"
+    },
+    {
+      "behaviour": "ds",
+      "kind": "uiButton",
+      "method": "CycleDefThreat",
+      "object": "dsDefThreat"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "BoxAddD4",
+      "object": "d20Add4"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "BoxAddD6",
+      "object": "d20Add6"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "BoxAddD8",
+      "object": "d20Add8"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "BoxAddD10",
+      "object": "d20Add10"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "BoxAddD12",
+      "object": "d20Add12"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "BoxAddD20",
+      "object": "d20Add20"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "RollBox",
+      "object": "d20Roll"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "ResetBox",
+      "object": "d20Clear"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "IncreaseMod",
+      "object": "d20Inc"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "DecreaseMod",
+      "object": "d20Dec"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "ToggleGm",
+      "object": "d20Gm"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "Roll20",
+      "object": "d20One"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "Roll20Advantage",
+      "object": "d20Adv"
+    },
+    {
+      "behaviour": "d20",
+      "kind": "uiButton",
+      "method": "Roll20Disadvantage",
+      "object": "d20Dis"
+    },
+    {
+      "behaviour": "mgr",
+      "kind": "uiButton",
+      "method": "SwitchDice",
+      "object": "diceSwitch"
+    },
+    {
+      "behaviour": "social",
+      "kind": "uiButton",
+      "method": "UpdatePlayerList",
+      "object": "refresh"
+    },
+    {
+      "behaviour": "social",
+      "kind": "uiButton",
+      "method": "PreviousPage",
+      "object": "pagePrev"
+    },
+    {
+      "behaviour": "social",
+      "kind": "uiButton",
+      "method": "NextPage",
+      "object": "pageNext"
+    },
+    {
+      "behaviour": "row0",
+      "kind": "uiButton",
+      "method": "SelectPlayer",
+      "object": "row0"
+    },
+    {
+      "behaviour": "row1",
+      "kind": "uiButton",
+      "method": "SelectPlayer",
+      "object": "row1"
+    },
+    {
+      "behaviour": "row2",
+      "kind": "uiButton",
+      "method": "SelectPlayer",
+      "object": "row2"
+    },
+    {
+      "behaviour": "row3",
+      "kind": "uiButton",
+      "method": "SelectPlayer",
+      "object": "row3"
+    },
+    {
+      "behaviour": "row4",
+      "kind": "uiButton",
+      "method": "SelectPlayer",
+      "object": "row4"
+    },
+    {
+      "behaviour": "row5",
+      "kind": "uiButton",
+      "method": "SelectPlayer",
+      "object": "row5"
+    },
+    {
+      "behaviour": "row6",
+      "kind": "uiButton",
+      "method": "SelectPlayer",
+      "object": "row6"
+    },
+    {
+      "behaviour": "row7",
+      "kind": "uiButton",
+      "method": "SelectPlayer",
+      "object": "row7"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "TeleToSelected",
+      "object": "gmTele"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "BringToMe",
+      "object": "bringToMe"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "GiveInstanceMod",
+      "object": "makeController"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "RemoveMod",
+      "object": "removeGM"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "GiveAutoMod",
+      "object": "giveOperator"
+    },
+    {
+      "behaviour": "options",
+      "kind": "uiButton",
+      "method": "ToggleImAlert",
+      "object": "imAlertToggle"
+    },
+    {
+      "behaviour": "options",
+      "kind": "uiButton",
+      "method": "ToggleGrid",
+      "object": "gridToggle"
+    },
+    {
+      "behaviour": "options",
+      "kind": "uiButton",
+      "method": "VolumeDown",
+      "object": "volDown"
+    },
+    {
+      "behaviour": "options",
+      "kind": "uiButton",
+      "method": "VolumeUp",
+      "object": "volUp"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "SetStaffTitle",
+      "object": "stTitle"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "TrySpawn0",
+      "object": "tp0"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "TrySpawn1",
+      "object": "tp1"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "TrySpawn2",
+      "object": "tp2"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "TrySpawn3",
+      "object": "tp3"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "TrySpawn4",
+      "object": "tp4"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "TrySpawn5",
+      "object": "tp5"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "TryRespawn",
+      "object": "respawn"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "CycleTeleTarget",
+      "object": "teleTarget"
+    },
+    {
+      "behaviour": "gm",
+      "kind": "uiButton",
+      "method": "GoNoBox",
+      "object": "noBoxSpawn"
+    }
+  ],
+  "hash": "c41f1ea0a7424a4fb283a87e7c8b97d01192a91c",
   "objects": {
-    "menu": {
-      "path": "VRPG Local Menu",
-      "sync": "none",
-      "grab": false,
+    "bringToMe": {
       "click": false,
-      "seat": false
-    },
-    "openButton": {
-      "path": "VRPG Local Menu/Open Button",
-      "sync": "none",
       "grab": false,
-      "click": true,
-      "seat": false
-    },
-    "caption": {
-      "path": "VRPG Local Menu/Menu Canvas/Game Logo/Caption",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "closeButton": {
-      "path": "VRPG Local Menu/Menu Canvas/Base GUI/CloseButton/Button",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "navMain": {
-      "path": "VRPG Local Menu/Menu Canvas/Navigation/MainMenu",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "navSocial": {
-      "path": "VRPG Local Menu/Menu Canvas/Navigation/Social",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "navOptions": {
-      "path": "VRPG Local Menu/Menu Canvas/Navigation/Options",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "navGM": {
-      "path": "VRPG Local Menu/Menu Canvas/Navigation/GM",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "panelMain": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "panelSocial": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "panelOptions": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "panelGM": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "plateCharName": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Top/CharPlate/CharName",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "plateCharTitle": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Top/CharPlate/CharTitle",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "platePlayerName": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Top/PlayerPlate/PlayerName",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "platePlayerTitle": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Top/PlayerPlate/PlayerTitle",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/BringToMe",
+      "seat": false,
+      "sync": "none"
     },
     "callST": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/BottomPanel/Call ST",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "nameField": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/NameField",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "titleField": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/TitleField",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "setButton": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/Set",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "oocButton": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/OOC",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "offButton": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/Off",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "tabOOC": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Tabs/OOC",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "tabIC": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Tabs/IC",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "tabGM": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Tabs/GM",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "icLog": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "icView": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log/View",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "icOutput": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log/View/Output",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "icInput": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log/Input",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "icSend": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log/Send",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "oocLog": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "oocView": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log/View",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "oocOutput": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log/View/Output",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "oocInput": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log/Input",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "oocSend": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log/Send",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "gmLog": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "gmView": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log/View",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "gmOutput": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log/View/Output",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "gmInput": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log/Input",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "gmSend": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log/Send",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "logUp": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Scroll Up",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "logDown": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Scroll Down",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsRoot": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsAtt": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/AttMod",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsDef": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/DefMod",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsRoll": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/ROLL",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsReset": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/Reset",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsGm": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/GM Roll",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsGmCheck": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/GM Roll/Checkmark",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsAttThreat": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/AttThreat",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsAttThreatLabel": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/AttThreat/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsDefThreat": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/DefThreat",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "dsDefThreatLabel": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/DefThreat/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Root": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Add4": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/d4",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Add6": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/d6",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Add8": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/d8",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Add10": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/d10",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Add12": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/d12",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Add20": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/d20",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Roll": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/Roll",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Clear": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/Clear",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Inc": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/IncMod",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Dec": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/DecMod",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20ModLabel": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/ModLabel",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Pool": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/Pool",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Gm": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/Toggle",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20GmCheck": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/Toggle/Checkmark",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20One": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/1d20",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Adv": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/1d20 Advantage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "d20Dis": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/1d20 Disadvantage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "diceSwitch": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice Switch",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "playerCount": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/PlayerCount",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "selectedName": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/SelectedPlayerName",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "resultName": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Result/CharName",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "resultTitle": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Result/CharTitle",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "resultDesc": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Result/CharParagraph",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "refresh": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/UpdatePlayerList",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "pagePrev": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/PagePrev",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "pageNext": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/PageNext",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "pageText": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/PageText",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row0": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (0)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row0Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (0)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row1": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (1)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row1Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (1)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row2": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (2)",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
-    },
-    "row2Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (2)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row3": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (3)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row3Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (3)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row4": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (4)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row4Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (4)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row5": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (5)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row5Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (5)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row6": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (6)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row6Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (6)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row7": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (7)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row7Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (7)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row8": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (8)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row8Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (8)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row9": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (9)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row9Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (9)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row10": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (10)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row10Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (10)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row11": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (11)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row11Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (11)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row12": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (12)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row12Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (12)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row13": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (13)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row13Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (13)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row14": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (14)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row14Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (14)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row15": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (15)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row15Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (15)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row16": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (16)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row16Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (16)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row17": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (17)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row17Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (17)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row18": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (18)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row18Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (18)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row19": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (19)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row19Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (19)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row20": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (20)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row20Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (20)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row21": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (21)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row21Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (21)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row22": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (22)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row22Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (22)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row23": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (23)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row23Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (23)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row24": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (24)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row24Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (24)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row25": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (25)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row25Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (25)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row26": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (26)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row26Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (26)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row27": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (27)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row27Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (27)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row28": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (28)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row28Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (28)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row29": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (29)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row29Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (29)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row30": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (30)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row30Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (30)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row31": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (31)",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "row31Label": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Player Buttons/Button (31)/Label",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "socialGmOnly": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "gmTele": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/GMTele",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "bringToMe": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/BringToMe",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "makeController": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/MakeController",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "removeGM": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/RemoveGM",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "giveOperator": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/Janitor - GiveOp",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "imAlertToggle": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/toggleImAlert",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "imAlertCheck": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/toggleImAlert/Checkmark",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "volDown": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/ImVolume/Down",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/BottomPanel/Call ST",
+      "seat": false,
+      "sync": "none"
     },
-    "volUp": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/ImVolume/Up",
-      "sync": "none",
-      "grab": false,
+    "caption": {
       "click": false,
-      "seat": false
-    },
-    "volLabel": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/ImVolume/Value",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Game Logo/Text (TMP)",
+      "seat": false,
+      "sync": "none"
     },
-    "gridToggle": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/toggleGrid",
-      "sync": "none",
-      "grab": false,
+    "closeButton": {
       "click": false,
-      "seat": false
-    },
-    "gridCheck": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/toggleGrid/Checkmark",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Base GUI/CloseButton/Button",
+      "seat": false,
+      "sync": "none"
     },
     "credits": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Credits",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Credits",
+      "seat": false,
+      "sync": "none"
     },
-    "stTitle": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/ST Title Box",
-      "sync": "none",
-      "grab": false,
+    "d20Add10": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/d10",
+      "seat": false,
+      "sync": "none"
     },
-    "tp0": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP0",
-      "sync": "none",
-      "grab": false,
+    "d20Add12": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/d12",
+      "seat": false,
+      "sync": "none"
     },
-    "tp1": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP1",
-      "sync": "none",
-      "grab": false,
+    "d20Add20": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/d20",
+      "seat": false,
+      "sync": "none"
     },
-    "tp2": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP2",
-      "sync": "none",
-      "grab": false,
+    "d20Add4": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/d4",
+      "seat": false,
+      "sync": "none"
     },
-    "tp3": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP3",
-      "sync": "none",
-      "grab": false,
+    "d20Add6": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/d6",
+      "seat": false,
+      "sync": "none"
     },
-    "tp4": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP4",
-      "sync": "none",
-      "grab": false,
+    "d20Add8": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/d8",
+      "seat": false,
+      "sync": "none"
     },
-    "tp5": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP5",
-      "sync": "none",
-      "grab": false,
+    "d20Adv": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/1d20 Advantage",
+      "seat": false,
+      "sync": "none"
     },
-    "respawn": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/Respawn",
-      "sync": "none",
-      "grab": false,
+    "d20Clear": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/Clear",
+      "seat": false,
+      "sync": "none"
     },
-    "teleTarget": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/Dropdown",
-      "sync": "none",
-      "grab": false,
+    "d20Dec": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/DecMod",
+      "seat": false,
+      "sync": "none"
     },
-    "teleTargetLabel": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/Dropdown/Label",
-      "sync": "none",
-      "grab": false,
+    "d20Dis": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/1d20 Disadvantage",
+      "seat": false,
+      "sync": "none"
     },
-    "operUI": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/OperUI",
-      "sync": "none",
-      "grab": false,
+    "d20Gm": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/Toggle",
+      "seat": false,
+      "sync": "none"
     },
-    "noBoxSpawn": {
-      "path": "VRPG Local Menu/Menu Canvas/Panels/OperUI/NoBoxSpawn",
-      "sync": "none",
-      "grab": false,
+    "d20GmCheck": {
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/Toggle/Background/Checkmark",
+      "seat": false,
+      "sync": "none"
     },
-    "gmAlert": {
-      "path": "VRPG GM Handler/GMAlert",
-      "sync": "none",
-      "grab": false,
+    "d20Inc": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/IncMod",
+      "seat": false,
+      "sync": "none"
     },
-    "imAlert": {
-      "path": "VRPG GM Handler/IM Alert",
-      "sync": "none",
-      "grab": false,
+    "d20ModLabel": {
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/ModLabel",
+      "seat": false,
+      "sync": "none"
+    },
+    "d20One": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/1d20",
+      "seat": false,
+      "sync": "none"
+    },
+    "d20Pool": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/Text (TMP) (1)",
+      "seat": false,
+      "sync": "none"
+    },
+    "d20Roll": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/D20 Dice Grid/Roll",
+      "seat": false,
+      "sync": "none"
+    },
+    "d20Root": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20",
+      "seat": false,
+      "sync": "none"
+    },
+    "diceSwitch": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice Switch",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsAtt": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/D20 Dice Grid/AttMod",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsAttThreat": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/D20 Dice Grid/AttThreat",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsAttThreatLabel": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/D20 Dice Grid/AttThreat/Label",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsDef": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/D20 Dice Grid/DefMod",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsDefThreat": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/D20 Dice Grid/DefThreat",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsDefThreatLabel": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/D20 Dice Grid/DefThreat/Label",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsGm": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/GM Roll",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsGmCheck": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/GM Roll/Background/Checkmark",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsReset": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/D20 Dice Grid/Clear",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsRoll": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS/D20 Dice Grid/Roll",
+      "seat": false,
+      "sync": "none"
+    },
+    "dsRoot": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice DS",
+      "seat": false,
+      "sync": "none"
     },
     "fadeSphere": {
-      "path": "FadeSphere",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/FadeSphere",
+      "seat": false,
+      "sync": "none"
     },
     "fadeTarget": {
-      "path": "VRPG Behaviors/VRPG Teleporter/FadeTarget",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Behaviors/VRPG Teleporter/FadeTarget",
+      "seat": false,
+      "sync": "none"
+    },
+    "giveOperator": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/Janitor - GiveOp",
+      "seat": false,
+      "sync": "none"
+    },
+    "gmAlert": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG GM Handler/GMAlert",
+      "seat": false,
+      "sync": "none"
+    },
+    "gmInput": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log /View/InputField GM",
+      "seat": false,
+      "sync": "none"
+    },
+    "gmLog": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log ",
+      "seat": false,
+      "sync": "none"
+    },
+    "gmOutput": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log /View/Scroll View/Viewport/Content/GM Log Text Box",
+      "seat": false,
+      "sync": "none"
+    },
+    "gmSend": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log /View/Button",
+      "seat": false,
+      "sync": "none"
+    },
+    "gmTele": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/GMTele",
+      "seat": false,
+      "sync": "none"
+    },
+    "gmView": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/GM Log /View",
+      "seat": false,
+      "sync": "none"
     },
     "grid": {
-      "path": "VRPG Behaviors/VRPG Grid/GridPlane",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/VRPG Behaviors/VRPG Grid/GridPlane",
+      "seat": false,
+      "sync": "none"
+    },
+    "gridCheck": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Sections/toggleGrid/Background/Checkmark",
+      "seat": false,
+      "sync": "none"
+    },
+    "gridToggle": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Sections/toggleGrid",
+      "seat": false,
+      "sync": "none"
+    },
+    "icInput": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log/View/InputField IC",
+      "seat": false,
+      "sync": "none"
+    },
+    "icLog": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log",
+      "seat": false,
+      "sync": "none"
+    },
+    "icOutput": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log/View/Scroll View/Viewport/Content/IC Log Text Box",
+      "seat": false,
+      "sync": "none"
+    },
+    "icSend": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log/View/LogButton",
+      "seat": false,
+      "sync": "none"
+    },
+    "icView": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/IC Log/View",
+      "seat": false,
+      "sync": "none"
+    },
+    "imAlert": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG GM Handler/IM Alert",
+      "seat": false,
+      "sync": "none"
+    },
+    "imAlertCheck": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Sections/toggleImAlert/Background/Checkmark",
+      "seat": false,
+      "sync": "none"
+    },
+    "imAlertToggle": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Sections/toggleImAlert",
+      "seat": false,
+      "sync": "none"
     },
     "label0": {
-      "path": "Labels/Label 0",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label0Name": {
-      "path": "Labels/Label 0/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label0Title": {
-      "path": "Labels/Label 0/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 0",
+      "seat": false,
+      "sync": "none"
     },
     "label0Icon0": {
-      "path": "Labels/Label 0/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 0/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label0Icon1": {
-      "path": "Labels/Label 0/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 0/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label0Icon2": {
-      "path": "Labels/Label 0/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 0/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label0Icon3": {
-      "path": "Labels/Label 0/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 0/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label0Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 0/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label0Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 0/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label1": {
-      "path": "Labels/Label 1",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label1Name": {
-      "path": "Labels/Label 1/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label1Title": {
-      "path": "Labels/Label 1/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label1Icon0": {
-      "path": "Labels/Label 1/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label1Icon1": {
-      "path": "Labels/Label 1/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label1Icon2": {
-      "path": "Labels/Label 1/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label1Icon3": {
-      "path": "Labels/Label 1/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label2": {
-      "path": "Labels/Label 2",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label2Name": {
-      "path": "Labels/Label 2/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label2Title": {
-      "path": "Labels/Label 2/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label2Icon0": {
-      "path": "Labels/Label 2/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label2Icon1": {
-      "path": "Labels/Label 2/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label2Icon2": {
-      "path": "Labels/Label 2/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label2Icon3": {
-      "path": "Labels/Label 2/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label3": {
-      "path": "Labels/Label 3",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label3Name": {
-      "path": "Labels/Label 3/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label3Title": {
-      "path": "Labels/Label 3/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label3Icon0": {
-      "path": "Labels/Label 3/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label3Icon1": {
-      "path": "Labels/Label 3/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label3Icon2": {
-      "path": "Labels/Label 3/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label3Icon3": {
-      "path": "Labels/Label 3/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label4": {
-      "path": "Labels/Label 4",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label4Name": {
-      "path": "Labels/Label 4/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label4Title": {
-      "path": "Labels/Label 4/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label4Icon0": {
-      "path": "Labels/Label 4/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label4Icon1": {
-      "path": "Labels/Label 4/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label4Icon2": {
-      "path": "Labels/Label 4/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label4Icon3": {
-      "path": "Labels/Label 4/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label5": {
-      "path": "Labels/Label 5",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label5Name": {
-      "path": "Labels/Label 5/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label5Title": {
-      "path": "Labels/Label 5/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label5Icon0": {
-      "path": "Labels/Label 5/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label5Icon1": {
-      "path": "Labels/Label 5/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label5Icon2": {
-      "path": "Labels/Label 5/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label5Icon3": {
-      "path": "Labels/Label 5/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label6": {
-      "path": "Labels/Label 6",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label6Name": {
-      "path": "Labels/Label 6/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label6Title": {
-      "path": "Labels/Label 6/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label6Icon0": {
-      "path": "Labels/Label 6/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label6Icon1": {
-      "path": "Labels/Label 6/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label6Icon2": {
-      "path": "Labels/Label 6/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label6Icon3": {
-      "path": "Labels/Label 6/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label7": {
-      "path": "Labels/Label 7",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label7Name": {
-      "path": "Labels/Label 7/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label7Title": {
-      "path": "Labels/Label 7/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label7Icon0": {
-      "path": "Labels/Label 7/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label7Icon1": {
-      "path": "Labels/Label 7/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label7Icon2": {
-      "path": "Labels/Label 7/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label7Icon3": {
-      "path": "Labels/Label 7/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label8": {
-      "path": "Labels/Label 8",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label8Name": {
-      "path": "Labels/Label 8/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label8Title": {
-      "path": "Labels/Label 8/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label8Icon0": {
-      "path": "Labels/Label 8/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label8Icon1": {
-      "path": "Labels/Label 8/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label8Icon2": {
-      "path": "Labels/Label 8/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label8Icon3": {
-      "path": "Labels/Label 8/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label9": {
-      "path": "Labels/Label 9",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label9Name": {
-      "path": "Labels/Label 9/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label9Title": {
-      "path": "Labels/Label 9/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label9Icon0": {
-      "path": "Labels/Label 9/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label9Icon1": {
-      "path": "Labels/Label 9/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label9Icon2": {
-      "path": "Labels/Label 9/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label9Icon3": {
-      "path": "Labels/Label 9/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 1",
+      "seat": false,
+      "sync": "none"
     },
     "label10": {
-      "path": "Labels/Label 10",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label10Name": {
-      "path": "Labels/Label 10/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label10Title": {
-      "path": "Labels/Label 10/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 10",
+      "seat": false,
+      "sync": "none"
     },
     "label10Icon0": {
-      "path": "Labels/Label 10/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 10/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label10Icon1": {
-      "path": "Labels/Label 10/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 10/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label10Icon2": {
-      "path": "Labels/Label 10/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 10/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label10Icon3": {
-      "path": "Labels/Label 10/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 10/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label10Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 10/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label10Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 10/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label11": {
-      "path": "Labels/Label 11",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label11Name": {
-      "path": "Labels/Label 11/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label11Title": {
-      "path": "Labels/Label 11/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 11",
+      "seat": false,
+      "sync": "none"
     },
     "label11Icon0": {
-      "path": "Labels/Label 11/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 11/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label11Icon1": {
-      "path": "Labels/Label 11/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 11/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label11Icon2": {
-      "path": "Labels/Label 11/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 11/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label11Icon3": {
-      "path": "Labels/Label 11/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 11/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label11Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 11/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label11Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 11/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label12": {
-      "path": "Labels/Label 12",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label12Name": {
-      "path": "Labels/Label 12/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label12Title": {
-      "path": "Labels/Label 12/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 12",
+      "seat": false,
+      "sync": "none"
     },
     "label12Icon0": {
-      "path": "Labels/Label 12/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 12/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label12Icon1": {
-      "path": "Labels/Label 12/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 12/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label12Icon2": {
-      "path": "Labels/Label 12/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 12/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label12Icon3": {
-      "path": "Labels/Label 12/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 12/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label12Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 12/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label12Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 12/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label13": {
-      "path": "Labels/Label 13",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label13Name": {
-      "path": "Labels/Label 13/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label13Title": {
-      "path": "Labels/Label 13/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 13",
+      "seat": false,
+      "sync": "none"
     },
     "label13Icon0": {
-      "path": "Labels/Label 13/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 13/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label13Icon1": {
-      "path": "Labels/Label 13/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 13/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label13Icon2": {
-      "path": "Labels/Label 13/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 13/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label13Icon3": {
-      "path": "Labels/Label 13/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 13/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label13Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 13/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label13Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 13/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label14": {
-      "path": "Labels/Label 14",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label14Name": {
-      "path": "Labels/Label 14/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label14Title": {
-      "path": "Labels/Label 14/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 14",
+      "seat": false,
+      "sync": "none"
     },
     "label14Icon0": {
-      "path": "Labels/Label 14/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 14/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label14Icon1": {
-      "path": "Labels/Label 14/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 14/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label14Icon2": {
-      "path": "Labels/Label 14/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 14/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label14Icon3": {
-      "path": "Labels/Label 14/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 14/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label14Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 14/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label14Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 14/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label15": {
-      "path": "Labels/Label 15",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label15Name": {
-      "path": "Labels/Label 15/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label15Title": {
-      "path": "Labels/Label 15/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 15",
+      "seat": false,
+      "sync": "none"
     },
     "label15Icon0": {
-      "path": "Labels/Label 15/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 15/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label15Icon1": {
-      "path": "Labels/Label 15/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 15/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label15Icon2": {
-      "path": "Labels/Label 15/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 15/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label15Icon3": {
-      "path": "Labels/Label 15/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 15/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label15Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 15/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label15Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 15/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label16": {
-      "path": "Labels/Label 16",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label16Name": {
-      "path": "Labels/Label 16/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label16Title": {
-      "path": "Labels/Label 16/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 16",
+      "seat": false,
+      "sync": "none"
     },
     "label16Icon0": {
-      "path": "Labels/Label 16/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 16/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label16Icon1": {
-      "path": "Labels/Label 16/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 16/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label16Icon2": {
-      "path": "Labels/Label 16/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 16/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label16Icon3": {
-      "path": "Labels/Label 16/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 16/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label16Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 16/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label16Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 16/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label17": {
-      "path": "Labels/Label 17",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label17Name": {
-      "path": "Labels/Label 17/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label17Title": {
-      "path": "Labels/Label 17/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 17",
+      "seat": false,
+      "sync": "none"
     },
     "label17Icon0": {
-      "path": "Labels/Label 17/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 17/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label17Icon1": {
-      "path": "Labels/Label 17/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 17/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label17Icon2": {
-      "path": "Labels/Label 17/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 17/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label17Icon3": {
-      "path": "Labels/Label 17/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 17/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label17Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 17/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label17Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 17/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label18": {
-      "path": "Labels/Label 18",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label18Name": {
-      "path": "Labels/Label 18/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label18Title": {
-      "path": "Labels/Label 18/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 18",
+      "seat": false,
+      "sync": "none"
     },
     "label18Icon0": {
-      "path": "Labels/Label 18/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 18/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label18Icon1": {
-      "path": "Labels/Label 18/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 18/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label18Icon2": {
-      "path": "Labels/Label 18/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 18/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label18Icon3": {
-      "path": "Labels/Label 18/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 18/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label18Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 18/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label18Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 18/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label19": {
-      "path": "Labels/Label 19",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label19Name": {
-      "path": "Labels/Label 19/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label19Title": {
-      "path": "Labels/Label 19/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 19",
+      "seat": false,
+      "sync": "none"
     },
     "label19Icon0": {
-      "path": "Labels/Label 19/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 19/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label19Icon1": {
-      "path": "Labels/Label 19/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 19/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label19Icon2": {
-      "path": "Labels/Label 19/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 19/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label19Icon3": {
-      "path": "Labels/Label 19/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 19/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label19Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 19/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label19Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 19/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label1Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 1/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label1Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 1/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label1Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 1/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label1Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 1/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label1Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 1/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label1Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 1/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 2",
+      "seat": false,
+      "sync": "none"
     },
     "label20": {
-      "path": "Labels/Label 20",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label20Name": {
-      "path": "Labels/Label 20/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label20Title": {
-      "path": "Labels/Label 20/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 20",
+      "seat": false,
+      "sync": "none"
     },
     "label20Icon0": {
-      "path": "Labels/Label 20/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 20/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label20Icon1": {
-      "path": "Labels/Label 20/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 20/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label20Icon2": {
-      "path": "Labels/Label 20/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 20/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label20Icon3": {
-      "path": "Labels/Label 20/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 20/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label20Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 20/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label20Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 20/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label21": {
-      "path": "Labels/Label 21",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label21Name": {
-      "path": "Labels/Label 21/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label21Title": {
-      "path": "Labels/Label 21/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 21",
+      "seat": false,
+      "sync": "none"
     },
     "label21Icon0": {
-      "path": "Labels/Label 21/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 21/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label21Icon1": {
-      "path": "Labels/Label 21/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 21/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label21Icon2": {
-      "path": "Labels/Label 21/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 21/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label21Icon3": {
-      "path": "Labels/Label 21/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 21/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label21Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 21/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label21Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 21/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label22": {
-      "path": "Labels/Label 22",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label22Name": {
-      "path": "Labels/Label 22/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label22Title": {
-      "path": "Labels/Label 22/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 22",
+      "seat": false,
+      "sync": "none"
     },
     "label22Icon0": {
-      "path": "Labels/Label 22/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 22/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label22Icon1": {
-      "path": "Labels/Label 22/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 22/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label22Icon2": {
-      "path": "Labels/Label 22/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 22/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label22Icon3": {
-      "path": "Labels/Label 22/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 22/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label22Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 22/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label22Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 22/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label23": {
-      "path": "Labels/Label 23",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label23Name": {
-      "path": "Labels/Label 23/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label23Title": {
-      "path": "Labels/Label 23/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 23",
+      "seat": false,
+      "sync": "none"
     },
     "label23Icon0": {
-      "path": "Labels/Label 23/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 23/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label23Icon1": {
-      "path": "Labels/Label 23/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 23/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label23Icon2": {
-      "path": "Labels/Label 23/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 23/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label23Icon3": {
-      "path": "Labels/Label 23/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 23/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label23Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 23/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label23Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 23/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label24": {
-      "path": "Labels/Label 24",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label24Name": {
-      "path": "Labels/Label 24/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label24Title": {
-      "path": "Labels/Label 24/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 24",
+      "seat": false,
+      "sync": "none"
     },
     "label24Icon0": {
-      "path": "Labels/Label 24/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 24/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label24Icon1": {
-      "path": "Labels/Label 24/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 24/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label24Icon2": {
-      "path": "Labels/Label 24/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 24/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label24Icon3": {
-      "path": "Labels/Label 24/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 24/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label24Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 24/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label24Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 24/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label25": {
-      "path": "Labels/Label 25",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label25Name": {
-      "path": "Labels/Label 25/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label25Title": {
-      "path": "Labels/Label 25/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 25",
+      "seat": false,
+      "sync": "none"
     },
     "label25Icon0": {
-      "path": "Labels/Label 25/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 25/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label25Icon1": {
-      "path": "Labels/Label 25/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 25/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label25Icon2": {
-      "path": "Labels/Label 25/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 25/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label25Icon3": {
-      "path": "Labels/Label 25/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 25/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label25Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 25/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label25Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 25/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label26": {
-      "path": "Labels/Label 26",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label26Name": {
-      "path": "Labels/Label 26/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label26Title": {
-      "path": "Labels/Label 26/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 26",
+      "seat": false,
+      "sync": "none"
     },
     "label26Icon0": {
-      "path": "Labels/Label 26/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 26/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label26Icon1": {
-      "path": "Labels/Label 26/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 26/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label26Icon2": {
-      "path": "Labels/Label 26/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 26/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label26Icon3": {
-      "path": "Labels/Label 26/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 26/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label26Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 26/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label26Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 26/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label27": {
-      "path": "Labels/Label 27",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label27Name": {
-      "path": "Labels/Label 27/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label27Title": {
-      "path": "Labels/Label 27/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 27",
+      "seat": false,
+      "sync": "none"
     },
     "label27Icon0": {
-      "path": "Labels/Label 27/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 27/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label27Icon1": {
-      "path": "Labels/Label 27/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 27/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label27Icon2": {
-      "path": "Labels/Label 27/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 27/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label27Icon3": {
-      "path": "Labels/Label 27/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 27/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label27Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 27/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label27Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 27/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label28": {
-      "path": "Labels/Label 28",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label28Name": {
-      "path": "Labels/Label 28/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label28Title": {
-      "path": "Labels/Label 28/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 28",
+      "seat": false,
+      "sync": "none"
     },
     "label28Icon0": {
-      "path": "Labels/Label 28/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 28/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label28Icon1": {
-      "path": "Labels/Label 28/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 28/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label28Icon2": {
-      "path": "Labels/Label 28/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 28/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label28Icon3": {
-      "path": "Labels/Label 28/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 28/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label28Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 28/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label28Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 28/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label29": {
-      "path": "Labels/Label 29",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label29Name": {
-      "path": "Labels/Label 29/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label29Title": {
-      "path": "Labels/Label 29/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 29",
+      "seat": false,
+      "sync": "none"
     },
     "label29Icon0": {
-      "path": "Labels/Label 29/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 29/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label29Icon1": {
-      "path": "Labels/Label 29/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 29/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label29Icon2": {
-      "path": "Labels/Label 29/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 29/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label29Icon3": {
-      "path": "Labels/Label 29/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 29/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label29Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 29/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label29Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 29/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label2Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 2/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label2Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 2/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label2Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 2/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label2Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 2/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label2Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 2/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label2Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 2/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 3",
+      "seat": false,
+      "sync": "none"
     },
     "label30": {
-      "path": "Labels/Label 30",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label30Name": {
-      "path": "Labels/Label 30/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label30Title": {
-      "path": "Labels/Label 30/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 30",
+      "seat": false,
+      "sync": "none"
     },
     "label30Icon0": {
-      "path": "Labels/Label 30/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 30/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label30Icon1": {
-      "path": "Labels/Label 30/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 30/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label30Icon2": {
-      "path": "Labels/Label 30/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 30/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label30Icon3": {
-      "path": "Labels/Label 30/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 30/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label30Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 30/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label30Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 30/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
     },
     "label31": {
-      "path": "Labels/Label 31",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
-    },
-    "label31Name": {
-      "path": "Labels/Label 31/Canvas/Labels/Text/Nameplate",
-      "sync": "none",
       "grab": false,
-      "click": false,
-      "seat": false
-    },
-    "label31Title": {
-      "path": "Labels/Label 31/Canvas/Labels/Text/Title Plate",
-      "sync": "none",
-      "grab": false,
-      "click": false,
-      "seat": false
+      "path": "VRPG Manager/Labels/Label 31",
+      "seat": false,
+      "sync": "none"
     },
     "label31Icon0": {
-      "path": "Labels/Label 31/Canvas/Labels/Images/NormalImage",
-      "sync": "none",
-      "grab": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 31/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
     },
     "label31Icon1": {
-      "path": "Labels/Label 31/Canvas/Labels/Images/ControllerImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 31/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
     },
     "label31Icon2": {
-      "path": "Labels/Label 31/Canvas/Labels/Images/AdminImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 31/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
     },
     "label31Icon3": {
-      "path": "Labels/Label 31/Canvas/Labels/Images/JanitorImage",
-      "sync": "none",
-      "grab": false,
+      "active": false,
       "click": false,
-      "seat": false
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 31/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label31Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 31/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label31Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 31/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label3Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 3/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label3Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 3/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label3Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 3/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label3Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 3/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label3Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 3/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label3Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 3/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label4": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 4",
+      "seat": false,
+      "sync": "none"
+    },
+    "label4Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 4/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label4Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 4/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label4Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 4/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label4Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 4/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label4Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 4/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label4Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 4/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label5": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 5",
+      "seat": false,
+      "sync": "none"
+    },
+    "label5Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 5/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label5Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 5/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label5Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 5/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label5Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 5/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label5Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 5/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label5Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 5/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label6": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 6",
+      "seat": false,
+      "sync": "none"
+    },
+    "label6Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 6/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label6Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 6/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label6Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 6/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label6Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 6/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label6Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 6/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label6Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 6/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label7": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 7",
+      "seat": false,
+      "sync": "none"
+    },
+    "label7Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 7/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label7Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 7/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label7Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 7/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label7Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 7/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label7Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 7/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label7Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 7/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label8": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 8",
+      "seat": false,
+      "sync": "none"
+    },
+    "label8Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 8/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label8Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 8/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label8Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 8/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label8Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 8/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label8Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 8/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label8Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 8/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label9": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 9",
+      "seat": false,
+      "sync": "none"
+    },
+    "label9Icon0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 9/Canvas/Labels/Images/NormalImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label9Icon1": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 9/Canvas/Labels/Images/ControllerImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label9Icon2": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 9/Canvas/Labels/Images/AdminImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label9Icon3": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 9/Canvas/Labels/Images/JanitorImage",
+      "seat": false,
+      "sync": "none"
+    },
+    "label9Name": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 9/Canvas/Labels/Text/Nameplate",
+      "seat": false,
+      "sync": "none"
+    },
+    "label9Title": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/Labels/Label 9/Canvas/Labels/Text/Title Plate",
+      "seat": false,
+      "sync": "none"
+    },
+    "logDown": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Scroll Down",
+      "seat": false,
+      "sync": "none"
+    },
+    "logUp": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Scroll Up",
+      "seat": false,
+      "sync": "none"
+    },
+    "makeController": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/MakeController",
+      "seat": false,
+      "sync": "none"
+    },
+    "manager": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager",
+      "seat": false,
+      "sync": "none"
+    },
+    "menu": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu",
+      "seat": false,
+      "sync": "none"
+    },
+    "nameField": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/NameField",
+      "seat": false,
+      "sync": "none"
+    },
+    "navGM": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Navigation/GM",
+      "seat": false,
+      "sync": "none"
+    },
+    "navMain": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Navigation/MainMenu",
+      "seat": false,
+      "sync": "none"
+    },
+    "navOptions": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Navigation/Options",
+      "seat": false,
+      "sync": "none"
+    },
+    "navSocial": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Navigation/Social",
+      "seat": false,
+      "sync": "none"
+    },
+    "noBoxSpawn": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/OperUI/NoBoxSpawn",
+      "seat": false,
+      "sync": "none"
+    },
+    "offButton": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/TitleControl/Title_SetOff",
+      "seat": false,
+      "sync": "none"
+    },
+    "oocButton": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/TitleControl/Title_SetOOC",
+      "seat": false,
+      "sync": "none"
+    },
+    "oocInput": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log/View/InputField OOC",
+      "seat": false,
+      "sync": "none"
+    },
+    "oocLog": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log",
+      "seat": false,
+      "sync": "none"
+    },
+    "oocOutput": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log/View/Scroll View/Viewport/Content/OOC Log Text Box",
+      "seat": false,
+      "sync": "none"
+    },
+    "oocSend": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log/View/Button",
+      "seat": false,
+      "sync": "none"
+    },
+    "oocView": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Logs/OOC Log/View",
+      "seat": false,
+      "sync": "none"
+    },
+    "openButton": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Base GUI/Open Button",
+      "seat": false,
+      "sync": "none"
+    },
+    "operUI": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/OperUI",
+      "seat": false,
+      "sync": "none"
+    },
+    "pageNext": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/PageNext",
+      "seat": false,
+      "sync": "none"
+    },
+    "pagePrev": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/PagePrev",
+      "seat": false,
+      "sync": "none"
+    },
+    "pageText": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/PageText",
+      "seat": false,
+      "sync": "none"
+    },
+    "panelGM": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM",
+      "seat": false,
+      "sync": "none"
+    },
+    "panelMain": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main",
+      "seat": false,
+      "sync": "none"
+    },
+    "panelOptions": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options",
+      "seat": false,
+      "sync": "none"
+    },
+    "panelSocial": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social",
+      "seat": false,
+      "sync": "none"
+    },
+    "plateCharName": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Top/CharPlate/CharName",
+      "seat": false,
+      "sync": "none"
+    },
+    "plateCharTitle": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Top/CharPlate/CharTitle",
+      "seat": false,
+      "sync": "none"
+    },
+    "platePlayerName": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Top/PlayerPlate/PlayerName",
+      "seat": false,
+      "sync": "none"
+    },
+    "platePlayerTitle": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Top/PlayerPlate/PlayerTitle",
+      "seat": false,
+      "sync": "none"
+    },
+    "playerCount": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/PlayerCount",
+      "seat": false,
+      "sync": "none"
+    },
+    "refresh": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/UpdatePlayerList",
+      "seat": false,
+      "sync": "none"
+    },
+    "removeGM": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only/RemoveGM",
+      "seat": false,
+      "sync": "none"
+    },
+    "respawn": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/Respawn",
+      "seat": false,
+      "sync": "none"
+    },
+    "resultDesc": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Result/CharParagraph",
+      "seat": false,
+      "sync": "none"
+    },
+    "resultName": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Result/CharName",
+      "seat": false,
+      "sync": "none"
+    },
+    "resultTitle": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Result/CharTitle",
+      "seat": false,
+      "sync": "none"
+    },
+    "row0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (0)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row0Label": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (0)/Text (TMP)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row1": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (1)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row1Label": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (1)/Text (TMP)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row2": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (2)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row2Label": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (2)/Text (TMP)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row3": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (3)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row3Label": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (3)/Text (TMP)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row4": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (4)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row4Label": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (4)/Text (TMP)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row5": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (5)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row5Label": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (5)/Text (TMP)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row6": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (6)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row6Label": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (6)/Text (TMP)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row7": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (7)",
+      "seat": false,
+      "sync": "none"
+    },
+    "row7Label": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/Player Buttons Scroll View/Viewport/Content/Button (7)/Text (TMP)",
+      "seat": false,
+      "sync": "none"
+    },
+    "selectedName": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/Panel Content/SelectedPlayerName",
+      "seat": false,
+      "sync": "none"
+    },
+    "setButton": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/TitleControl/Title_SetTitle",
+      "seat": false,
+      "sync": "none"
+    },
+    "socialGmOnly": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 4 - Social/GM Only",
+      "seat": false,
+      "sync": "none"
+    },
+    "stTitle": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/ST Title Box",
+      "seat": false,
+      "sync": "none"
+    },
+    "tabGM": {
+      "active": false,
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Log Buttons/GM log Button",
+      "seat": false,
+      "sync": "none"
+    },
+    "tabIC": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Log Buttons/IC Log Button",
+      "seat": false,
+      "sync": "none"
+    },
+    "tabOOC": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Log/Log Buttons/OOC Log Button",
+      "seat": false,
+      "sync": "none"
+    },
+    "teleTarget": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/Dropdown",
+      "seat": false,
+      "sync": "none"
+    },
+    "teleTargetLabel": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/Dropdown/Label",
+      "seat": false,
+      "sync": "none"
+    },
+    "titleField": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Title/TitleField",
+      "seat": false,
+      "sync": "none"
+    },
+    "tp0": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP0",
+      "seat": false,
+      "sync": "none"
+    },
+    "tp1": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP1",
+      "seat": false,
+      "sync": "none"
+    },
+    "tp2": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP2",
+      "seat": false,
+      "sync": "none"
+    },
+    "tp3": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP3",
+      "seat": false,
+      "sync": "none"
+    },
+    "tp4": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP4",
+      "seat": false,
+      "sync": "none"
+    },
+    "tp5": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 6 - GM/Teleport/TP5",
+      "seat": false,
+      "sync": "none"
+    },
+    "volDown": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Sections/ImVolume/Down",
+      "seat": false,
+      "sync": "none"
+    },
+    "volLabel": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Sections/ImVolume/Value",
+      "seat": false,
+      "sync": "none"
+    },
+    "volUp": {
+      "click": false,
+      "grab": false,
+      "path": "VRPG Manager/VRPG Local Menu/Menu Canvas/Panels/Panel 5 - Options/Sections/ImVolume/Up",
+      "seat": false,
+      "sync": "none"
     }
   },
   "refs": [
     "caption",
-    "closeButton",
-    "navMain",
-    "navSocial",
-    "navOptions",
-    "navGM",
-    "panelMain",
-    "panelSocial",
-    "panelOptions",
-    "panelGM",
     "plateCharName",
     "plateCharTitle",
     "platePlayerName",
     "platePlayerTitle",
+    "closeButton",
+    "openButton",
+    "panelMain",
+    "panelSocial",
+    "panelOptions",
+    "panelGM",
+    "navMain",
+    "navSocial",
+    "navOptions",
+    "navGM",
     "callST",
     "nameField",
     "titleField",
@@ -2858,8 +3672,8 @@
     "dsGm",
     "dsGmCheck",
     "dsAttThreat",
-    "dsAttThreatLabel",
     "dsDefThreat",
+    "dsAttThreatLabel",
     "dsDefThreatLabel",
     "d20Root",
     "d20Add4",
@@ -2905,54 +3719,6 @@
     "row6Label",
     "row7",
     "row7Label",
-    "row8",
-    "row8Label",
-    "row9",
-    "row9Label",
-    "row10",
-    "row10Label",
-    "row11",
-    "row11Label",
-    "row12",
-    "row12Label",
-    "row13",
-    "row13Label",
-    "row14",
-    "row14Label",
-    "row15",
-    "row15Label",
-    "row16",
-    "row16Label",
-    "row17",
-    "row17Label",
-    "row18",
-    "row18Label",
-    "row19",
-    "row19Label",
-    "row20",
-    "row20Label",
-    "row21",
-    "row21Label",
-    "row22",
-    "row22Label",
-    "row23",
-    "row23Label",
-    "row24",
-    "row24Label",
-    "row25",
-    "row25Label",
-    "row26",
-    "row26Label",
-    "row27",
-    "row27Label",
-    "row28",
-    "row28Label",
-    "row29",
-    "row29Label",
-    "row30",
-    "row30Label",
-    "row31",
-    "row31Label",
     "socialGmOnly",
     "gmTele",
     "bringToMe",
@@ -2961,11 +3727,11 @@
     "giveOperator",
     "imAlertToggle",
     "imAlertCheck",
+    "gridToggle",
+    "gridCheck",
     "volDown",
     "volUp",
     "volLabel",
-    "gridToggle",
-    "gridCheck",
     "credits",
     "stTitle",
     "tp0",
@@ -3209,1386 +3975,6 @@
     "label31Icon2",
     "label31Icon3"
   ],
-  "behaviours": [
-    {
-      "id": "mgr",
-      "type": "VRPGManager",
-      "object": null,
-      "fields": {
-        "GMData": {
-          "$beh": "gm"
-        },
-        "Menu": {
-          "$beh": "menu"
-        },
-        "Logger": {
-          "$beh": "logs"
-        },
-        "PatronData": {
-          "$beh": "patrons"
-        },
-        "Social": {
-          "$beh": "social"
-        },
-        "ConfigData": {
-          "$beh": "config"
-        },
-        "Teleporter": {
-          "$beh": "tele"
-        },
-        "Options": {
-          "$beh": "options"
-        },
-        "DiceDS": {
-          "$beh": "ds"
-        },
-        "DiceD20": {
-          "$beh": "d20"
-        },
-        "diceSwitch": {
-          "$obj": "diceSwitch"
-        },
-        "Labels": [
-          {
-            "$obj": "label0"
-          },
-          {
-            "$obj": "label1"
-          },
-          {
-            "$obj": "label2"
-          },
-          {
-            "$obj": "label3"
-          },
-          {
-            "$obj": "label4"
-          },
-          {
-            "$obj": "label5"
-          },
-          {
-            "$obj": "label6"
-          },
-          {
-            "$obj": "label7"
-          },
-          {
-            "$obj": "label8"
-          },
-          {
-            "$obj": "label9"
-          },
-          {
-            "$obj": "label10"
-          },
-          {
-            "$obj": "label11"
-          },
-          {
-            "$obj": "label12"
-          },
-          {
-            "$obj": "label13"
-          },
-          {
-            "$obj": "label14"
-          },
-          {
-            "$obj": "label15"
-          },
-          {
-            "$obj": "label16"
-          },
-          {
-            "$obj": "label17"
-          },
-          {
-            "$obj": "label18"
-          },
-          {
-            "$obj": "label19"
-          },
-          {
-            "$obj": "label20"
-          },
-          {
-            "$obj": "label21"
-          },
-          {
-            "$obj": "label22"
-          },
-          {
-            "$obj": "label23"
-          },
-          {
-            "$obj": "label24"
-          },
-          {
-            "$obj": "label25"
-          },
-          {
-            "$obj": "label26"
-          },
-          {
-            "$obj": "label27"
-          },
-          {
-            "$obj": "label28"
-          },
-          {
-            "$obj": "label29"
-          },
-          {
-            "$obj": "label30"
-          },
-          {
-            "$obj": "label31"
-          }
-        ]
-      }
-    },
-    {
-      "id": "config",
-      "type": "VRPGConfigData",
-      "object": null
-    },
-    {
-      "id": "gm",
-      "type": "VRPGGameMasterData",
-      "object": null,
-      "fields": {
-        "GMObjects": [
-          {
-            "$obj": "navGM"
-          },
-          {
-            "$obj": "gmLog"
-          },
-          {
-            "$obj": "tabGM"
-          },
-          {
-            "$obj": "socialGmOnly"
-          }
-        ],
-        "OperatorObjects": [
-          {
-            "$obj": "operUI"
-          }
-        ],
-        "teleTargetLabel": {
-          "$obj": "teleTargetLabel"
-        },
-        "teleButtons": [
-          {
-            "$obj": "tp0"
-          },
-          {
-            "$obj": "tp1"
-          },
-          {
-            "$obj": "tp2"
-          },
-          {
-            "$obj": "tp3"
-          },
-          {
-            "$obj": "tp4"
-          },
-          {
-            "$obj": "tp5"
-          }
-        ],
-        "GMSound": {
-          "$comp": "gmAlert",
-          "kind": "AudioSource"
-        },
-        "GMClip": {
-          "$clip": 0,
-          "on": "gmAlert"
-        }
-      }
-    },
-    {
-      "id": "menu",
-      "type": "VRPGMenu",
-      "object": "menu",
-      "fields": {
-        "nameFieldObject": {
-          "$obj": "nameField"
-        },
-        "titleFieldObject": {
-          "$obj": "titleField"
-        },
-        "panels": [
-          {
-            "$obj": "panelMain"
-          },
-          {
-            "$obj": "panelSocial"
-          },
-          {
-            "$obj": "panelOptions"
-          },
-          {
-            "$obj": "panelGM"
-          }
-        ],
-        "characterNamePlateObject": {
-          "$obj": "plateCharName"
-        },
-        "characterTitlePlateObject": {
-          "$obj": "plateCharTitle"
-        },
-        "playerNamePlateObject": {
-          "$obj": "platePlayerName"
-        },
-        "playerTitlePlateObject": {
-          "$obj": "platePlayerTitle"
-        },
-        "captionObject": {
-          "$obj": "caption"
-        }
-      }
-    },
-    {
-      "id": "caller",
-      "type": "VRPGMenuCaller",
-      "object": "openButton"
-    },
-    {
-      "id": "nav0",
-      "type": "VRPGMenuNavButton",
-      "object": "navMain",
-      "fields": {
-        "panelIndex": 0
-      }
-    },
-    {
-      "id": "nav1",
-      "type": "VRPGMenuNavButton",
-      "object": "navSocial",
-      "fields": {
-        "panelIndex": 1
-      }
-    },
-    {
-      "id": "nav2",
-      "type": "VRPGMenuNavButton",
-      "object": "navOptions",
-      "fields": {
-        "panelIndex": 2
-      }
-    },
-    {
-      "id": "nav3",
-      "type": "VRPGMenuNavButton",
-      "object": "navGM",
-      "fields": {
-        "panelIndex": 3
-      }
-    },
-    {
-      "id": "logs",
-      "type": "VRPGLogs",
-      "object": null,
-      "fields": {
-        "ICLogGroup": {
-          "$obj": "icView"
-        },
-        "ICOutputBox": {
-          "$obj": "icOutput"
-        },
-        "ICInputBox": {
-          "$obj": "icInput"
-        },
-        "OOCLogGroup": {
-          "$obj": "oocView"
-        },
-        "OOCOutputBox": {
-          "$obj": "oocOutput"
-        },
-        "OOCInputBox": {
-          "$obj": "oocInput"
-        },
-        "GMLogGroup": {
-          "$obj": "gmView"
-        },
-        "GMOutputBox": {
-          "$obj": "gmOutput"
-        },
-        "GMInputBox": {
-          "$obj": "gmInput"
-        },
-        "ImSound": {
-          "$comp": "imAlert",
-          "kind": "AudioSource"
-        },
-        "ImClip": {
-          "$clip": 0,
-          "on": "imAlert"
-        }
-      }
-    },
-    {
-      "id": "ds",
-      "type": "DiceRollerDS",
-      "object": "dsRoot",
-      "fields": {
-        "gmCheck": {
-          "$obj": "dsGmCheck"
-        },
-        "attBoxObject": {
-          "$obj": "dsAtt"
-        },
-        "defBoxObject": {
-          "$obj": "dsDef"
-        },
-        "attDropObject": {
-          "$obj": "dsAttThreat"
-        },
-        "defDropObject": {
-          "$obj": "dsDefThreat"
-        },
-        "attDropLabel": {
-          "$obj": "dsAttThreatLabel"
-        },
-        "defDropLabel": {
-          "$obj": "dsDefThreatLabel"
-        }
-      }
-    },
-    {
-      "id": "d20",
-      "type": "DiceRollerD20",
-      "object": "d20Root",
-      "fields": {
-        "gmCheck": {
-          "$obj": "d20GmCheck"
-        },
-        "dicePoolBoxTextObject": {
-          "$obj": "d20Pool"
-        },
-        "modLabelObject": {
-          "$obj": "d20ModLabel"
-        }
-      }
-    },
-    {
-      "id": "social",
-      "type": "VRPGSocial",
-      "object": null,
-      "fields": {
-        "playerLabelObject": {
-          "$obj": "selectedName"
-        },
-        "nameLabelObject": {
-          "$obj": "resultName"
-        },
-        "titleLabelObject": {
-          "$obj": "resultTitle"
-        },
-        "descLabelObject": {
-          "$obj": "resultDesc"
-        },
-        "playerCountTextObject": {
-          "$obj": "playerCount"
-        },
-        "pageTextObject": {
-          "$obj": "pageText"
-        }
-      }
-    },
-    {
-      "id": "row0",
-      "type": "VRPGPlayerButton",
-      "object": "row0",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row0Label"
-        }
-      }
-    },
-    {
-      "id": "row1",
-      "type": "VRPGPlayerButton",
-      "object": "row1",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row1Label"
-        }
-      }
-    },
-    {
-      "id": "row2",
-      "type": "VRPGPlayerButton",
-      "object": "row2",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row2Label"
-        }
-      }
-    },
-    {
-      "id": "row3",
-      "type": "VRPGPlayerButton",
-      "object": "row3",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row3Label"
-        }
-      }
-    },
-    {
-      "id": "row4",
-      "type": "VRPGPlayerButton",
-      "object": "row4",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row4Label"
-        }
-      }
-    },
-    {
-      "id": "row5",
-      "type": "VRPGPlayerButton",
-      "object": "row5",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row5Label"
-        }
-      }
-    },
-    {
-      "id": "row6",
-      "type": "VRPGPlayerButton",
-      "object": "row6",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row6Label"
-        }
-      }
-    },
-    {
-      "id": "row7",
-      "type": "VRPGPlayerButton",
-      "object": "row7",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row7Label"
-        }
-      }
-    },
-    {
-      "id": "row8",
-      "type": "VRPGPlayerButton",
-      "object": "row8",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row8Label"
-        }
-      }
-    },
-    {
-      "id": "row9",
-      "type": "VRPGPlayerButton",
-      "object": "row9",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row9Label"
-        }
-      }
-    },
-    {
-      "id": "row10",
-      "type": "VRPGPlayerButton",
-      "object": "row10",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row10Label"
-        }
-      }
-    },
-    {
-      "id": "row11",
-      "type": "VRPGPlayerButton",
-      "object": "row11",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row11Label"
-        }
-      }
-    },
-    {
-      "id": "row12",
-      "type": "VRPGPlayerButton",
-      "object": "row12",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row12Label"
-        }
-      }
-    },
-    {
-      "id": "row13",
-      "type": "VRPGPlayerButton",
-      "object": "row13",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row13Label"
-        }
-      }
-    },
-    {
-      "id": "row14",
-      "type": "VRPGPlayerButton",
-      "object": "row14",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row14Label"
-        }
-      }
-    },
-    {
-      "id": "row15",
-      "type": "VRPGPlayerButton",
-      "object": "row15",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row15Label"
-        }
-      }
-    },
-    {
-      "id": "row16",
-      "type": "VRPGPlayerButton",
-      "object": "row16",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row16Label"
-        }
-      }
-    },
-    {
-      "id": "row17",
-      "type": "VRPGPlayerButton",
-      "object": "row17",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row17Label"
-        }
-      }
-    },
-    {
-      "id": "row18",
-      "type": "VRPGPlayerButton",
-      "object": "row18",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row18Label"
-        }
-      }
-    },
-    {
-      "id": "row19",
-      "type": "VRPGPlayerButton",
-      "object": "row19",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row19Label"
-        }
-      }
-    },
-    {
-      "id": "row20",
-      "type": "VRPGPlayerButton",
-      "object": "row20",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row20Label"
-        }
-      }
-    },
-    {
-      "id": "row21",
-      "type": "VRPGPlayerButton",
-      "object": "row21",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row21Label"
-        }
-      }
-    },
-    {
-      "id": "row22",
-      "type": "VRPGPlayerButton",
-      "object": "row22",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row22Label"
-        }
-      }
-    },
-    {
-      "id": "row23",
-      "type": "VRPGPlayerButton",
-      "object": "row23",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row23Label"
-        }
-      }
-    },
-    {
-      "id": "row24",
-      "type": "VRPGPlayerButton",
-      "object": "row24",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row24Label"
-        }
-      }
-    },
-    {
-      "id": "row25",
-      "type": "VRPGPlayerButton",
-      "object": "row25",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row25Label"
-        }
-      }
-    },
-    {
-      "id": "row26",
-      "type": "VRPGPlayerButton",
-      "object": "row26",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row26Label"
-        }
-      }
-    },
-    {
-      "id": "row27",
-      "type": "VRPGPlayerButton",
-      "object": "row27",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row27Label"
-        }
-      }
-    },
-    {
-      "id": "row28",
-      "type": "VRPGPlayerButton",
-      "object": "row28",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row28Label"
-        }
-      }
-    },
-    {
-      "id": "row29",
-      "type": "VRPGPlayerButton",
-      "object": "row29",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row29Label"
-        }
-      }
-    },
-    {
-      "id": "row30",
-      "type": "VRPGPlayerButton",
-      "object": "row30",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row30Label"
-        }
-      }
-    },
-    {
-      "id": "row31",
-      "type": "VRPGPlayerButton",
-      "object": "row31",
-      "fields": {
-        "buttonLabelObject": {
-          "$obj": "row31Label"
-        }
-      }
-    },
-    {
-      "id": "tele",
-      "type": "VRPGPlayerTeleport",
-      "object": null,
-      "fields": {
-        "teleAnim": {
-          "$comp": "fadeSphere",
-          "kind": "Animator"
-        },
-        "FadeTarget": {
-          "$obj": "fadeTarget"
-        }
-      }
-    },
-    {
-      "id": "track",
-      "type": "TrackBone",
-      "object": "fadeSphere",
-      "fields": {
-        "offset": {
-          "$v3": [
-            0,
-            0,
-            0
-          ]
-        }
-      }
-    },
-    {
-      "id": "options",
-      "type": "VRPGOptions",
-      "object": null,
-      "fields": {
-        "imAlertObject": {
-          "$obj": "imAlert"
-        },
-        "imAlertSource": {
-          "$comp": "imAlert",
-          "kind": "AudioSource"
-        },
-        "imAlertCheck": {
-          "$obj": "imAlertCheck"
-        },
-        "gridObject": {
-          "$obj": "grid"
-        },
-        "gridCheck": {
-          "$obj": "gridCheck"
-        },
-        "gridToggle": {
-          "$obj": "gridToggle"
-        },
-        "volumeLabelObject": {
-          "$obj": "volLabel"
-        }
-      }
-    },
-    {
-      "id": "patrons",
-      "type": "VRPGPatronData",
-      "object": null,
-      "fields": {
-        "PatronCreditsObject": {
-          "$obj": "credits"
-        },
-        "PatronItems": []
-      }
-    },
-    {
-      "id": "player",
-      "type": "VRPGPlayerObject",
-      "object": null,
-      "perPlayer": true
-    }
-  ],
-  "events": [
-    {
-      "object": "closeButton",
-      "kind": "uiButton",
-      "behaviour": "menu",
-      "method": "CloseMenu"
-    },
-    {
-      "object": "navMain",
-      "kind": "uiButton",
-      "behaviour": "nav0",
-      "method": "ShowPanel"
-    },
-    {
-      "object": "navSocial",
-      "kind": "uiButton",
-      "behaviour": "social",
-      "method": "UpdatePlayerList"
-    },
-    {
-      "object": "navSocial",
-      "kind": "uiButton",
-      "behaviour": "nav1",
-      "method": "ShowPanel"
-    },
-    {
-      "object": "navOptions",
-      "kind": "uiButton",
-      "behaviour": "nav2",
-      "method": "ShowPanel"
-    },
-    {
-      "object": "navGM",
-      "kind": "uiButton",
-      "behaviour": "nav3",
-      "method": "ShowPanel"
-    },
-    {
-      "object": "callST",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "CallST"
-    },
-    {
-      "object": "setButton",
-      "kind": "uiButton",
-      "behaviour": "menu",
-      "method": "SetNameAndTitle"
-    },
-    {
-      "object": "oocButton",
-      "kind": "uiButton",
-      "behaviour": "menu",
-      "method": "SetOOC"
-    },
-    {
-      "object": "offButton",
-      "kind": "uiButton",
-      "behaviour": "menu",
-      "method": "SetHidden"
-    },
-    {
-      "object": "tabOOC",
-      "kind": "uiButton",
-      "behaviour": "logs",
-      "method": "ShowOOCLog"
-    },
-    {
-      "object": "tabIC",
-      "kind": "uiButton",
-      "behaviour": "logs",
-      "method": "ShowICLog"
-    },
-    {
-      "object": "tabGM",
-      "kind": "uiButton",
-      "behaviour": "logs",
-      "method": "ShowGMLog"
-    },
-    {
-      "object": "icSend",
-      "kind": "uiButton",
-      "behaviour": "logs",
-      "method": "SendLogIC"
-    },
-    {
-      "object": "oocSend",
-      "kind": "uiButton",
-      "behaviour": "logs",
-      "method": "SendLogOOC"
-    },
-    {
-      "object": "gmSend",
-      "kind": "uiButton",
-      "behaviour": "logs",
-      "method": "SendLogGM"
-    },
-    {
-      "object": "logUp",
-      "kind": "uiButton",
-      "behaviour": "logs",
-      "method": "ScrollUp"
-    },
-    {
-      "object": "logDown",
-      "kind": "uiButton",
-      "behaviour": "logs",
-      "method": "ScrollDown"
-    },
-    {
-      "object": "dsRoll",
-      "kind": "uiButton",
-      "behaviour": "ds",
-      "method": "NewRoll"
-    },
-    {
-      "object": "dsReset",
-      "kind": "uiButton",
-      "behaviour": "ds",
-      "method": "ClearBox"
-    },
-    {
-      "object": "dsGm",
-      "kind": "uiButton",
-      "behaviour": "ds",
-      "method": "ToggleGm"
-    },
-    {
-      "object": "dsAttThreat",
-      "kind": "uiButton",
-      "behaviour": "ds",
-      "method": "CycleAttThreat"
-    },
-    {
-      "object": "dsDefThreat",
-      "kind": "uiButton",
-      "behaviour": "ds",
-      "method": "CycleDefThreat"
-    },
-    {
-      "object": "d20Add4",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "BoxAddD4"
-    },
-    {
-      "object": "d20Add6",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "BoxAddD6"
-    },
-    {
-      "object": "d20Add8",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "BoxAddD8"
-    },
-    {
-      "object": "d20Add10",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "BoxAddD10"
-    },
-    {
-      "object": "d20Add12",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "BoxAddD12"
-    },
-    {
-      "object": "d20Add20",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "BoxAddD20"
-    },
-    {
-      "object": "d20Roll",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "RollBox"
-    },
-    {
-      "object": "d20Clear",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "ResetBox"
-    },
-    {
-      "object": "d20Inc",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "IncreaseMod"
-    },
-    {
-      "object": "d20Dec",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "DecreaseMod"
-    },
-    {
-      "object": "d20Gm",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "ToggleGm"
-    },
-    {
-      "object": "d20One",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "Roll20"
-    },
-    {
-      "object": "d20Adv",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "Roll20Advantage"
-    },
-    {
-      "object": "d20Dis",
-      "kind": "uiButton",
-      "behaviour": "d20",
-      "method": "Roll20Disadvantage"
-    },
-    {
-      "object": "diceSwitch",
-      "kind": "uiButton",
-      "behaviour": "mgr",
-      "method": "SwitchDice"
-    },
-    {
-      "object": "refresh",
-      "kind": "uiButton",
-      "behaviour": "social",
-      "method": "UpdatePlayerList"
-    },
-    {
-      "object": "pagePrev",
-      "kind": "uiButton",
-      "behaviour": "social",
-      "method": "PreviousPage"
-    },
-    {
-      "object": "pageNext",
-      "kind": "uiButton",
-      "behaviour": "social",
-      "method": "NextPage"
-    },
-    {
-      "object": "row0",
-      "kind": "uiButton",
-      "behaviour": "row0",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row1",
-      "kind": "uiButton",
-      "behaviour": "row1",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row2",
-      "kind": "uiButton",
-      "behaviour": "row2",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row3",
-      "kind": "uiButton",
-      "behaviour": "row3",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row4",
-      "kind": "uiButton",
-      "behaviour": "row4",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row5",
-      "kind": "uiButton",
-      "behaviour": "row5",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row6",
-      "kind": "uiButton",
-      "behaviour": "row6",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row7",
-      "kind": "uiButton",
-      "behaviour": "row7",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row8",
-      "kind": "uiButton",
-      "behaviour": "row8",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row9",
-      "kind": "uiButton",
-      "behaviour": "row9",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row10",
-      "kind": "uiButton",
-      "behaviour": "row10",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row11",
-      "kind": "uiButton",
-      "behaviour": "row11",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row12",
-      "kind": "uiButton",
-      "behaviour": "row12",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row13",
-      "kind": "uiButton",
-      "behaviour": "row13",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row14",
-      "kind": "uiButton",
-      "behaviour": "row14",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row15",
-      "kind": "uiButton",
-      "behaviour": "row15",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row16",
-      "kind": "uiButton",
-      "behaviour": "row16",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row17",
-      "kind": "uiButton",
-      "behaviour": "row17",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row18",
-      "kind": "uiButton",
-      "behaviour": "row18",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row19",
-      "kind": "uiButton",
-      "behaviour": "row19",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row20",
-      "kind": "uiButton",
-      "behaviour": "row20",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row21",
-      "kind": "uiButton",
-      "behaviour": "row21",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row22",
-      "kind": "uiButton",
-      "behaviour": "row22",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row23",
-      "kind": "uiButton",
-      "behaviour": "row23",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row24",
-      "kind": "uiButton",
-      "behaviour": "row24",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row25",
-      "kind": "uiButton",
-      "behaviour": "row25",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row26",
-      "kind": "uiButton",
-      "behaviour": "row26",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row27",
-      "kind": "uiButton",
-      "behaviour": "row27",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row28",
-      "kind": "uiButton",
-      "behaviour": "row28",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row29",
-      "kind": "uiButton",
-      "behaviour": "row29",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row30",
-      "kind": "uiButton",
-      "behaviour": "row30",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "row31",
-      "kind": "uiButton",
-      "behaviour": "row31",
-      "method": "SelectPlayer"
-    },
-    {
-      "object": "gmTele",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "TeleToSelected"
-    },
-    {
-      "object": "bringToMe",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "BringToMe"
-    },
-    {
-      "object": "makeController",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "GiveInstanceMod"
-    },
-    {
-      "object": "removeGM",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "RemoveMod"
-    },
-    {
-      "object": "giveOperator",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "GiveAutoMod"
-    },
-    {
-      "object": "imAlertToggle",
-      "kind": "uiButton",
-      "behaviour": "options",
-      "method": "ToggleImAlert"
-    },
-    {
-      "object": "volDown",
-      "kind": "uiButton",
-      "behaviour": "options",
-      "method": "VolumeDown"
-    },
-    {
-      "object": "volUp",
-      "kind": "uiButton",
-      "behaviour": "options",
-      "method": "VolumeUp"
-    },
-    {
-      "object": "gridToggle",
-      "kind": "uiButton",
-      "behaviour": "options",
-      "method": "ToggleGrid"
-    },
-    {
-      "object": "stTitle",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "SetStaffTitle"
-    },
-    {
-      "object": "tp0",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "TrySpawn0"
-    },
-    {
-      "object": "tp1",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "TrySpawn1"
-    },
-    {
-      "object": "tp2",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "TrySpawn2"
-    },
-    {
-      "object": "tp3",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "TrySpawn3"
-    },
-    {
-      "object": "tp4",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "TrySpawn4"
-    },
-    {
-      "object": "tp5",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "TrySpawn5"
-    },
-    {
-      "object": "respawn",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "TryRespawn"
-    },
-    {
-      "object": "teleTarget",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "CycleTeleTarget"
-    },
-    {
-      "object": "noBoxSpawn",
-      "kind": "uiButton",
-      "behaviour": "gm",
-      "method": "GoNoBox"
-    },
-    {
-      "object": "nameField",
-      "kind": "field",
-      "behaviour": "menu",
-      "method": "NameTyped"
-    },
-    {
-      "object": "titleField",
-      "kind": "field",
-      "behaviour": "menu",
-      "method": "TitleTyped"
-    },
-    {
-      "object": "icInput",
-      "kind": "field",
-      "behaviour": "logs",
-      "method": "ICTyped"
-    },
-    {
-      "object": "oocInput",
-      "kind": "field",
-      "behaviour": "logs",
-      "method": "OOCTyped"
-    },
-    {
-      "object": "gmInput",
-      "kind": "field",
-      "behaviour": "logs",
-      "method": "GMTyped"
-    },
-    {
-      "object": "dsAtt",
-      "kind": "field",
-      "behaviour": "ds",
-      "method": "AttTyped"
-    },
-    {
-      "object": "dsDef",
-      "kind": "field",
-      "behaviour": "ds",
-      "method": "DefTyped"
-    }
-  ]
+  "schema": 1,
+  "slug": "rp-toolkit"
 }

@@ -60,7 +60,7 @@ test("player menu state is each player's own: open, panels, plates, and nothing 
   await t.run(100);
   assert.equal(t.menu(ann).MenuIsOpen, false);
   near(t.menu(ann).transform.position, parked, "closed board is parked again");
-  assert.ok(bob.click(SLUG, "0", "openButton"));
+  t.press(bob, "openButton");
   await t.run(100);
   assert.equal(t.menu(bob).MenuIsOpen, true);
   t.press(bob, "closeButton");

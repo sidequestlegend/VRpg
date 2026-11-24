@@ -184,9 +184,11 @@ namespace RpToolkit
             var tabGm = O("tabGM", log.Find("Log Buttons/GM log Button"));
             Ui(tabGm, tLogs, "ShowGMLog");
             var logFields = fLogs;
+            Transform gmLog = null;                                                  // the GM log's group: the staff gate (its View is the tab's)
             foreach (var (k, field, method) in new[] { ("ic", "IC", "ICTyped"), ("ooc", "OOC", "OOCTyped"), ("gm", "GM", "GMTyped") })
             {
                 var group = Ref(logStandIn, field + "LogGroup").transform;
+                if (field == "GM") gmLog = group;
                 var output = Ref(logStandIn, field + "OutputBox");
                 var input = Ref(logStandIn, field + "InputBox");
                 var send = group.GetComponentsInChildren<Button>(true).First(b => b.GetComponent<TMP_InputField>() == null).gameObject;
@@ -202,8 +204,8 @@ namespace RpToolkit
                 logFields[field + "OutputBox"] = Obj(output);
                 logFields[field + "InputBox"] = Obj(input);
             }
-            var logUp = NewButton(log, "Scroll Up", "▲", new Vector2(75f, 40f), new Vector2(26f, 26f), new Color(0.17f, 0.18f, 0.33f));
-            var logDown = NewButton(log, "Scroll Down", "▼", new Vector2(75f, 8f), new Vector2(26f, 26f), new Color(0.17f, 0.18f, 0.33f));
+            var logUp = NewButton(log, "Scroll Up", "▲", new Vector2(38f, 62f), new Vector2(16f, 16f), new Color(0.17f, 0.18f, 0.33f, 0.85f));
+            var logDown = NewButton(log, "Scroll Down", "▼", new Vector2(38f, 44f), new Vector2(16f, 16f), new Color(0.17f, 0.18f, 0.33f, 0.85f));
             Ui(O("logUp", logUp.transform), tLogs, "ScrollUp");
             Ui(O("logDown", logDown.transform), tLogs, "ScrollDown");
 
@@ -242,7 +244,7 @@ namespace RpToolkit
             Ui(O("d20Dec", d20.Find("DecMod")), tD20, "DecreaseMod");
             var d20Mod = O("d20ModLabel", Ref(d5Stand, "modLabel").transform);
             var d20Pool = O("d20Pool", Ref(d5Stand, "dicePoolBoxText").transform);
-            var d20Gm = O("d20Gm", Ref(d5Stand, "gmToggle").transform);
+            var d20Gm = O("d20Gm", d20.Find("Toggle"));                          // (gmToggle is the base class's: not on the stand-in)
             Ui(d20Gm, tD20, "ToggleGm");
             var d20GmCheck = O("d20GmCheck", d20Gm.transform.Find("Background/Checkmark"));
             // d2 (wired to BoxAddD20 upstream) and d100 (unwired) are Dead (checklist 39); the single d20 rolls get buttons (C11)
@@ -343,7 +345,6 @@ namespace RpToolkit
             if (tl != null) Object.DestroyImmediate(tl);
             var operUi = O("operUI", F(P + "/OperUI"));
             Ui(O("noBoxSpawn", F(P + "/OperUI/NoBoxSpawn")), tGm, "GoNoBox");
-            var gmLog = Ref(logStandIn, "GMLogGroup").transform;                    // (its View child is the tab's; this is the staff gate)
 
             // ---- sounds: CC0 replacements for the three clips missing upstream (the version alert went with its feature) ----
             var gmAlert = O("gmAlert", F("VRPG GM Handler/GMAlert"));
@@ -621,6 +622,8 @@ namespace RpToolkit
                 var template = dropdown.template;
                 Object.DestroyImmediate(dropdown);
                 if (template != null) Object.DestroyImmediate(template.gameObject);
+                var arrow = go.transform.Find("Arrow");                               // a built-in sprite: nothing to draw now
+                if (arrow != null) Object.DestroyImmediate(arrow.gameObject);
             }
             if (go.GetComponent<Graphic>() == null)
             {

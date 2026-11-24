@@ -52,7 +52,7 @@ DONE
 Kit build (`Logs/portkit_kits.txt`): 640 objects, 353 bound, 351 refs, 26 behaviours, 76 events; 375 stand-in, project
 or missing scripts stripped; 157 texts drawn with the kit's Roboto Slab. The relay graph: **1,608 units, 338 control
 and 1,464 value connections, 51 distinct members, all on the allow list of 29,061**, relaying 75 events (68 uGUI buttons,
-7 text fields). Bundles: Android 1,265 KiB, Windows 1,314 KiB, each with the third-party notices inside; of that the
+7 text fields). Bundles (final): Android 1,268 KiB, Windows 1,310 KiB, each with the third-party notices inside; of that the
 graph blobs are 871 KiB (decompressed). See PORT.md 0.6 for the buttons decision.
 
 Artifacts (`PortKit/Kit/Export Artifacts`, `altspace/dist/`, not committed): `android/rp-toolkit` (1,299,658 bytes, sha1

@@ -6,25 +6,26 @@ the rules are translated to TypeScript in `altspace/ts/` and tested in Node on t
 project in `altspace/` builds the kit and its bundles (rung 2) and runs the Play-mode tests (rungs 3 and 4). 0.6 is
 the Unity phase; `TESTS.md` holds the evidence.
 
-## 0. Port status (2026-11-24): rules in Node, kit and bundles, Play mode
+## 0. Port status (2026-11-25): rules in Node, kit and bundles, Play mode, review fixes
 
 ### 0.1 What exists
 
 | | |
 |---|---|
 | Sources | `altspace/ts/src/`: one file per upstream file of the translation map (section 7, rows 1 to 16: 22 files), plus `index.ts`. `DiceRoller5E.cs` becomes `DiceRollerD20.ts` (renamed, 0.2). `VRPGTextElement`, `VRPGIconElement` and `IconController` are plain objects over kit objects, not behaviours; `VRPGTextElement.ts` also holds `VRPGInputField`, the page's copy of a uGUI input field |
-| Runtime | `altspace/ts/portkit/`: a copy of `portkit/ts` (robocopy /MIR without node_modules and dist), unedited; re-synced in the Unity phase (portkit `1118ef0`) |
+| Runtime | `altspace/ts/portkit/`: a copy of `portkit/ts` (robocopy /MIR without node_modules and dist), unedited; re-synced in the Unity phase (portkit `1118ef0`) and again in the fix pass (portkit `812f285`, 0.7) |
 | Bindings | `altspace/ts/bindings.json` is written by the kit builder (`Assets/Kit/Editor/RpToolkitKitBuilder.cs`): 353 objects, 351 refs, 26 behaviours, 76 events (68 `uiButton`, 7 `field`, 1 more `uiButton` on the nav row). The object keys and behaviour ids are the ones the provisional file had (`bindings.lock.json` was seeded with them), except the 24 player-list rows beyond 8 (0.6) |
-| Tests | `npm test`: typecheck, lint (page and clock rules: clean), 21 Node tests, all passing. `vectors/dice.json`: 13 DS and 8 d20 vectors with upstream line references, derived by hand from the C# (no dotnet, no VRChat SDK: Q13) |
+| Tests | `npm test`: typecheck, lint (page and clock rules: clean), 28 Node tests (21 before the fix pass), all passing. `vectors/dice.json`: 13 DS and 8 d20 vectors with upstream line references, derived by hand from the C# (no dotnet, no VRChat SDK: Q13) |
 | Build | `npm run build` writes `Assets/WebRoot/pk-rp-toolkit.js` (about 464 KB, MIT notice of GIB Games at the top from `script-header.txt`) |
 
 Tests (`altspace/ts/test/`):
 
 | File | What it shows |
 |---|---|
-| `dice.test.ts` | every DS vector (DS:26-137) and every d20 vector (D5E:19-146) through the kit's buttons and fields with a scripted Random.Range: line text, which log, the (min, max) of each draw, the 1 s re-roll and the three-tie stop; a remote client's forged `NewRoll` / `SetMod` does nothing on another client |
+| `dice.test.ts` | every DS vector (DS:26-137) and every d20 vector (D5E:19-146) through the kit's buttons and fields with a scripted Random.Range: line text, which log, the (min, max) of each draw, the 1 s re-roll and the three-tie stop; a remote client's forged `NewRoll` / `SetMod` does nothing on another client, and a finished dice line it sends in another player's name shows under its own name (what nobody can check is a player's own roll: 0.7.3) |
 | `utils.test.ts` | int.TryParse as C# (signs, white space, trailing NULs, overflow, "5.0"), GetColorHex with float32 and round-half-even, GetDots, StripTags, typed-text cleaning, the rich-text filter |
-| `scenarios.test.ts` | each label over its player's published head on every client, a late joiner included, small moves not sent; the volume buttons reaching the IM alert's AudioSource (op `audioVolume`); menu state per player (open by key, controller button and the board's button; panels; plates; forged events ignored); a GM grants and revokes a role, a lead's own grant counts while the lead is present and lapses when they leave, "Gm Title"; a non-GM's privileged requests refused on every client (GoSpawn, GoRespawn, DoForceBring, AskWhere, own-state grant, protected writes, forged "Give GM"); bring one player, go to one player, point A Local, point B All (fade timing, second press ignored, menu closed), respawn All; `disable-gm-bring`; IC, OOC and GM logs with text holding `\|`, `^`, double and single quotes, `%`, a backslash and a line break, identical in every client's buffer and in the kit text the relay sets; alert on and off; empty send; tag filter; 500-character cut; GM-log visibility; tabs; paging; name labels on join, leave and a new join into the freed slot; staff keep colours, others stripped; OOC preset; whitelists by user id (`staff-uids`, `no-staff-uids`, `vip-uids`, `enable-operators` off); `first-joiner-gm` off and on (and handed on when the first player leaves); a late joiner gets roles, names, labels and the recent IC, OOC and GM lines; name, title and options back on the same device and not on another; leaf budget (2 synced slots, at most 3 user-state leaves per player) |
+| `scenarios.test.ts` | each player's label attached to that player's own head with the app's synced attachment, again after a rejoin; the volume buttons reaching the IM alert's AudioSource (op `audioVolume`); menu state per player (open by key, controller button and the board's button; panels; plates; forged events ignored); a GM grants and revokes a role, a lead's own grant counts while the lead is present and lapses when they leave, "Gm Title"; a non-GM's privileged requests refused on every client (GoSpawn, GoRespawn, DoForceBring, AskWhere, own-state grant, protected writes, forged "Give GM"); bring one player, go to one player, point A Local, point B All (fade timing, second press ignored, menu closed), respawn All; `disable-gm-bring`; IC, OOC and GM logs with text holding `\|`, `^`, double and single quotes, `%`, a backslash and a line break, identical in every client's buffer and in the kit text the relay sets; alert on and off; empty send; tag filter; 500-character cut; GM-log visibility; tabs; paging; name labels on join, leave and a new join into the freed slot; staff keep colours, others stripped; OOC preset; whitelists by user id (`staff-uids`, `no-staff-uids`, `vip-uids`, `enable-operators` off); `first-joiner-gm` off and on (and handed on when the first player leaves); a late joiner gets roles, names, labels and the recent IC and OOC lines (not the GM lines); name, title and options back on the same device and not on another; leaf budget (no space-state slot, at most 3 user-state leaves per player) |
+| `trust.test.ts` | the review findings, one test each, every one failing on the code before its fix (0.7.2): no line in another's name; recent lines and the first joiner only from the referee's own user state, never GM lines; a moderator's record tied to its session; the rich-text filter in labels, titles, logs, list and card; future-dated grants refused; a chain of nine grants |
 
 ### 0.2 Decisions (decided by the coordinator, 2026-11-24)
 
@@ -46,7 +47,7 @@ Other decisions:
 - **Game masters** are the world's owner and moderators by default (`isSpaceAdmin`, and a self-registration in protected space state, `x.gm-<uid>`). The setting `first-joiner-gm` (default off) makes the first player an Instance Lead. The staff table is protected space state (`x.st-<uid>` = `{r, at, by}`, written by game masters); a non-admin staff member's grants live in their own user state. Every privileged network event checks its sender (8.4, C3).
 - **Left out, no platform API:** voice zones, channels, the amplifier, "GM heard everywhere" (L5), GM speed (L7). Per-account saves become per device (G3). **The map is left out**: its camera, render texture and material are not in the repository (checklist 83, R5).
 - **Patron features** are the setting `vip-uids` (and `credits` for the credits text).
-- **Late joiners see the recent log lines** (upstream shows them nothing): the referee keeps the last `log-recent` (20) lines of each log in synced state.
+- **Late joiners see the recent log lines** (upstream shows them nothing): the referee keeps the last `log-recent` (20) IC and OOC lines in its own user state (0.7; GM-log lines are not kept).
 
 ### 0.3 Checklist status (section 2, 94 items)
 
@@ -71,17 +72,17 @@ the late-join behaviour of 0.2 (roles, names and recent lines after a reload). 1
 Notes on Tested items that differ from what section 2 proposed: 3 has two of its three sources (controller
 button, board button; the radial menu has no runtime call, RG3); 10 tests the caption (the logo image is the
 kit's); 28 is capped at `log-lines` (60) per box with `log-view` (12) shown and page buttons, and late joiners get
-`log-recent` (20) lines per log; 47 writes the label for every player (upstream skipped players with no saved
+`log-recent` (20) IC and OOC lines; 47 writes the label for every player (upstream skipped players with no saved
 name, so a reused row kept a stale label); 54's grants by a game master go to protected state, others' to user
 state; 70's volume is page state only (RG4); a revoked operator also loses the Operator UI (upstream left it on).
 
 Section 8.4's "a grant ends 30 s after the granter leaves" is in fact "when the platform reports the leave": in
 the fake room that is at once for a closed socket.
 
-Section 8.6 as built: user state per player is `k` (runtime), `d` (PlayerData: `vrpg-charName`, `vrpg-charTitle`,
-`vrpg-charDesc`) and one `p` leaf (the per-player behaviour: `labelSlot`, `grants`); space state is the GM
-handler's `firstJoiner` and the logs' `recentIC` / `recentOOC` / `recentGM`, both owned by the referee, plus the
-protected `x.gm-<uid>` and `x.st-<uid>`. Options (`vrpg-options-toggleImAlert`, `...ImSlider`, `...toggleGrid`) are
+Section 8.6 as built (after the fix pass, 0.7): user state per player is `k` (runtime), `d` (PlayerData:
+`vrpg-charName`, `vrpg-charTitle`, `vrpg-charDesc`) and one `p` leaf (the per-player behaviour: `labelSlot`, `grants`,
+and, read only from the referee's, `recent` and `firstJoiner`); space state holds only the protected `x.gm-<uid>` and
+`x.st-<uid>`: nothing the toolkit relies on is in public space state. Options (`vrpg-options-toggleImAlert`, `...ImSlider`, `...toggleGrid`) are
 `localStorage` only. Teleport-to and bring travel as network events `AskWhere` / `AnswerWhere` / `DoForceBring`
 with positions; "everyone" moves are `GoSpawn0`..`GoSpawn5` and `GoRespawn`.
 
@@ -99,9 +100,9 @@ with positions; "everyone" moves are `GoSpawn0`..`GoSpawn5` and `GoRespawn`.
 | RG8 | The relay's `audio` op is not built yet (portkit README) | The two alert objects are left out of refs, so the page plays their clips itself (`BS.AudioSource.PlayOneShot`, marked UNVERIFIED in the adapter) | The `audio` op, or confirmation of the page path |
 
 After the re-sync (0.6): **RG1 closed** (the kit's field events and the `text` op), **RG4 closed** (`audioVolume`),
-**RG6 closed** (`networkCallable`), **RG8 closed** (the `audio` op; the alerts are in refs). **RG2** stands: placement
-by published head positions (0.6.2); an `autoSync` head attachment from game code would be smoother (kit gap). **RG3**,
-**RG5** and **RG7** are still open.
+**RG6 closed** (`networkCallable`), **RG8 closed** (the `audio` op; the alerts are in refs). **RG2 closed** in the fix
+pass (0.7): each player attaches its own label to its head (`AttachToHead`, autoSync). **RG3**, **RG5** and **RG7** are
+still open.
 
 ### 0.5 Not done (still)
 
@@ -129,8 +130,8 @@ Nothing ran in the Altspace app or on a Quest (rung 5). See 0.6.4 for what stays
 | Subject | Decision | Why |
 |---|---|---|
 | Buttons | **uGUI buttons**, heard by the relay graph (`uiButton`), not layer-5 colliders | The canvas keeps its GraphicRaycaster anyway (a TMP_InputField takes focus through uGUI), spike S6 showed uGUI clicks reach the page from a kit, and the canvas would sit in front of colliders. Cost measured: the relay graph is 1,608 units (51 distinct members, all allowed) relaying 75 events; 871 KiB of graph data in each bundle (Android 1,268 KiB, Windows 1,310 KiB in all) |
-| Name labels | the pool of 32 (`Labels/Label n`, made from `VRpgPlayerObject.prefab`'s label canvas). Each player publishes their own head position in their user state (`head`, cm, at most twice a second, only after a move of 15 cm) and every client puts that player's slot `label-height` above it | No graph member reads another player's head (allow list: `BS.BSUser` has no position) and the page gets the local head only. An attachment with `autoSync` would follow the avatar smoothly but cannot be made from game code here (the runtime's `AttachToHand` is hand-only) and is unverified from a kit. Stated limit: labels follow in steps (at most two a second) |
-| Labels facing the viewer | a `LookAtConstraint` on each label canvas whose source is the fade sphere, which the page keeps at the local head (`TrackBone`) | No camera is reachable from a graph (`Camera.main` is not on the allow list); a native constraint needs no graph and no bridge traffic per label |
+| Name labels | the pool of 32 (`Labels/Label n`, made from `VRpgPlayerObject.prefab`'s label canvas). Each player's page attaches the slot it holds to its own head (`AttachToHead`, autoSync: the app shows the attachment to everyone, under the slot's per-instance network id); a `PositionConstraint` on the label's canvas keeps it `LabelHeight` (0.75 m) straight above the attachment point in world axes, so it does not swing when the head tilts. Fix pass (0.7); until then each player published its head position and every client placed the label | No graph member reads another player's head (allow list: `BS.BSUser` has no position) and the page gets the local head only. `label-height` other than 0.75 moves the attachment point along the head's own up axis (that part tilts) |
+| Labels facing the viewer | a `LookAtConstraint` on each label canvas whose source is the fade sphere, which each page attaches to its own head (`TrackBone`, `AttachToHead` without sync) | No camera is reachable from a graph (`Camera.main` is not on the allow list); a native constraint needs no graph and no bridge traffic per label |
 | Player list | **8 rows a page** (the 2 x 4 grid the upstream scroll view showed), page buttons; the other 76 rows are gone | A scroll view cannot be dragged from the page; 8 rows is what fits the panel. Ids `row0`..`row7` keep their keys |
 | Logs | fixed boxes (scroll views, scrollbars and masks removed; a RectMask2D), the newest `log-view` lines at the bottom, up/down page buttons over the box; each log's children moved under a `View` object its tab switches; the three log boxes have canvases of their own (the player list cannot: a nested canvas needs its own raycaster for its buttons) | G8, C7, C12; one canvas for 300 texts would rebuild on every line (6.4) |
 | Toggles, dropdowns, slider | toggles (GM roll, IM alert, grid, the d20 roller's "to GM") become buttons whose check mark the page switches; the Local/All and threat dropdowns become buttons with a label; the volume slider becomes `-`, value, `+` | G8 |
@@ -164,6 +165,80 @@ Everything in the app and on a Quest (rung 5): uGUI clicks and text fields with 
 relay graph's per-frame field polling on Quest, label placement with real latency, the look-at constraint in the app,
 frame time with the 32-label pool and 300 texts, the alert sounds (nobody listened in Play mode), protected writes
 by a moderator (Play mode has the owner only), and the radial-menu button (RG3: no runtime call).
+
+### 0.7 Fix pass (2026-11-25): re-sync with portkit `812f285`, review findings
+
+#### 0.7.1 Re-sync
+
+- `ts/portkit` and `Packages/com.altspacegames.portkit` mirror portkit `812f285` (`tools/sync.sh rp-toolkit`).
+- Workarounds removed: `playtest/run.sh` (the kit's `playtest.sh` now versions `/web/` addresses and empties the local
+  relay's room); `type` and `where` in `Assets/Kit/Editor/RpTestCommands.cs` (the kit's InputSim `type`, KitProbe
+  `probe - head`); the game's photo menu `PortKit/RpToolkit/Take Menu Photo` (`PhotoRoot` = the menu board; the panels
+  the page hides at start are saved off, bindings `"active": false`, so the photo shows the board as first seen); the
+  class-level `static perPlayer` (`stage.PerPlayer`); the builder's own clip helper (`stage.ClipValue`); the hand-picked
+  d20 toggle (re-imported stand-ins keep their base class: `DiceRoller5E : VRPGRollerBase`, so `gmToggle` is read from
+  the stand-in); self-published head positions (`AttachToHead`, below).
+- Added for the Play-mode test: `findpos` / `findtext` in `RpTestCommands.cs`. The SDK re-parents an attached object
+  under the avatar's bone, so KitProbe's path from the kit root no longer reaches a label (kit gap).
+- Labels (RG2 closed): each page attaches the label slot it holds to its own head (`GameObject.AttachToHead`, autoSync,
+  network id `pk1/rp-toolkit/<inst>/label<n>`); a `PositionConstraint` on the canvas keeps it 0.75 m straight above the
+  attachment point. The fade sphere, which the labels' look-at constraints aim at, is attached to the local head
+  (`TrackBone`, no sync) instead of being moved by the page on each pose.
+- Licences: `Assets/Kit/Licenses/` holds VRpg 2's MIT text, Roboto Slab's Apache-2.0 text, Kenney's CC0 note and
+  portkit's MIT text; the kit adds TextMesh Pro's `LiberationSans - OFL.txt`. The notices name Liberation Sans's two
+  copyright lines.
+
+#### 0.7.2 Review findings (REVIEW-FINDINGS.md, rp-toolkit)
+
+Every fix has a Node test that failed on the code before it (`test/trust.test.ts` unless named).
+
+| # | Finding | Fix |
+|---|---|---|
+| 1 | Log and dice lines forgeable in anyone's name; the referee kept them in public `recentIC/OOC/GM` | The sender sends only its text; every receiver puts the sender's name (`Networking.CallingPlayer`, stamped by the room) in front of every line of it: the display name for OOC and GM lines, the sender's character name for IC lines (its display name when it has none, a change: upstream printed ": text"). A raw dice line is kept as it is when it starts with the sender's display name, else named. Recent lines are in the referee's own player object (user state). `dice.test.ts` no longer claims more than it shows. Tests: "finding 1", "findings 1 and 2", the dice test |
+| 2 | "Roll to GM only" and GM chat persisted in public `recentGM` | GM-log lines are never published; late joiners get IC and OOC lines only. They still travel to every client as events, as upstream (0.7.3). Test: "findings 1 and 2" (no GM text anywhere in space or user state) |
+| 3 | A moderator's `gm-<uid>` record never expired | The record names the session that wrote it and counts only for that session; a moderator re-registers each time. `no-staff-uids` overrules every record (8.4, GMD header). Test: "finding 3" (a demoted moderator who comes back is no Game Master) |
+| 4 | Rich-text filter bypass ("Out of Character", tags with spaces or hyphens, list and card unfiltered); C6 overclaimed | One filter (`filterRichText`: any tag-like `<...>` removed unless `<b>`, `<i>`, `</color>` or an opaque `<color=...>`, repeated until stable, open tags closed); `StripTags` keeps only the menu's exact Out-of-Character name; character names, display names, list rows and the card filtered. Tests: "finding 4", `utils.test.ts` |
+| 5 | Liberation Sans OFL text missing | The kit adds TextMesh Pro's OFL file to the bundles; notices name its copyright lines; `Assets/Kit/Licenses/` holds the other texts |
+| 6 | The granter chose the grant timestamp | A user-state grant dated more than `GRANT_SLACK` (10 s) after the server time at which this client first saw it is refused. Test: "finding 6" |
+| 7 | "Bring to me" trusts the caller's position | Not closable here; stated in 0.7.3. The proposed fix ("use its head") relied on the self-published `head`, which was the caller's own claim too and is gone with `AttachToHead` |
+| 8 | The comment on `first-joiner-gm` overclaimed (public `firstJoiner`) | Closed rather than reworded: the record is in the referee's own player object, read only from the current referee; the comment says so. Test: "findings 1 and 2" (a forged public leaf and a non-referee's record change nobody's role) |
+| 9 | Role chains cut after 6 steps | As many rounds as players. Test: "finding 9" (nine links) |
+| 10 | Kit copy at `1118ef0`; use `AttachToHead` for labels | 0.7.1. Test: `scenarios.test.ts` "each player's label is attached to that player's own head" |
+
+#### 0.7.3 Trust: what a modified client can still do, compared with upstream
+
+Upstream trusts every client for everything (any client can run any method on any other, write any role, and post
+any line in anyone's name). The port leaves a modified client this much:
+
+- **Its own dice.** A roll is made on the roller's own page, as upstream; a modified page can report any number for its
+  own roll. It can no longer report it in anyone else's name. (Fair draws per roll would need a round trip to the
+  referee and a witness for every click: not done.)
+- **Its own names.** A character name is free text, as upstream: a player can name their character after someone
+  else's. The player list shows which account plays which character.
+- **Visual line spoofing.** A line wraps in the box; text padded to wrap at the right place can make a visual line
+  begin with another name. Every real line break is named.
+- **Reading GM-log traffic.** GM-log lines reach every client as events and only the page hides them from non-staff,
+  as upstream (Q6). They are no longer stored anywhere.
+- **The referee seat.** No server appoints the referee (portkit README). A modified client that takes the seat can
+  publish false recent lines and a false first joiner for late joiners (it cannot touch roles from protected state or
+  other granters' user state).
+- **Bring and teleport-to positions** (finding 7). A player with a role sends the position it wants the brought
+  player to land at; the page reads no other player's position (G4), so the target cannot check it. Upstream read the
+  caller's position from VRChat. Only players with a role can bring; a host can switch bring off (`disable-gm-bring`).
+  Teleport-to likewise trusts the asked player's answer.
+- **Grant dates.** A staff member's own grant may be dated up to `GRANT_SLACK` ahead; one dated further ahead is
+  refused by clients present when it appears, but a client that arrives later than that date accepts it.
+- **Moderators.** A moderator's record lasts for the session that wrote it; a Game Master's grants in protected state
+  (`st-<uid>`) last until a Game Master changes them, or `no-staff-uids` overrules them.
+
+#### 0.7.4 Known issues left
+
+- RG3 (no radial-menu call), RG5 (no respawn call), RG7 (teleports land at head height: the page knows heads, not
+  feet) are still open.
+- `label-height` other than 0.75 moves the attachment point along the head's own up axis, so that part of the offset
+  tilts with the head (the kit's constraint carries the 0.75 m).
+- The runtime's `digest()` covers space-state behaviours only; this toolkit now keeps none there, so the rung 4 page
+  comparison uses the game's own `view()` (roles, names, slots, IC and OOC lines) instead (kit gap).
 
 Conventions used in this file:
 
@@ -299,7 +374,7 @@ against this list.
 |---|---|---|---|
 | 16 | Each player's label root is at the owner's head position + 0.75 m world-up; its first child turns to face the local viewer's head; both every physics tick | `PO:101-112` | Diff: the platform moves an attached object on each avatar; a per-frame graph keeps it upright. See risk R2 |
 | 17 | The label shows character name and, under it, the title, for every player including ones who joined earlier | `PO:452-498` | Full |
-| 18 | Rich-text tags are stripped from a name unless the owner is operator level, or the text contains "Out of Character". Titles are not stripped | `PO:461-465`; `TXT:61-72` | Full |
+| 18 | Rich-text tags are stripped from a name unless the owner is operator level, or the text contains "Out of Character". Titles are not stripped | `PO:461-465`; `TXT:61-72` | Diff: the exception holds only for the menu's own Out-of-Character name (a colour around those words); staff names, titles and every other shown text keep only `<color>`, `<b>`, `<i>` (C6, 0.7) |
 | 19 | Names of patrons are tinted `VipLabelColor`; others return to the start colour | `PO:553-559`; `MP:29085` | Diff: the list is user ids in a setting |
 | 20 | Players on the `ExileManifest` list have blank name and title | `PO:489-494` | Diff: user ids in a setting |
 | 21 | A role icon sits with the label: one of four images chosen by `VisibleRoleIndex` (tints: dark, teal, orange-brown, purple). The sprite is missing from the repo | `PO:423-442`; `ICON:25-60`; `PP` | Full, with a replacement sprite |
@@ -1030,7 +1105,7 @@ that player can write it).
 |---|---|---|
 | 3 Game Master | display name equals `GameMasterName` and a saved key (`GMD:125-138`) | A player whose client can write protected space state. On join, a client whose `isSpaceAdmin` is true writes its own id into the protected `staff` leaf; the write only succeeds for real admins, and everyone can read the result. The world's owner is also recognised directly, since other clients see `isSpaceAdmin` on the owner and `fromAdmin` on the owner's one-shots |
 | 2 Operator | on `StaffList`, or granted by a Game Master (`GMD:96-106,300`) | on `staff-uids` (the attribute is the same for every client), or written into the protected `staff` leaf by a Game Master |
-| 1 Instance Lead | the instance master, or granted by any staff member (`GMD:109,302`) | granted by a staff member: the grant is stored in the **granter's** own user state and counts while the granter is present and holds at least that role. With `first-joiner-gm`, also the first player recorded in a public leaf |
+| 1 Instance Lead | the instance master, or granted by any staff member (`GMD:109,302`) | granted by a staff member: the grant is stored in the **granter's** own user state and counts while the granter is present and holds at least that role. With `first-joiner-gm`, also the first player as the referee records it (as built: in the referee's own user state, 0.7) |
 | 0 | everyone else, and anyone on the exile list | everyone else, and anyone on `no-staff-uids` |
 
 - A client works out every player's role from those sources alone. A role a player writes about itself is
@@ -1039,8 +1114,9 @@ that player can write it).
   worked out this way, allows it. This is stricter than upstream (10, C3).
 - The guard of `GMD:233` is kept: no granting above your own role, nothing above Operator by grant, and an
   Instance Lead cannot change the world's owner.
-- Known weaknesses, stated rather than hidden: `first-joiner-gm` rests on honest clients, because "first"
-  is a public value anyone can write (upstream's equivalent is decided by VRChat's servers). A grant made
+- Known weaknesses, stated rather than hidden: `first-joiner-gm` rests on the referee, which no server appoints (as
+  built the record is in the referee's own user state, so only the referee can write it; upstream's equivalent is
+  decided by VRChat's servers). A grant made
   by a non-admin ends 30 s after that granter leaves. Role 3 for a moderator shows up only after their
   protected write has arrived.
 
@@ -1073,9 +1149,12 @@ any value back (the page is the source of truth). One relay change is needed: th
 everything after the third separator as the text, or encode it, because chat text can contain `|`.
 
 All text that players type is clamped before use (name 64 characters, title 128, a log line 500) and
-control characters are removed. Rich text: names of non-staff are stripped as upstream does (`TXT:61-72`);
-for titles and log lines, which upstream leaves raw, the port keeps `<color>`, `<b>` and `<i>` and removes
-other tags (10, C6).
+control characters are removed. Rich text: names of non-staff are stripped as upstream does (`TXT:61-72`, but only
+the menu's own Out-of-Character name keeps its colour); everything else a player wrote (staff names, titles,
+descriptions, log lines, the player list and the selected player's card) keeps only `<color>` (opaque), `<b>` and
+`<i>`, closed at the end of the text, and loses every other tag (10, C6). As first built, the filter missed tags
+with spaces or hyphens and tags formed by removing others, the list and card were not filtered, and any name holding
+"Out of Character" kept all its tags (review finding 4, fixed in 0.7).
 
 ### 8.6 Where state lives
 
@@ -1214,7 +1293,7 @@ with 20 labels.
 | C3 | Every command checks the sender's role before acting | Upstream checks nothing (3.2). A snippet runs in other people's public worlds |
 | C4 | The first player is not a GM unless `first-joiner-gm` is set | There is no instance master, and the nearest substitute rests on honest clients (Q2) |
 | C5 | Saved data is per device | G3 |
-| C6 | Titles and log lines keep only `<color>`, `<b>`, `<i>` | One `<size=9999>` in chat would wreck everyone's log. Upstream leaves both raw |
+| C6 | Everything a player writes that others see keeps only `<color>` (no alpha), `<b>`, `<i>`, and they are closed at its end; a non-staff name keeps none, except the menu's own Out-of-Character name | One `<size=9999>` (or an unclosed `<color=#00000000>`) in chat would wreck everyone's log. Upstream leaves titles and lines raw |
 | C7 | Logs keep the last 60 lines; a line is cut at 500 characters | Relay and one-shot limits; a text mesh has a vertex limit |
 | C8 | Teleport-to takes a round trip | G4 |
 | C9 | The fade animator is wired | Upstream's is unset, so its A to F teleports cannot finish (`MP:62284`) |
@@ -1247,7 +1326,7 @@ with 20 labels.
 | # | Risk | If it goes wrong |
 |---|---|---|
 | R1 | **uGUI from a kit bundle.** Nothing yet shows that a world-space canvas loaded from a bundle gets pointer clicks in the app, or that a graph can hear a uGUI button there. Spike S6 has no result (`portkit/spikes/RESULTS.md` does not exist yet) | Fall back to a layer-5 collider per button and `click` events. It costs about 90 colliders and loses nothing visible |
-| R2 | **Labels over other players.** The design relies on `BS.AttachedObject` with `autoSync` on pool objects whose network ids the script sets: untested from a kit, including whether a late joiner sees existing attachments. An object on the head bone also tilts with the head, so a per-frame graph must hold the label upright at head + 0.75 m and turn it to the viewer, using only allow-listed members | Fallback: each player publishes a rounded head position in user state about twice a second and labels glide between samples. Coarser, and it uses the user-state rate budget |
+| R2 | **Labels over other players** (as built after 0.7: attachments with `autoSync` and a position constraint; the rest of this row is the analysis). The design relies on `BS.AttachedObject` with `autoSync` on pool objects whose network ids the script sets: untested from a kit, including whether a late joiner sees existing attachments. An object on the head bone also tilts with the head, so a per-frame graph must hold the label upright at head + 0.75 m and turn it to the viewer, using only allow-listed members | Fallback: each player publishes a rounded head position in user state about twice a second and labels glide between samples. Coarser, and it uses the user-state rate budget |
 | R3 | **Runtime contract.** This port needs three things the README does not have: event arguments (G1), per-player behaviours on user state (G2), a protected leaf (G9) | Without G2 and G9 the toolkit can only copy upstream's trust-everyone model, which is not acceptable in a public world |
 | R4 | **Two UI systems on one board.** UI-kit text fields laid over a uGUI canvas: alignment at any menu pose, draw order, which system takes the pointer; the app keyboard; typing in Play mode | Fallback: one separate UI-kit "typing bar" under the board holding all seven fields |
 | R5 | **The map.** Upstream's map is not reproducible from the repo. A new one needs a second camera into a render texture inside a kit bundle (untested), dots on a layer the host world does not use, and a second render on Quest while the panel is open | Ship with `map="false"` as the only tested state until a spike passes (Q4) |

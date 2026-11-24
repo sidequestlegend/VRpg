@@ -1,8 +1,102 @@
 # PORT.md: rp-toolkit (GIBGames/VRpg, `VRPG2/`) to an Altspace snippet
 
-Analysis only. Nothing was built, compiled or run; no Unity project exists here yet. Everything below was
-read from the clone at `C:\workspace\AltspaceGames\rp-toolkit` (C# sources, and prefab/scene YAML with
-scripts matched by GUID from their `.meta` files).
+Sections 1 to 10 are the analysis, read from the clone at `C:\workspace\AltspaceGames\rp-toolkit` (C# sources,
+and prefab/scene YAML with scripts matched by GUID from their `.meta` files). Section 0 is the state of the port:
+the rules are translated to TypeScript in `altspace/ts/` and tested in Node on the fake room (rung 1). No Unity
+project exists yet: no kit, no bundles, no Play-mode run.
+
+## 0. Port status (2026-11-24): TypeScript rules, rung 1
+
+### 0.1 What exists
+
+| | |
+|---|---|
+| Sources | `altspace/ts/src/`: one file per upstream file of the translation map (section 7, rows 1 to 16: 22 files), plus `index.ts`. `DiceRoller5E.cs` becomes `DiceRollerD20.ts` (renamed, 0.2). `VRPGTextElement`, `VRPGIconElement` and `IconController` are plain objects over kit objects, not behaviours; `VRPGTextElement.ts` also holds `VRPGInputField`, the page's copy of a uGUI input field |
+| Runtime | `altspace/ts/portkit/`: a copy of `portkit/ts` (robocopy /MIR without node_modules and dist), unedited |
+| Bindings | `altspace/ts/bindings.json` is **provisional**: written by `tools/provisional-bindings.ts` (`npm run bindings`) from section 5's object model, not by a kit builder. 399 objects, 395 refs, 50 behaviours (32 of them player-list rows), 91 `uiButton` events. Its `note` member says so. The kit builder must keep the object keys (bindings.lock.json) or the tests' keys change |
+| Tests | `npm test`: typecheck, lint (page and clock rules: clean), 20 Node tests, all passing. `vectors/dice.json`: 13 DS and 8 d20 vectors with upstream line references, derived by hand from the C# (no dotnet, no VRChat SDK: Q13) |
+| Build | `npm run build -- --out <folder>` builds `pk-rp-toolkit.js` (about 433 KB, MIT notice of GIB Games at the top from `script-header.txt`). Built to a scratch folder for this check; nothing is written to `Assets/WebRoot` because no Unity project exists |
+
+Tests (`altspace/ts/test/`):
+
+| File | What it shows |
+|---|---|
+| `dice.test.ts` | every DS vector (DS:26-137) and every d20 vector (D5E:19-146) through the kit's buttons and fields with a scripted Random.Range: line text, which log, the (min, max) of each draw, the 1 s re-roll and the three-tie stop; a remote client's forged `NewRoll` / `SetMod` does nothing on another client |
+| `utils.test.ts` | int.TryParse as C# (signs, white space, trailing NULs, overflow, "5.0"), GetColorHex with float32 and round-half-even, GetDots, StripTags, typed-text cleaning, the rich-text filter |
+| `scenarios.test.ts` | menu state per player (open by key, controller button and the board's button; panels; plates; forged events ignored); a GM grants and revokes a role, a lead's own grant counts while the lead is present and lapses when they leave, "Gm Title"; a non-GM's privileged requests refused on every client (GoSpawn, GoRespawn, DoForceBring, AskWhere, own-state grant, protected writes, forged "Give GM"); bring one player, go to one player, point A Local, point B All (fade timing, second press ignored, menu closed), respawn All; `disable-gm-bring`; IC, OOC and GM logs with text holding `\|`, `^`, double and single quotes, `%`, a backslash and a line break, identical in every client's buffer and in the kit text the relay sets; alert on and off; empty send; tag filter; 500-character cut; GM-log visibility; tabs; paging; name labels on join, leave and a new join into the freed slot; staff keep colours, others stripped; OOC preset; whitelists by user id (`staff-uids`, `no-staff-uids`, `vip-uids`, `enable-operators` off); `first-joiner-gm` off and on (and handed on when the first player leaves); a late joiner gets roles, names, labels and the recent IC, OOC and GM lines; name, title and options back on the same device and not on another; leaf budget (2 synced slots, at most 3 user-state leaves per player) |
+
+### 0.2 Decisions (decided by the coordinator, 2026-11-24)
+
+These answer Q1 to Q4, Q10 and Q11 of 10.4 and override section 8 where they differ.
+
+**Removed entirely**, with the reason:
+
+| What | Where upstream | Reason |
+|---|---|---|
+| The remote configuration, staff list and exile list downloaded from the author's site, and the patron list and world version downloaded the same way | `CFG:58-178`, `MP:51010-51012`; `PAT:44-127`, `MP:62788`; `Scripts/Addons/WorldVersionCheck.cs`, `MP:19029` | Whoever can edit the author's file is staff, or exiled, in every world that uses the toolkit; a snippet must not depend on a third party's site. Replaced by settings on the element |
+| The embedded default configuration with four VRChat display names (two staff, two "exile") | `MP:51018` | Other people's accounts; display names are not identities anyway (C1) |
+| The author back door keyed on a display name: `TryElevate`, `Welp`, `IsOnGameMasterList`, the saved key 4256, the "butts" phrase, `GameMasterName` as top role and as patron | `GMD:125-219`, `GMD:140-143`, `PAT:139`, `MP:42035`, `MP:61401` | One named account becomes the top role in every world that uses the prefab |
+| The persistent "cheater" shaming: `usedToast` / `wasToast`, `IdentifyCheater`, `DoCheaterProtection`, the "I AM A CHEATER" label, the cheater keys | `PO:91-99`, `PO:467-487`, `PO:513-551`, `GMD:77-80`, `CFG:46-49` | A public, persistent shaming mark, switchable from the author's remote config; it also mutes and immobilises |
+| The inactive Character and Powers panels (Vampire: The Masquerade terms: clans, Disciplines, Celerity), with `VRPGCharacter`, `SheetDataValue`, `SheetModuleBase` | `MP:16168`, `MP:17892`; checklist 79 | Another publisher's game terms; off by default upstream and dependent on a hosted JSON file |
+
+Other decisions:
+
+- **Both dice rollers are ported.** The one upstream names after D&D 5E is the generic "d20 roller" (`DiceRollerD20.ts`, setting `dice` = `ds` (default), `d20` or `both`); its out-of-range read (`D5E:129`) is fixed (C11).
+- **Game masters** are the world's owner and moderators by default (`isSpaceAdmin`, and a self-registration in protected space state, `x.gm-<uid>`). The setting `first-joiner-gm` (default off) makes the first player an Instance Lead. The staff table is protected space state (`x.st-<uid>` = `{r, at, by}`, written by game masters); a non-admin staff member's grants live in their own user state. Every privileged network event checks its sender (8.4, C3).
+- **Left out, no platform API:** voice zones, channels, the amplifier, "GM heard everywhere" (L5), GM speed (L7). Per-account saves become per device (G3). **The map is left out**: its camera, render texture and material are not in the repository (checklist 83, R5).
+- **Patron features** are the setting `vip-uids` (and `credits` for the credits text).
+- **Late joiners see the recent log lines** (upstream shows them nothing): the referee keeps the last `log-recent` (20) lines of each log in synced state.
+
+### 0.3 Checklist status (section 2, 94 items)
+
+Words: **Tested** (translated and covered by a Node test), **Done** (translated, no test yet), **Kit** (the
+behaviour is the kit's or a graph's: needs the Unity side), **No**, **Removed** (0.2), **Left out**, **Dead**.
+
+| Status | Count | Items |
+|---|---|---|
+| Tested | 64 | 2-12, 14, 17-21, 23-29, 31-65, 70, 72, 75, 77, 78 |
+| Done | 4 | 13 (Off preset), 30 (network debug line), 68 (Exile Room; Exile and Un-Exile are Dead), 71 (grid toggle) |
+| Kit | 2 | 1 (the canvas), 16 (label placement over the head: runtime gap RG2) |
+| No | 5 | 66, 67, 80, 81, 82 |
+| Removed | 6 | 74, 79, 84, 92, 93, 94 |
+| Left out | 4 | 83 (map), 85, 86, 87 |
+| Dead | 9 | 15, 22, 69, 73, 76, 88, 89, 90, 91 |
+
+Notes on Tested items that differ from what section 2 proposed: 3 has two of its three sources (controller
+button, board button; the radial menu has no runtime call, RG3); 10 tests the caption (the logo image is the
+kit's); 28 is capped at `log-lines` (60) per box with `log-view` (12) shown and page buttons, and late joiners get
+`log-recent` (20) lines per log; 47 writes the label for every player (upstream skipped players with no saved
+name, so a reused row kept a stale label); 54's grants by a game master go to protected state, others' to user
+state; 70's volume is page state only (RG4); a revoked operator also loses the Operator UI (upstream left it on).
+
+Section 8.4's "a grant ends 30 s after the granter leaves" is in fact "when the platform reports the leave": in
+the fake room that is at once for a closed socket.
+
+Section 8.6 as built: user state per player is `k` (runtime), `d` (PlayerData: `vrpg-charName`, `vrpg-charTitle`,
+`vrpg-charDesc`) and one `p` leaf (the per-player behaviour: `labelSlot`, `grants`); space state is the GM
+handler's `firstJoiner` and the logs' `recentIC` / `recentOOC` / `recentGM`, both owned by the referee, plus the
+protected `x.gm-<uid>` and `x.st-<uid>`. Options (`vrpg-options-toggleImAlert`, `...ImSlider`, `...toggleGrid`) are
+`localStorage` only. Teleport-to and bring travel as network events `AskWhere` / `AnswerWhere` / `DoForceBring`
+with positions; "everyone" moves are `GoSpawn0`..`GoSpawn5` and `GoRespawn`.
+
+### 0.4 Runtime gaps found (portkit was not edited; local workarounds in the game's files)
+
+| # | Gap | Workaround here | Asked of the runtime or the kit |
+|---|---|---|---|
+| RG1 | No text input: the Platform has no UI-kit text field, and the page cannot read a uGUI `TMP_InputField` (G8) | The kit reports each edit with the graph-to-page event `field` (`<object key>\|<text>`), and the page clears a field with the relay `text` op on the field's object | Kit builder: a listener on each of the seven input fields (whether `TMP_InputField.onValueChanged` is on the graph allow-list is unverified). Relay: the `text` op must also set `TMP_InputField.text` |
+| RG2 | No avatar attachment and no remote head positions (G4) | Labels are a pool of 32 kit objects; each player claims a slot in their own user state and every client fills it | A way to attach a kit object to each player's avatar (or a per-frame graph that places slot `n` over the head of the player who holds it) |
+| RG3 | No radial-menu (WorldOption) call in the runtime | Key, controller button and the board's open button only | `this.Input` or the Platform: add a world option button |
+| RG4 | No relay op for `AudioSource.volume` | The alert volume is kept and saved by the page but changes nothing | A `volume` relay op |
+| RG5 | No respawn call, and the runtime does not pass on `player-teleported` with `isSpawn` | Respawn goes to the setting `respawn`, else to where the board is parked | Pass the spawn teleport through, or a respawn call |
+| RG6 | A network event can call any public method of any behaviour (only `_` names are blocked) | `VRPGComponent.FromRemote()`: every button method returns at once when another client's event runs it; internal steps are `_`-named | A per-class allow-list of network-callable methods (UdonSharp's `[NetworkCallable]`) |
+| RG7 | `Input.Position` is the head, not the feet; `TeleportTo` takes a position | Bring and teleport-to use the head position as is, so a teleportee may land at head height | The local player's feet position, or a note of what `TeleportTo` expects |
+| RG8 | The relay's `audio` op is not built yet (portkit README) | The two alert objects are left out of refs, so the page plays their clips itself (`BS.AudioSource.PlayOneShot`, marked UNVERIFIED in the adapter) | The `audio` op, or confirmation of the page path |
+
+### 0.5 Not done in this job
+
+No Unity: no kit builder, prefabs, bundles, relay or label graphs, Play-mode or two-player runs (rungs 2 to 4),
+no THIRD-PARTY-NOTICES.md and no credits text content beyond the `credits` setting. Golden vectors from compiled
+C# (9.1) were not produced; the dice vectors are hand-derived with line references.
 
 Conventions used in this file:
 

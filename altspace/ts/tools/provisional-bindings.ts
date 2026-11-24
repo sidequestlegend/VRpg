@@ -8,8 +8,8 @@
 // changes: four panels instead of seven, buttons with a check mark instead of toggles, a Local / All button instead
 // of the dropdown, +/- buttons instead of the volume slider, page buttons on the player list and the logs, 32 rows
 // instead of 84, a pool of 32 name labels, an open button on the parked board, the d20 roller placed in the Main
-// panel beside the DS roller. Input fields report edits through the graph-to-page event "field" (args: the field's
-// object key, its text): the kit builder adds that listener to each of the seven input fields.
+// panel beside the DS roller. Input fields report edits through bindings events of kind "field" (the relay graph polls
+// each TMP_InputField and sends its refs index and text once editing ends).
 
 import { createHash } from "node:crypto";
 import { writeFileSync } from "node:fs";
@@ -97,6 +97,7 @@ obj("d20GmCheck", `${E}/Toggle/Checkmark`);
 obj("d20One", `${E}/1d20`);
 obj("d20Adv", `${E}/1d20 Advantage`);
 obj("d20Dis", `${E}/1d20 Disadvantage`);
+obj("diceSwitch", `${P}/Panel 0 - Main/Actions/Dice Switch`);
 
 const S = `${P}/Panel 4 - Social`;
 obj("playerCount", `${S}/PlayerCount`);
@@ -140,10 +141,8 @@ obj("teleTargetLabel", `${G6}/Teleport/Dropdown/Label`);
 obj("operUI", `${P}/OperUI`);
 obj("noBoxSpawn", `${P}/OperUI/NoBoxSpawn`);
 
-// The two alerts stay out of refs: a clip of an object's own list outside refs is played by the page itself
-// (BS.AudioSource.PlayOneShot), while the relay's audio op is not built yet (portkit README, relay op table).
-obj("gmAlert", "VRPG GM Handler/GMAlert", { ref: false });
-obj("imAlert", "VRPG GM Handler/IM Alert", { ref: false });
+obj("gmAlert", "VRPG GM Handler/GMAlert");
+obj("imAlert", "VRPG GM Handler/IM Alert");
 obj("fadeSphere", "FadeSphere");
 obj("fadeTarget", "VRPG Behaviors/VRPG Teleporter/FadeTarget");
 obj("grid", "VRPG Behaviors/VRPG Grid/GridPlane");
@@ -176,6 +175,8 @@ const behaviours: Array<Record<string, unknown>> = [
       Options: $beh("options"),
       DiceDS: $beh("ds"),
       DiceD20: $beh("d20"),
+      diceSwitch: $obj("diceSwitch"),
+      Labels: Array.from({ length: LABELS }, (_, i) => $obj(`label${i}`)),
     },
   },
   { id: "config", type: "VRPGConfigData", object: null },
@@ -189,7 +190,7 @@ const behaviours: Array<Record<string, unknown>> = [
       teleTargetLabel: $obj("teleTargetLabel"),
       teleButtons: [0, 1, 2, 3, 4, 5].map((i) => $obj(`tp${i}`)),
       GMSound: { $comp: "gmAlert", kind: "AudioSource" },
-      GMClip: { $clip: 0 },
+      GMClip: { $clip: 0, on: "gmAlert" },
     },
   },
   {
@@ -224,7 +225,7 @@ const behaviours: Array<Record<string, unknown>> = [
       GMOutputBox: $obj("gmOutput"),
       GMInputBox: $obj("gmInput"),
       ImSound: { $comp: "imAlert", kind: "AudioSource" },
-      ImClip: { $clip: 0 },
+      ImClip: { $clip: 0, on: "imAlert" },
     },
   },
   {
@@ -264,6 +265,7 @@ const behaviours: Array<Record<string, unknown>> = [
     object: null,
     fields: {
       imAlertObject: $obj("imAlert"),
+      imAlertSource: { $comp: "imAlert", kind: "AudioSource" },
       imAlertCheck: $obj("imAlertCheck"),
       gridObject: $obj("grid"),
       gridCheck: $obj("gridCheck"),
@@ -309,6 +311,7 @@ ui("d20Gm", "d20", "ToggleGm");
 ui("d20One", "d20", "Roll20");
 ui("d20Adv", "d20", "Roll20Advantage");
 ui("d20Dis", "d20", "Roll20Disadvantage");
+ui("diceSwitch", "mgr", "SwitchDice");
 ui("refresh", "social", "UpdatePlayerList");
 ui("pagePrev", "social", "PreviousPage");
 ui("pageNext", "social", "NextPage");
@@ -327,11 +330,19 @@ for (let i = 0; i < 6; i++) ui(`tp${i}`, "gm", `TrySpawn${i}`);
 ui("respawn", "gm", "TryRespawn");
 ui("teleTarget", "gm", "CycleTeleTarget");
 ui("noBoxSpawn", "gm", "GoNoBox");
+const field = (object: string, behaviour: string, method: string) => events.push({ object, kind: "field", behaviour, method });
+field("nameField", "menu", "NameTyped");
+field("titleField", "menu", "TitleTyped");
+field("icInput", "logs", "ICTyped");
+field("oocInput", "logs", "OOCTyped");
+field("gmInput", "logs", "GMTyped");
+field("dsAtt", "ds", "AttTyped");
+field("dsDef", "ds", "DefTyped");
 
 const doc: Record<string, unknown> = {
   schema: 1,
   slug: "rp-toolkit",
-  note: "PROVISIONAL: written by tools/provisional-bindings.ts from PORT.md's object model, not by the kit builder. Input fields report edits through the graph event 'field' (object key, text).",
+  note: "PROVISIONAL: written by tools/provisional-bindings.ts from PORT.md's object model, not by the kit builder. Input fields report edits as bindings events of kind 'field'.",
   bundles: { windows: "", android: "" },
   objects,
   refs: Object.keys(objects).filter((k) => !noRef.has(k)),

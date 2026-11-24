@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "slug": "rp-toolkit",
-  "hash": "5f95d51bbb8931a3b4458cd97f8e7473f27570f0",
-  "note": "PROVISIONAL: written by tools/provisional-bindings.ts from PORT.md's object model, not by the kit builder. Input fields report edits through the graph event 'field' (object key, text).",
+  "hash": "6b5f888a715d3a4e17e6354c4229178c0d9fa743",
+  "note": "PROVISIONAL: written by tools/provisional-bindings.ts from PORT.md's object model, not by the kit builder. Input fields report edits as bindings events of kind 'field'.",
   "bundles": {
     "windows": "",
     "android": ""
@@ -500,6 +500,13 @@
     },
     "d20Dis": {
       "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice d20/1d20 Disadvantage",
+      "sync": "none",
+      "grab": false,
+      "click": false,
+      "seat": false
+    },
+    "diceSwitch": {
+      "path": "VRPG Local Menu/Menu Canvas/Panels/Panel 0 - Main/Actions/Dice Switch",
       "sync": "none",
       "grab": false,
       "click": false,
@@ -2872,6 +2879,7 @@
     "d20One",
     "d20Adv",
     "d20Dis",
+    "diceSwitch",
     "playerCount",
     "selectedName",
     "resultName",
@@ -2971,6 +2979,8 @@
     "teleTargetLabel",
     "operUI",
     "noBoxSpawn",
+    "gmAlert",
+    "imAlert",
     "fadeSphere",
     "fadeTarget",
     "grid",
@@ -3234,7 +3244,108 @@
         },
         "DiceD20": {
           "$beh": "d20"
-        }
+        },
+        "diceSwitch": {
+          "$obj": "diceSwitch"
+        },
+        "Labels": [
+          {
+            "$obj": "label0"
+          },
+          {
+            "$obj": "label1"
+          },
+          {
+            "$obj": "label2"
+          },
+          {
+            "$obj": "label3"
+          },
+          {
+            "$obj": "label4"
+          },
+          {
+            "$obj": "label5"
+          },
+          {
+            "$obj": "label6"
+          },
+          {
+            "$obj": "label7"
+          },
+          {
+            "$obj": "label8"
+          },
+          {
+            "$obj": "label9"
+          },
+          {
+            "$obj": "label10"
+          },
+          {
+            "$obj": "label11"
+          },
+          {
+            "$obj": "label12"
+          },
+          {
+            "$obj": "label13"
+          },
+          {
+            "$obj": "label14"
+          },
+          {
+            "$obj": "label15"
+          },
+          {
+            "$obj": "label16"
+          },
+          {
+            "$obj": "label17"
+          },
+          {
+            "$obj": "label18"
+          },
+          {
+            "$obj": "label19"
+          },
+          {
+            "$obj": "label20"
+          },
+          {
+            "$obj": "label21"
+          },
+          {
+            "$obj": "label22"
+          },
+          {
+            "$obj": "label23"
+          },
+          {
+            "$obj": "label24"
+          },
+          {
+            "$obj": "label25"
+          },
+          {
+            "$obj": "label26"
+          },
+          {
+            "$obj": "label27"
+          },
+          {
+            "$obj": "label28"
+          },
+          {
+            "$obj": "label29"
+          },
+          {
+            "$obj": "label30"
+          },
+          {
+            "$obj": "label31"
+          }
+        ]
       }
     },
     {
@@ -3294,7 +3405,8 @@
           "kind": "AudioSource"
         },
         "GMClip": {
-          "$clip": 0
+          "$clip": 0,
+          "on": "gmAlert"
         }
       }
     },
@@ -3414,7 +3526,8 @@
           "kind": "AudioSource"
         },
         "ImClip": {
-          "$clip": 0
+          "$clip": 0,
+          "on": "imAlert"
         }
       }
     },
@@ -3843,6 +3956,10 @@
         "imAlertObject": {
           "$obj": "imAlert"
         },
+        "imAlertSource": {
+          "$comp": "imAlert",
+          "kind": "AudioSource"
+        },
         "imAlertCheck": {
           "$obj": "imAlertCheck"
         },
@@ -4100,6 +4217,12 @@
       "kind": "uiButton",
       "behaviour": "d20",
       "method": "Roll20Disadvantage"
+    },
+    {
+      "object": "diceSwitch",
+      "kind": "uiButton",
+      "behaviour": "mgr",
+      "method": "SwitchDice"
     },
     {
       "object": "refresh",
@@ -4424,6 +4547,48 @@
       "kind": "uiButton",
       "behaviour": "gm",
       "method": "GoNoBox"
+    },
+    {
+      "object": "nameField",
+      "kind": "field",
+      "behaviour": "menu",
+      "method": "NameTyped"
+    },
+    {
+      "object": "titleField",
+      "kind": "field",
+      "behaviour": "menu",
+      "method": "TitleTyped"
+    },
+    {
+      "object": "icInput",
+      "kind": "field",
+      "behaviour": "logs",
+      "method": "ICTyped"
+    },
+    {
+      "object": "oocInput",
+      "kind": "field",
+      "behaviour": "logs",
+      "method": "OOCTyped"
+    },
+    {
+      "object": "gmInput",
+      "kind": "field",
+      "behaviour": "logs",
+      "method": "GMTyped"
+    },
+    {
+      "object": "dsAtt",
+      "kind": "field",
+      "behaviour": "ds",
+      "method": "AttTyped"
+    },
+    {
+      "object": "dsDef",
+      "kind": "field",
+      "behaviour": "ds",
+      "method": "DefTyped"
     }
   ]
 }

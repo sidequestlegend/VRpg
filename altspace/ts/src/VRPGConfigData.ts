@@ -53,7 +53,6 @@ export class VRPGConfigData extends VRPGComponent {
 
   /** CFG:118-126, without the download. */
   OnUpdateConfig(): void {
-    if (this.FromRemote()) return;
     this.UpdateSpecialConfigValues();
     this.InformSubscribers();
   }

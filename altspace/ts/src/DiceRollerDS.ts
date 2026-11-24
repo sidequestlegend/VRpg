@@ -33,28 +33,28 @@ export class DiceRollerDS extends VRPGRollerBase {
     super.Start();
     this.attBox = new VRPGInputField(this.Host, this.attBoxObject.key, 16);
     this.defBox = new VRPGInputField(this.Host, this.defBoxObject.key, 16);
-    this.RegisterGraphEvent("field", "_OnField");
     const threat = this.VRPG.ConfigData.GetBool("ds-threat");
     this.attDropObject?.SetActive(threat);
     this.defDropObject?.SetActive(threat);
     this._ShowDrops();
   }
 
-  _OnField(key: string, text: string): void {
-    if (key === this.attBox.key) this.attBox.Typed(text);
-    else if (key === this.defBox.key) this.defBox.Typed(text);
+  /** The kit reports an edit of the Att or the Def field (bindings: `{"kind": "field"}`). */
+  AttTyped(text: unknown): void {
+    this.attBox.Typed(String(text ?? ""));
+  }
+  DefTyped(text: unknown): void {
+    this.defBox.Typed(String(text ?? ""));
   }
 
   /** DS:26-30 */
   NewRoll(): void {
-    if (this.FromRemote()) return;
     this.diceIterations = 0;
     this.Roll();
   }
 
   /** DS:32-117 */
   Roll(): void {
-    if (this.FromRemote()) return;
     // get character name
     const myName = `${this.Networking.LocalPlayer.displayName}`;
 
@@ -125,7 +125,6 @@ export class DiceRollerDS extends VRPGRollerBase {
 
   /** DS:119-125 */
   ClearBox(): void {
-    if (this.FromRemote()) return;
     this.attBox.text = "";
     this.defBox.text = "";
     this.attDropValue = 0;
@@ -135,7 +134,6 @@ export class DiceRollerDS extends VRPGRollerBase {
 
   /** DS:127-137 */
   DoTieReroll(): void {
-    if (this.FromRemote()) return;
     if (this.diceIterations > 2) {
       this.VRPG.Logger.LogRaw("Too many rerolls due to tie. Please try again!");
     } else {
@@ -145,13 +143,11 @@ export class DiceRollerDS extends VRPGRollerBase {
 
   /** The attack threat button: +0, +1, +2, then +0 again (a dropdown upstream). */
   CycleAttThreat(): void {
-    if (this.FromRemote()) return;
     this.attDropValue = (this.attDropValue + 1) % 3;
     this._ShowDrops();
   }
 
   CycleDefThreat(): void {
-    if (this.FromRemote()) return;
     this.defDropValue = (this.defDropValue + 1) % 3;
     this._ShowDrops();
   }

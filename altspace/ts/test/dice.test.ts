@@ -49,8 +49,17 @@ async function oneTable(): Promise<{ t: Table; ann: FakeClient }> {
 
 test("DS roller: every vector gives upstream's line, in the right log, from the right draws", async () => {
   const { t, ann } = await oneTable();
+  // With dice="both" the two rollers share the Actions column: DS first, the switch shows the other (PORT.md 0.2).
+  assert.equal(t.active(ann, "diceSwitch"), true);
   assert.equal(t.active(ann, "dsRoot"), true);
+  assert.equal(t.active(ann, "d20Root"), false);
+  t.press(ann, "diceSwitch");
+  await t.run(100);
+  assert.equal(t.active(ann, "dsRoot"), false);
   assert.equal(t.active(ann, "d20Root"), true);
+  t.press(ann, "diceSwitch");
+  await t.run(100);
+  assert.equal(t.active(ann, "dsRoot"), true);
   for (const v of vectors.ds) {
     const k = LOG[v.log];
     const before = { ooc: t.lines(ann, 1).length, gm: t.lines(ann, 2).length };

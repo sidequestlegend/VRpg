@@ -35,7 +35,6 @@ export class VRPGPlayerButton extends VRPGComponent {
 
   /** PBTN:39-45 */
   NoCharacter(): void {
-    if (this.FromRemote()) return;
     this.ValidateButton();
     this.buttonLabel?.SetText("");
     this.targetPlayer = null;
@@ -44,7 +43,6 @@ export class VRPGPlayerButton extends VRPGComponent {
 
   /** PBTN:47-69 */
   AssignCharacter(target: VRPGPlayerObject): void {
-    if (this.FromRemote()) return;
     if (!target.Owner?.IsValid()) return;
     this.ValidateButton();
     this.targetPlayer = target;
@@ -56,7 +54,6 @@ export class VRPGPlayerButton extends VRPGComponent {
 
   /** PBTN:71-77 */
   SelectPlayer(): void {
-    if (this.FromRemote()) return;
     if (this.targetPlayer === null || !this.targetPlayer.Owner?.IsValid()) return;
     this.Debug.Log("Setting Selected player to: " + this.targetPlayer.Owner.displayName);
     this.VRPG.Social.SetSelectedPlayer(this.targetPlayer);

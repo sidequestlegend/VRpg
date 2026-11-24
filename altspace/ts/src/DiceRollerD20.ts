@@ -34,14 +34,12 @@ export class DiceRollerD20 extends VRPGRollerBase {
 
   /** D5E:19-23 */
   Roll20(): void {
-    if (this.FromRemote()) return;
     const result = this.RollInt(1, 21) + this.currentMod;
     this.SendResult(`${this.Networking.LocalPlayer.displayName} rolled 1d20 ${this.GetModString()}: ${result}`);
   }
 
   /** D5E:25-31 */
   Roll20Advantage(): void {
-    if (this.FromRemote()) return;
     const roll1 = this.RollInt(1, 21);
     const roll2 = this.RollInt(1, 21);
     const result = Math.max(roll1, roll2) + this.currentMod;
@@ -50,7 +48,6 @@ export class DiceRollerD20 extends VRPGRollerBase {
 
   /** D5E:33-39 */
   Roll20Disadvantage(): void {
-    if (this.FromRemote()) return;
     const roll1 = this.RollInt(1, 21);
     const roll2 = this.RollInt(1, 21);
     const result = Math.min(roll1, roll2) + this.currentMod;
@@ -83,7 +80,6 @@ export class DiceRollerD20 extends VRPGRollerBase {
   }
 
   private _Add(die: string): void {
-    if (this.FromRemote()) return;
     if (this.dicePool.length >= 40) return; // a pool line must fit the log (the port's limit)
     this.dicePool.push(die);
     this.UpdateDicePoolBoxText();
@@ -91,14 +87,12 @@ export class DiceRollerD20 extends VRPGRollerBase {
 
   /** D5E:83-87 */
   ResetBox(): void {
-    if (this.FromRemote()) return;
     this.dicePool.length = 0;
     this.UpdateDicePoolBoxText();
   }
 
   /** D5E:89-123 */
   RollBox(): void {
-    if (this.FromRemote()) return;
     let total = 0;
     let diceResults = "";
     for (let i = 0; i <= this.dicePool.length - 1; i++) {
@@ -156,7 +150,6 @@ export class DiceRollerD20 extends VRPGRollerBase {
   }
 
   SetMod(target: number): void {
-    if (this.FromRemote()) return;
     if (!Number.isInteger(target)) return;
     this.currentMod = target;
     this.UpdateDicePoolBoxText();

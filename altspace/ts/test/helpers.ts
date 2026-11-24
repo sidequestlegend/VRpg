@@ -57,9 +57,11 @@ export class Table {
     c.graphEvent(SLUG, "0", "uiButton", String(index));
   }
 
-  /** Types into an input field: the kit reports the field's text with the graph event "field". */
+  /** Types into an input field: the relay graph reports the field's text with the event "field" (its refs index, the text). */
   type(c: FakeClient, field: string, text: string): void {
-    c.graphEvent(SLUG, "0", "field", encodeRelayArg(field) + "|" + encodeRelayArg(text));
+    const index = (bindings.refs as string[]).indexOf(field);
+    if (index < 0) throw new Error(`${field} is not in refs`);
+    c.graphEvent(SLUG, "0", "field", String(index) + "|" + encodeRelayArg(text));
   }
 
   /** What the relay graph last set as a kit text on that client. */

@@ -3,10 +3,9 @@
 // Upstream finds the manager with GameObject.Find("VRPG Manager") (VRPGComponent.cs:55); here it is the one
 // VRPGManager behaviour of this instance. Logging is gated on the verbose flag as upstream (:34, :41, :48).
 //
-// Added for the port: FromRemote(). A network event may call any public method of a behaviour on every client
-// (the runtime allows every method whose name does not start with "_"). Upstream checks no sender (PORT.md 3.2),
-// so a forged event could press any button on everyone's menu. Every method that a button calls, and that is
-// not meant to arrive over the network, starts with `if (this.FromRemote()) return;` (PORT.md C3).
+// Which methods another client may run here: only those a class lists in `static networkCallable` (the runtime
+// refuses every other name). Upstream checks no sender (PORT.md 3.2); the listed handlers that act check WHO sent
+// them (Networking.CallingPlayer), so a forged event can press no button on anyone's menu (PORT.md C3).
 
 import { Behaviour } from "../portkit/src/index.ts";
 import type { VRPGManager } from "./VRPGManager.ts";
@@ -41,15 +40,5 @@ export class VRPGComponent extends Behaviour {
 
   CacheManager(): void {
     this.vrpgManager = this.FindBehavioursOfType<VRPGManager>("VRPGManager")[0] ?? null;
-  }
-
-  /**
-   * True while a network event sent by another client runs this method. A button method that must only act for
-   * the local player returns at once when it is.
-   */
-  FromRemote(): boolean {
-    const session = this.Networking.CallingSession;
-    if (session === null) return false;
-    return session.sid !== this.Networking.LocalPlayer.sid;
   }
 }

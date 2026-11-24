@@ -50,14 +50,12 @@ export class VRPGSocial extends VRPGComponent {
 
   /** SOC:56-62 */
   SetSelectedPlayer(targetPlayer: VRPGPlayerObject): void {
-    if (this.FromRemote()) return;
     this.SelectedPlayer = targetPlayer;
     if (targetPlayer.Owner) this.SetSelectedPlayerApi(targetPlayer.Owner);
   }
 
   /** SOC:64-76 */
   SetSelectedPlayerApi(targetApi: Player): void {
-    if (this.FromRemote()) return;
     if (!targetApi.IsValid()) return;
     const object = this.VRPG.GetPlayerObject(targetApi);
     this.playerLabel?.SetText(targetApi.displayName);
@@ -68,7 +66,6 @@ export class VRPGSocial extends VRPGComponent {
 
   /** SOC:78-84 */
   ClearSelectedPlayer(): void {
-    if (this.FromRemote()) return;
     this.SelectedPlayer = null;
     this.playerLabel?.Clear();
     this.nameLabel?.Clear();
@@ -78,7 +75,6 @@ export class VRPGSocial extends VRPGComponent {
 
   /** SOC:86-110 */
   UpdatePlayerList(): void {
-    if (this.FromRemote()) return;
     this.RefreshList();
   }
 
@@ -109,12 +105,10 @@ export class VRPGSocial extends VRPGComponent {
 
   /** The page buttons (not upstream: 84 rows in a scroll view there). */
   NextPage(): void {
-    if (this.FromRemote()) return;
     this.page++;
     this.RefreshList();
   }
   PreviousPage(): void {
-    if (this.FromRemote()) return;
     this.page = Math.max(0, this.page - 1);
     this.RefreshList();
   }

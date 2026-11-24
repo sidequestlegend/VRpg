@@ -27,7 +27,6 @@ export class VRPGPatronData extends VRPGComponent {
 
   /** PAT:129-135 */
   ForceShowPatronItems(): void {
-    if (this.FromRemote()) return;
     for (const g of this.PatronItems) g.SetActive(true);
   }
 

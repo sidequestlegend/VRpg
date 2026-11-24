@@ -68,6 +68,24 @@ const POINT_NAMES = ["a", "b", "c", "d", "e", "f"];
 
 export class VRPGGameMasterData extends VRPGComponent {
   static override synced = ["firstJoiner"];
+  /**
+   * What other clients may ask of this client (README: nothing else can be named by an event). Each handler that
+   * acts checks who sent it (AskWhere, AnswerWhere, DoForceBring, GoSpawn*, GoRespawn); SyncCallST only plays the
+   * alert for staff, which anyone may ask for, as upstream.
+   */
+  static override networkCallable = [
+    "SyncCallST",
+    "AskWhere",
+    "AnswerWhere",
+    "DoForceBring",
+    "GoSpawn0",
+    "GoSpawn1",
+    "GoSpawn2",
+    "GoSpawn3",
+    "GoSpawn4",
+    "GoSpawn5",
+    "GoRespawn",
+  ];
 
   /** Synced, written by the referee: the user id `first-joiner-gm` names. */
   firstJoiner = "";
@@ -283,7 +301,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:221-258: the local player gives `targetState` to player `id`. */
   TrySetGMState(id: number, targetState: number): void {
-    if (this.FromRemote()) return;
     const me = this.Networking.LocalPlayer;
     const targetPlayer = this.Networking.GetPlayerById(id);
     const myGmState = this.RoleOf(me);
@@ -316,7 +333,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:289-298 */
   SetGMStateToSelected(targetState: number): void {
-    if (this.FromRemote()) return;
     const selected = this.VRPG.Social.SelectedPlayer;
     if (selected === null) return;
     if (!selected.Owner?.IsValid()) return;
@@ -325,15 +341,12 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:300-304 */
   GiveAutoMod(): void {
-    if (this.FromRemote()) return;
     this.SetGMStateToSelected(2);
   }
   GiveInstanceMod(): void {
-    if (this.FromRemote()) return;
     this.SetGMStateToSelected(1);
   }
   RemoveMod(): void {
-    if (this.FromRemote()) return;
     this.SetGMStateToSelected(0);
   }
 
@@ -380,7 +393,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:432-436 */
   CallST(): void {
-    if (this.FromRemote()) return;
     this.SendCustomNetworkEvent(NetworkEventTarget.All, "SyncCallST");
     this.VRPG.Logger.LogGMRaw(`${this.Networking.LocalPlayer.displayName} called for an ST!`);
   }
@@ -395,7 +407,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:446-458 */
   SetStaffTitle(): void {
-    if (this.FromRemote()) return;
     const me = this.Networking.LocalPlayer;
     if (this.IsOnNoOpList(me)) return;
     const namePlate = this.GiveModeratorLabelColor(me);
@@ -416,7 +427,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:464-483 */
   TeleToSelected(): void {
-    if (this.FromRemote()) return;
     const selected = this.VRPG.Social.SelectedPlayer;
     if (selected?.Owner?.IsValid()) this.TeleToId(selected.Owner.playerId);
     else this.ComponentLogWarning("Error Tele-342: Selected Player was null!");
@@ -427,7 +437,6 @@ export class VRPGGameMasterData extends VRPGComponent {
    * the target and teleports when the answer comes (AnswerWhere).
    */
   TeleToId(targetId: number): void {
-    if (this.FromRemote()) return;
     const targetPlayer = this.Networking.GetPlayerById(targetId);
     if (!targetPlayer?.IsValid()) {
       this.ComponentLogWarning("Error Tele-352: Attempted to teleport to invalid VRCPlayerApi");
@@ -490,7 +499,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:532-554 */
   BringToMe(): void {
-    if (this.FromRemote()) return;
     if (this.VRPG.ConfigData.GetBool("disableGMBring")) this.ComponentLogWarning("Unable to Bring player: BringToMe disabled by config.");
     const selected = this.VRPG.Social.SelectedPlayer;
     if (selected?.Owner?.IsValid()) {
@@ -512,7 +520,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** The Local / All button (a dropdown upstream, GMD:46). */
   CycleTeleTarget(): void {
-    if (this.FromRemote()) return;
     this.teleTarget = this.teleTarget === 0 ? 1 : 0;
     this.ShowTeleTarget();
   }
@@ -523,7 +530,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:556-647: "Local" moves the caller; "All" moves everyone (the caller included, at once). */
   private _TrySpawn(index: number): void {
-    if (this.FromRemote()) return;
     if (this.teleTarget === 0) this._GoSpawn(index);
     else this.SendCustomNetworkEvent(NetworkEventTarget.All, `GoSpawn${index}`);
   }
@@ -548,7 +554,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:570-582 */
   TryRespawn(): void {
-    if (this.FromRemote()) return;
     if (this.teleTarget === 0) this._GoRespawn();
     else this.SendCustomNetworkEvent(NetworkEventTarget.All, "GoRespawn");
   }
@@ -603,7 +608,6 @@ export class VRPGGameMasterData extends VRPGComponent {
 
   /** GMD:691-694: the operators' "Exile Room" moves the operator, as upstream. */
   GoNoBox(): void {
-    if (this.FromRemote()) return;
     if (!this.IsOnAutomodList(this.Networking.LocalPlayer) || !this.noBox) return;
     this.lastYaw = this.noBox.yaw;
     this.VRPG.Teleporter._TeleportPlayer(this.noBox.position, this.noBox.yaw);

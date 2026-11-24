@@ -422,6 +422,42 @@ test("name labels follow players joining and leaving; names are stripped for non
   assert.deepEqual(problems(t), []);
 });
 
+test("each label sits over its player's published head, on every client; the alert volume reaches the audio source", async () => {
+  const t = new Table({}, { owner: "ann" });
+  const ann = t.join({ uid: "ann", name: "Ann" });
+  const bob = t.join({ uid: "bob", name: "Bob" });
+  await t.settle();
+  stand(ann, new Vector3(1, 1.6, 2));
+  stand(bob, new Vector3(-3, 1.7, 4));
+  await t.run(STEP);
+  const at = (viewer: FakeClient, who: FakeClient) => {
+    const p = viewer.object(SLUG, "0", `label${t.object(viewer, who).ShownSlot}`).transform.position;
+    return new Vector3(p.x, p.y, p.z);
+  };
+  for (const viewer of [ann, bob]) {
+    near(at(viewer, ann), new Vector3(1, 2.35, 2), `${viewer.name} puts Ann's label 0.75 m over her head`);
+    near(at(viewer, bob), new Vector3(-3, 2.45, 4), `${viewer.name} puts Bob's label 0.75 m over his head`);
+  }
+  // A small move is not published; a move of more than 15 cm is, at most twice a second.
+  stand(bob, new Vector3(-3.05, 1.7, 4));
+  await t.run(STEP);
+  near(at(ann, bob), new Vector3(-3, 2.45, 4), "a 5 cm move is not sent");
+  stand(bob, new Vector3(0, 1.7, 0));
+  await t.run(STEP);
+  near(at(ann, bob), new Vector3(0, 2.45, 0), "a 3 m move is");
+  // A late joiner places the labels from the published heads.
+  const cat = t.join({ uid: "cat", name: "Cat" });
+  await t.world.settle();
+  await t.run(STEP);
+  near(at(cat, ann), new Vector3(1, 2.35, 2), "the late joiner puts Ann's label over her head");
+
+  // The volume buttons set the IM alert's AudioSource.volume through the relay (op audioVolume).
+  t.press(ann, "volUp");
+  await t.run(STEP);
+  assert.deepEqual(ann.graph(SLUG).values.get("imAlert/audioVolume"), ["0.3"]);
+  assert.deepEqual(problems(t), []);
+});
+
 test("whitelists key on user ids, not display names: staff-uids, no-staff-uids, vip-uids", async () => {
   const t = new Table({ "staff-uids": "bob, eve", "no-staff-uids": "cat", "vip-uids": "dan" }, { owner: "ann" });
   const ann = t.join({ uid: "ann", name: "Ann" });

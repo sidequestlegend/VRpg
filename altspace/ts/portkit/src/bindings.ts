@@ -11,6 +11,12 @@ export interface BindingObject {
   grab: boolean;
   click: boolean;
   seat: boolean;
+  /**
+   * False for an object the upstream prefab has switched off. The kit holds every bound object switched on (an object
+   * that is off never wakes its BS Object Id, so the page would never learn of it); the runtime switches it off as soon
+   * as it has found it. Absent: on.
+   */
+  active?: boolean;
 }
 
 export interface BindingBehaviour {
@@ -54,9 +60,9 @@ export interface Bindings {
   events: BindingEvent[];
 }
 
-const EVENT_KINDS = ["click", "grab", "drop", "triggerEnter", "triggerExit", "collisionEnter", "collisionExit", "uiButton", "uiSlider", "uiToggle", "heldTrigger", "heldPrimary", "heldSecondary", "graph"];
+const EVENT_KINDS = ["click", "grab", "drop", "triggerEnter", "triggerExit", "collisionEnter", "collisionExit", "uiButton", "uiSlider", "uiToggle", "heldTrigger", "heldPrimary", "heldSecondary", "field", "graph"];
 /** Kinds only a graph can report. Their entry may name no behaviour: code can listen with `gameObject.On(kind, ...)`. */
-const GRAPH_KINDS = ["uiButton", "uiSlider", "uiToggle", "heldTrigger", "heldPrimary", "heldSecondary"];
+const GRAPH_KINDS = ["uiButton", "uiSlider", "uiToggle", "heldTrigger", "heldPrimary", "heldSecondary", "field"];
 
 /** Checks a parsed bindings.json. Throws one error listing everything that is wrong. */
 export function validateBindings(json: unknown): Bindings {
@@ -132,6 +138,7 @@ export function validateBindings(json: unknown): Bindings {
   for (const key of Object.keys(objects)) {
     const o = objects[key] as Record<string, unknown>;
     normalObjects[key] = { path: o.path as string, sync: o.sync === "transform" ? "transform" : "none", grab: o.grab === true, click: o.click === true, seat: o.seat === true };
+    if (o.active === false) normalObjects[key]!.active = false;
   }
   return {
     schema: 1,
@@ -149,7 +156,7 @@ export function validateBindings(json: unknown): Bindings {
 export interface LeafBudget {
   /** Slots that hold synced state: one per ungrouped behaviour with synced fields, one per sync group. */
   slots: number;
-  /** Space-state leaves one instance uses when nothing is chunked: ref, ack, fd, and o + v per slot. */
+  /** Space-state leaves one instance uses when nothing is chunked: ref, and o + v per slot (the referee's draw and command tables are in its user state). */
   spaceLeaves: number;
   /** User-state leaves one instance uses per player at most: k, d, and up to four for per-player behaviours. */
   userLeavesPerPlayer: number;
@@ -177,7 +184,7 @@ export function leafBudget(bindings: Bindings, shapeOf: (type: string) => Behavi
     else if (b.group) slots.add("@" + b.group);
     else if (shape.synced > 0) slots.add(b.id);
   }
-  const spaceLeaves = 3 + 2 * slots.size;
+  const spaceLeaves = 1 + 2 * slots.size;
   const playerLeaves = perPlayer === 0 ? 0 : Math.min(MAX_PLAYER_LEAVES, Math.max(1, Math.ceil(perPlayer / 24)));
   return { slots: slots.size, spaceLeaves, userLeavesPerPlayer: 2 + playerLeaves, instancesPerRoom: Math.floor(maxRoomKeys / Math.max(1, spaceLeaves)) };
 }

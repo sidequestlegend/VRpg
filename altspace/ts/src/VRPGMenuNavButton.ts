@@ -11,7 +11,6 @@ export class VRPGMenuNavButton extends VRPGComponent {
 
   /** VRPGMenuNavButton.cs:20-23 */
   ShowPanel(): void {
-    if (this.FromRemote()) return;
     this.VRPG.Menu.ShowPanel(this.panelIndex);
   }
 }

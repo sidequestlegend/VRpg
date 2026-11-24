@@ -29,6 +29,9 @@ export type CandidateRule = "anyone" | "declared";
 
 type Handler = (now: RefRecord | null, before: RefRecord | null) => void;
 
+/** Two claims written at nearly the same time settle within this long; a later replacement is not a crossing. */
+const CROSSING_MS = 1500;
+
 export class Referee {
   private readonly core: Core;
   private readonly presence: Presence;
@@ -131,6 +134,12 @@ export class Referee {
     if (now) {
       this.cancelTimer();
       if (!before || before.sid !== now.sid || before.term !== now.term || before.e !== now.e) {
+        // Nobody honest writes `ref` while a valid referee is mirrored, so a sitting referee replaced while it is
+        // still a candidate was displaced by a modified client (or by a claim that crossed its own, just after it).
+        const me = this.core.me.sid;
+        if (before && before.sid === me && now.sid !== me && this.isCandidate(me) && this.core.platform.clock.now() - this.claimAt > CROSSING_MS) {
+          this.core.log("warn", `the referee seat was taken by session ${now.sid} (term ${now.term}) while this client was referee`);
+        }
         this.lastEpoch = now.e;
         this.seen = now;
         this.publishEpoch();

@@ -12,14 +12,16 @@
 //   - The label over the player's head: upstream moves it to the owner's head every physics tick (PO:101-112),
 //     which needs other players' head positions the page does not have (G4). Here the kit holds a pool of label
 //     objects (`label<n>`); each player claims a free slot (`labelSlot`, settled by player id when two claim one),
-//     and every client writes the texts and the role icon into that slot. Placing the slot over the head is the
-//     kit's job (an avatar attachment; see PORT.md runtime gaps).
+//     and every client writes the texts and the role icon into that slot. The page reads no other player's head
+//     (G4), so each player publishes their own head position (`head`, centimetres, at most twice a second and only
+//     after a move of 15 cm) and every client puts the slot `label-height` (0.75 m) above it (PO:106). Turning the
+//     label to the viewer every frame (PO:109) is the kit's (a look-at constraint on a head-attached anchor).
 //   - Not translated: the author's flags `usedToast` / `wasToast` (PO:91-99), the cheater shaming (PO:467-487,
 //     513-551), voice zones and channels (PO:176-214, 266-284), the map dot (PO:111, 217-238), the empty SetTags
 //     (PO:298-304), the selected-player key nobody reads (PO:362-370), VarsString / VarsDict, which is always an
 //     empty object upstream (PO:77-88, 375-378).
 
-import type { DeserializationResult, Player } from "../portkit/src/index.ts";
+import { Vector3, type DeserializationResult, type Player } from "../portkit/src/index.ts";
 import { IconController, SiteRole } from "./IconController.ts";
 import { VRPGComponent } from "./VRPGComponent.ts";
 import { VRPGTextElement } from "./VRPGTextElement.ts";
@@ -40,12 +42,16 @@ export type GrantRecord = [number, number];
 
 export class VRPGPlayerObject extends VRPGComponent {
   static override perPlayer = true;
-  static override synced = ["labelSlot", "grants"];
+  static override synced = ["labelSlot", "grants", "head"];
 
   /** Synced: the label slot this player uses, -1 for none. */
   labelSlot = -1;
   /** Synced: roles this player granted, by user id. */
   grants: Record<string, GrantRecord> = {};
+  /** Synced: where this player's head was last published, [x, y, z] in centimetres; empty before the first. */
+  head: number[] = [];
+  private headPublishedAt = -Infinity;
+  private lastGrants = "{}";
 
   /** PO:30. */
   get Owner(): Player | null {
@@ -80,13 +86,51 @@ export class VRPGPlayerObject extends VRPGComponent {
   /** PO:126-129 */
   override OnDeserialization(_result: DeserializationResult): void {
     this._OnValueChanged();
-    // The grants this player made may have changed: every role is worked out again.
-    this.VRPG.GMData.RecomputeRoles();
+    this._PlaceLabel();
+    // The grants this player made may have changed: every role is worked out again (only then: the head moves often).
+    const grants = JSON.stringify(this.grants ?? {});
+    if (grants !== this.lastGrants) {
+      this.lastGrants = grants;
+      this.VRPG.GMData.RecomputeRoles();
+    }
+  }
+
+  /** PO:101-112: the owner publishes where its head is; every client puts the label over it. */
+  override Update(): void {
+    const owner = this.Owner;
+    if (!owner?.isLocal) return;
+    const at = this.Input.Poses?.head.position ?? this.Input.Position;
+    if (!at) return;
+    const now = this.Time.time;
+    if (now - this.headPublishedAt < 0.5) return;
+    const cm = [Math.round(at.x * 100), Math.round(at.y * 100), Math.round(at.z * 100)];
+    if (this.head.length === 3 && Math.hypot(cm[0]! - this.head[0]!, cm[1]! - this.head[1]!, cm[2]! - this.head[2]!) < 15) return;
+    this.head = cm;
+    this.headPublishedAt = now;
+    this.RequestSerialization();
+    this._PlaceLabel();
+  }
+
+  /** The head position this player last published, or null. */
+  get HeadPosition(): Vector3 | null {
+    const h = this.head;
+    if (!Array.isArray(h) || h.length !== 3 || !h.every((n) => typeof n === "number" && Number.isFinite(n))) return null;
+    return new Vector3(h[0]! / 100, h[1]! / 100, h[2]! / 100);
+  }
+
+  /** Puts the label slot this client draws into over the head this player published. */
+  _PlaceLabel(): void {
+    const slot = this.slotShown;
+    const head = this.HeadPosition;
+    if (slot < 0 || !head) return;
+    const label = this.VRPG.Labels[slot];
+    if (!label) return;
+    const height = this.VRPG.ConfigData.GetNumber("label-height", 0.75);
+    label.transform.position = head.add(new Vector3(0, height, 0));
   }
 
   /** PO:131-150 */
   InitializePlayerInfo(): void {
-    if (this.FromRemote()) return;
     const owner = this.Owner;
     if (!owner) return;
     if (this.VRPG.GMData.IsOnNoOpList(owner)) this.IsNoOped = true;
@@ -161,6 +205,7 @@ export class VRPGPlayerObject extends VRPGComponent {
     this.lastVisibleRoleIndex = -1;
     this.UpdateRoleUi();
     this.UpdateObjectGUI();
+    this._PlaceLabel();
   }
 
   /** Hides a slot unless another present player now holds it. */
@@ -196,7 +241,6 @@ export class VRPGPlayerObject extends VRPGComponent {
 
   /** PO:171-174 */
   AskForUpdate(): void {
-    if (this.FromRemote()) return;
     if (this.Owner?.isLocal) this.RequestSerialization();
   }
 
@@ -210,14 +254,12 @@ export class VRPGPlayerObject extends VRPGComponent {
 
   /** PO:257-263, without VarsString. */
   NotifyValueChanged(): void {
-    if (this.FromRemote()) return;
     this._OnValueChanged();
     if (this.Owner?.isLocal) this.RequestSerialization();
   }
 
   /** PO:286-290. Only the owner's client writes its own PlayerData. */
   SetNameAndTitle(newName: string, newTitle: string): void {
-    if (this.FromRemote()) return;
     if (!this.Owner?.isLocal) return;
     this.PlayerData.SetString(KEY_NAME, cleanTyped(newName, MAX_NAME, false));
     this.PlayerData.SetString(KEY_TITLE, cleanTyped(newTitle, MAX_TITLE, false));
@@ -226,7 +268,6 @@ export class VRPGPlayerObject extends VRPGComponent {
 
   /** PO:292-296 */
   SetDescription(newDesc: string): void {
-    if (this.FromRemote()) return;
     if (!this.Owner?.isLocal) return;
     const finalDesc = cleanTyped(newDesc, MAX_DESC, false).split("$").join("\n");
     this.PlayerData.SetString(KEY_DESC, finalDesc);

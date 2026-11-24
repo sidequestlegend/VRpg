@@ -30,6 +30,8 @@ export const MAX_LINE = 700;
 
 export class VRPGLogs extends VRPGComponent {
   static override synced = ["recentIC", "recentOOC", "recentGM"];
+  /** What other clients may ask of this client: a log line, and a console line (both cleaned before use). */
+  static override networkCallable = ["ReceiveLogNew", "DoNetworkDebug"];
 
   // From bindings.json: the view object of each log (shown for its tab), its text box, its input field.
   ICLogGroup!: GameObject;
@@ -72,13 +74,18 @@ export class VRPGLogs extends VRPGComponent {
   override Start(): void {
     this.boxes = [this.ICOutputBox, this.OOCOutputBox, this.GMOutputBox].map((o) => new VRPGTextElement(this.Host, o.key));
     this.inputs = [this.ICInputBox, this.OOCInputBox, this.GMInputBox].map((o) => new VRPGInputField(this.Host, o.key, MAX_TYPED));
-    this.RegisterGraphEvent("field", "_OnField");
     this.ShowOOCLog();
   }
 
-  /** The kit reports an edit of one of the three input fields. */
-  _OnField(key: string, text: string): void {
-    for (const input of this.inputs) if (input.key === key) input.Typed(text);
+  /** The kit reports an edit of an input field (bindings: `{"kind": "field"}` on each field's object). */
+  ICTyped(text: unknown): void {
+    this.inputs[0]?.Typed(String(text ?? ""));
+  }
+  OOCTyped(text: unknown): void {
+    this.inputs[1]?.Typed(String(text ?? ""));
+  }
+  GMTyped(text: unknown): void {
+    this.inputs[2]?.Typed(String(text ?? ""));
   }
 
   /** The input field of a log, for the page and for tests. */
@@ -125,7 +132,6 @@ export class VRPGLogs extends VRPGComponent {
 
   /** LOG:100-133 */
   SendLog(message: string, logType: VRPGLogTypeValue, isRaw = false): void {
-    if (this.FromRemote()) return;
     message = cleanTyped(message, MAX_TYPED, true);
     if (message === "") return;
 
@@ -178,7 +184,6 @@ export class VRPGLogs extends VRPGComponent {
 
   /** LOG:160-178: a line for this client only. */
   SendLogLocal(message: string, logType: VRPGLogTypeValue): void {
-    if (this.FromRemote()) return;
     const line = message.startsWith("\n") ? message.slice(1) : message;
     switch (logType) {
       case VRPGLogType.IC:
@@ -199,32 +204,26 @@ export class VRPGLogs extends VRPGComponent {
 
   /** LOG:180-196 */
   SendLogIC(): void {
-    if (this.FromRemote()) return;
     this.SendLog(this.inputs[0]!.text, VRPGLogType.IC);
     this.inputs[0]!.text = "";
   }
   SendLogOOC(): void {
-    if (this.FromRemote()) return;
     this.SendLog(this.inputs[1]!.text, VRPGLogType.OOC);
     this.inputs[1]!.text = "";
   }
   SendLogGM(): void {
-    if (this.FromRemote()) return;
     this.SendLog(this.inputs[2]!.text, VRPGLogType.GM);
     this.inputs[2]!.text = "";
   }
 
   /** LOG:198-211 */
   ShowICLog(): void {
-    if (this.FromRemote()) return;
     this.ShowLogType(VRPGLogType.IC);
   }
   ShowOOCLog(): void {
-    if (this.FromRemote()) return;
     this.ShowLogType(VRPGLogType.OOC);
   }
   ShowGMLog(): void {
-    if (this.FromRemote()) return;
     this.ShowLogType(VRPGLogType.GM);
   }
 
@@ -238,7 +237,6 @@ export class VRPGLogs extends VRPGComponent {
 
   /** The up button of the shown log: one page of older lines. */
   ScrollUp(): void {
-    if (this.FromRemote()) return;
     const k = this.shownLog;
     const most = Math.max(0, this.lines[k]!.length - this.viewLines);
     this.scroll[k] = Math.min(most, this.scroll[k]! + this.viewLines);
@@ -247,7 +245,6 @@ export class VRPGLogs extends VRPGComponent {
 
   /** The down button: back towards the newest line. */
   ScrollDown(): void {
-    if (this.FromRemote()) return;
     const k = this.shownLog;
     this.scroll[k] = Math.max(0, this.scroll[k]! - this.viewLines);
     this.Render(k);

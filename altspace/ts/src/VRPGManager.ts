@@ -8,7 +8,7 @@
 // AddVoiceChannel (MGR:125-137, voice: No); SavePlayerData and LoadPlayerData (MGR:139-151, no caller); the two
 // static JSON helpers duplicate Utils (MGR:60-87).
 
-import { Color, type Player } from "../portkit/src/index.ts";
+import { Color, type GameObject, type Player } from "../portkit/src/index.ts";
 import type { DiceRollerD20 } from "./DiceRollerD20.ts";
 import type { DiceRollerDS } from "./DiceRollerDS.ts";
 import type { VRPGConfigData } from "./VRPGConfigData.ts";
@@ -35,6 +35,10 @@ export class VRPGManager extends VRPGComponent {
   Options!: VRPGOptions;
   DiceDS: DiceRollerDS | null = null;
   DiceD20: DiceRollerD20 | null = null;
+  /** The button that switches between the two rollers (shown with `dice="both"`). */
+  diceSwitch: GameObject | null = null;
+  /** The pool of name labels (`label0` ... `label31`): a player object draws into the slot its player holds. */
+  Labels: GameObject[] = [];
 
   /** MGR:52-53 */
   LocalPlayerObject: VRPGPlayerObject | null = null;
@@ -58,9 +62,26 @@ export class VRPGManager extends VRPGComponent {
     this.LabelColor = parseColor(this.Settings.get("label-color"), this.LabelColor);
     this.OocLabelColor = parseColor(this.Settings.get("ooc-color"), this.OocLabelColor);
     // Which roller the Main panel shows (the prefab has the DS roller only; the d20 roller is a separate prefab).
+    // With `dice="both"` they share the Actions column (upstream made the d20 roller's prefab for the same slot), so one
+    // shows at a time and a button switches (PORT.md 0.2).
     const dice = (this.Settings.get("dice") ?? "ds").trim().toLowerCase();
-    this.DiceDS?.gameObject.SetActive(dice !== "d20");
-    this.DiceD20?.gameObject.SetActive(dice === "d20" || dice === "both");
+    this.diceShown = dice === "d20" ? "d20" : "ds";
+    this.diceSwitch?.SetActive(dice === "both");
+    this.ShowDice();
+  }
+
+  /** Which roller the Main panel shows now. */
+  diceShown: "ds" | "d20" = "ds";
+
+  /** The switch button (dice="both"). */
+  SwitchDice(): void {
+    this.diceShown = this.diceShown === "ds" ? "d20" : "ds";
+    this.ShowDice();
+  }
+
+  private ShowDice(): void {
+    this.DiceDS?.gameObject.SetActive(this.diceShown === "ds");
+    this.DiceD20?.gameObject.SetActive(this.diceShown === "d20");
   }
 
   /** MGR:92-95 */
@@ -98,7 +119,6 @@ export class VRPGManager extends VRPGComponent {
 
   /** MGR:158-165 */
   SetNameAndTitle(nname: string, ntitle: string): void {
-    if (this.FromRemote()) return;
     const mine = this.GetLocalPlayerObject();
     if (mine) {
       mine.SetNameAndTitle(nname, ntitle);
@@ -108,7 +128,6 @@ export class VRPGManager extends VRPGComponent {
 
   /** MGR:167-173 */
   SetDescription(nDesc: string): void {
-    if (this.FromRemote()) return;
     this.GetLocalPlayerObject()?.SetDescription(nDesc);
   }
 }

@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "nextBehaviour": 1,
+  "objects": {},
+  "behaviours": {
+    "d20Root#DiceRollerD20#0": "d20",
+    "dsRoot#DiceRollerDS#0": "ds",
+    "fadeSphere#TrackBone#0": "track",
+    "manager#VRPGConfigData#0": "config",
+    "manager#VRPGGameMasterData#0": "gm",
+    "manager#VRPGLogs#0": "logs",
+    "manager#VRPGManager#0": "mgr",
+    "manager#VRPGOptions#0": "options",
+    "manager#VRPGPatronData#0": "patrons",
+    "manager#VRPGPlayerObject#0": "player",
+    "manager#VRPGPlayerTeleport#0": "tele",
+    "manager#VRPGSocial#0": "social",
+    "menu#VRPGMenu#0": "menu",
+    "navGM#VRPGMenuNavButton#0": "nav3",
+    "navMain#VRPGMenuNavButton#0": "nav0",
+    "navOptions#VRPGMenuNavButton#0": "nav2",
+    "navSocial#VRPGMenuNavButton#0": "nav1",
+    "openButton#VRPGMenuCaller#0": "caller",
+    "row0#VRPGPlayerButton#0": "row0",
+    "row1#VRPGPlayerButton#0": "row1",
+    "row2#VRPGPlayerButton#0": "row2",
+    "row3#VRPGPlayerButton#0": "row3",
+    "row4#VRPGPlayerButton#0": "row4",
+    "row5#VRPGPlayerButton#0": "row5",
+    "row6#VRPGPlayerButton#0": "row6",
+    "row7#VRPGPlayerButton#0": "row7"
+  }
+}

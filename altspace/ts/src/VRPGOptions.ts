@@ -9,9 +9,9 @@
 // slider (its method body is commented out), GiveFirstJoinerGM (read nowhere: the port's `first-joiner-gm` setting
 // does that job), the voice-zone distances (no voice API), and SetUp (an editor button).
 //
-// The alert volume is page state only: the relay has no op for AudioSource.volume yet (a runtime gap).
+// The alert volume goes to the IM alert's AudioSource (relay op audioVolume).
 
-import { Color, type GameObject, type Player } from "../portkit/src/index.ts";
+import { Color, Vector3, type AudioSourceRef, type GameObject, type Player } from "../portkit/src/index.ts";
 import { VRPGComponent } from "./VRPGComponent.ts";
 import { VRPGTextElement } from "./VRPGTextElement.ts";
 import { parseColor } from "./VRPGUtils.ts";
@@ -27,6 +27,7 @@ export class VRPGOptions extends VRPGComponent {
 
   // From bindings.json.
   imAlertObject: GameObject | null = null;
+  imAlertSource: AudioSourceRef | null = null;
   imAlertCheck: GameObject | null = null;
   gridObject: GameObject | null = null;
   gridCheck: GameObject | null = null;
@@ -48,6 +49,14 @@ export class VRPGOptions extends VRPGComponent {
     this.Volume = this.VRPG.ConfigData.GetNumber("alert-volume", this.Volume);
     const gridAllowed = this.Settings.get("grid") !== "false";
     this.gridToggle?.SetActive(gridAllowed);
+    // Where the floor grid lies and how big it is (`grid-position` world "x y z", `grid-size` "w d" metres; the kit's
+    // plane is 10 m square, under the parked board at floor height when the board is parked 1.5 m up).
+    const at = this.VRPG.ConfigData.GetVector3("grid-position");
+    if (this.gridObject && at) this.gridObject.transform.position = at;
+    const size = this.VRPG.ConfigData.GetValue("grid-size").trim().split(/[\s,]+/).map(Number);
+    if (this.gridObject && size.length === 2 && size.every((n) => Number.isFinite(n) && n > 0)) {
+      this.gridObject.transform.localScale = new Vector3(size[0]! / 10, 1, size[1]! / 10);
+    }
     this.Show();
   }
 
@@ -67,7 +76,6 @@ export class VRPGOptions extends VRPGComponent {
 
   /** OPT:69-80 */
   SaveOptions(): void {
-    if (this.FromRemote()) return;
     this.Storage.set("vrpg-options-toggleImAlert", this.ImAlertOn);
     this.Storage.set("vrpg-options-toggleGrid", this.GridOn);
     this.Storage.set("vrpg-options-ImSlider", this.Volume);
@@ -75,7 +83,6 @@ export class VRPGOptions extends VRPGComponent {
 
   /** The "IM Alert" toggle (wired upstream to IM Alert.SetActive and SaveOptions). */
   ToggleImAlert(): void {
-    if (this.FromRemote()) return;
     this.ImAlertOn = !this.ImAlertOn;
     this.Show();
     this.SaveOptions();
@@ -83,7 +90,6 @@ export class VRPGOptions extends VRPGComponent {
 
   /** The "Show Grid" toggle (wired upstream to GridPlane.SetActive). */
   ToggleGrid(): void {
-    if (this.FromRemote()) return;
     if (this.Settings.get("grid") === "false") return;
     this.GridOn = !this.GridOn;
     this.Show();
@@ -92,13 +98,11 @@ export class VRPGOptions extends VRPGComponent {
 
   /** The slider (0 to 1) as two buttons. */
   VolumeUp(): void {
-    if (this.FromRemote()) return;
     this.Volume = Math.min(1, Math.round((this.Volume + 0.1) * 10) / 10);
     this.Show();
     this.SaveOptions();
   }
   VolumeDown(): void {
-    if (this.FromRemote()) return;
     this.Volume = Math.max(0, Math.round((this.Volume - 0.1) * 10) / 10);
     this.Show();
     this.SaveOptions();
@@ -109,6 +113,7 @@ export class VRPGOptions extends VRPGComponent {
     this.imAlertCheck?.SetActive(this.ImAlertOn);
     this.gridObject?.SetActive(this.GridOn);
     this.gridCheck?.SetActive(this.GridOn);
+    if (this.imAlertSource && this.imAlertSource.volume !== this.Volume) this.imAlertSource.volume = this.Volume;
     if (this.volumeLabelObject) new VRPGTextElement(this.Host, this.volumeLabelObject.key).SetText(this.Volume.toFixed(1));
   }
 }

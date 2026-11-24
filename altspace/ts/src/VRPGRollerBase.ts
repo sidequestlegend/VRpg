@@ -22,14 +22,12 @@ export class VRPGRollerBase extends VRPGComponent {
 
   /** The "Roll to GM only" button. */
   ToggleGm(): void {
-    if (this.FromRemote()) return;
     this.gmToggleOn = !this.gmToggleOn;
     this.gmCheck?.SetActive(this.gmToggleOn);
   }
 
   /** ROLL:15-18 */
   SendResult(message: string): void {
-    if (this.FromRemote()) return;
     this.VRPG.Logger.SendLog(message, this.gmToggleOn ? VRPGLogType.GM : VRPGLogType.OOC);
   }
 }

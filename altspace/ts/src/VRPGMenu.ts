@@ -50,16 +50,18 @@ export class VRPGMenu extends VRPGComponent {
     this.playerTitlePlate = text(this.playerTitlePlateObject);
     this.nameField = new VRPGInputField(this.Host, this.nameFieldObject.key, MAX_NAME);
     this.titleField = new VRPGInputField(this.Host, this.titleFieldObject.key, MAX_TITLE);
-    this.RegisterGraphEvent("field", "_OnField");
     const caption = this.Settings.get("title-text");
     text(this.captionObject)?.SetText(caption !== undefined && caption !== "" ? caption : "VRpg RP System");
     this._ShowPanel(0);
     if (this.HideWhenClosed) this.gameObject.SetActive(false);
   }
 
-  _OnField(key: string, text: string): void {
-    if (key === this.nameField.key) this.nameField.Typed(text);
-    else if (key === this.titleField.key) this.titleField.Typed(text);
+  /** The kit reports an edit of the Name or the Title field (bindings: `{"kind": "field"}`). */
+  NameTyped(text: unknown): void {
+    this.nameField.Typed(String(text ?? ""));
+  }
+  TitleTyped(text: unknown): void {
+    this.titleField.Typed(String(text ?? ""));
   }
 
   private get HideWhenClosed(): boolean {
@@ -82,20 +84,17 @@ export class VRPGMenu extends VRPGComponent {
 
   /** MENU:59-69 */
   SwapMenuState(): void {
-    if (this.FromRemote()) return;
     if (this.MenuIsOpen) this._Close();
     else this._Open();
   }
 
   /** MENU:73-77 */
   OpenMenu(): void {
-    if (this.FromRemote()) return;
     this._Open();
   }
 
   /** MENU:79-83 */
   CloseMenu(): void {
-    if (this.FromRemote()) return;
     this._Close();
   }
 
@@ -123,28 +122,23 @@ export class VRPGMenu extends VRPGComponent {
 
   /** MENU:95-99 */
   SetNameAndTitleInputValues(name: string, title: string): void {
-    if (this.FromRemote()) return;
     this.nameField.text = name;
     this.titleField.text = title;
   }
 
   /** MENU:101-114 */
   SetCharacterName(charName: string): void {
-    if (this.FromRemote()) return;
     this.characterNamePlate?.SetText(charName);
   }
   SetCharacterTitle(charTitle: string): void {
-    if (this.FromRemote()) return;
     this.characterTitlePlate?.SetText(charTitle);
   }
   SetPlayerTitle(playerTitle: string): void {
-    if (this.FromRemote()) return;
     this.playerTitlePlate?.SetText(playerTitle);
   }
 
   /** MENU:118-133 */
   ShowPanel(index: number): void {
-    if (this.FromRemote()) return;
     this._ShowPanel(index);
   }
 
@@ -156,7 +150,6 @@ export class VRPGMenu extends VRPGComponent {
 
   /** MENU:135-142 */
   SetNameAndTitle(): void {
-    if (this.FromRemote()) return;
     const mine = this.VRPG.GetLocalPlayerObject();
     if (mine) {
       const name = cleanTyped(this.nameField.text, MAX_NAME, false);
@@ -168,20 +161,17 @@ export class VRPGMenu extends VRPGComponent {
 
   /** MENU:144-149 */
   SetOOC(): void {
-    if (this.FromRemote()) return;
     const oocColorHex = Utils.GetColorHex(this.VRPG.OocLabelColor);
     this.VRPG.GetLocalPlayerObject()?.SetNameAndTitle(`<color=#${oocColorHex}>Out of Character</color>`, this.Networking.LocalPlayer.displayName);
   }
 
   /** MENU:151-155 */
   SetHidden(): void {
-    if (this.FromRemote()) return;
     this.VRPG.GetLocalPlayerObject()?.SetNameAndTitle("", "");
   }
 
   /** MENU:157-163 */
   SetPlates(newPlateName: string, newPlateTitle: string): void {
-    if (this.FromRemote()) return;
     this.characterNamePlate?.SetText(newPlateName);
     this.characterTitlePlate?.SetText(newPlateTitle);
     this.RefreshPlates();

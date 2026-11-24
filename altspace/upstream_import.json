@@ -1,0 +1,8 @@
+{
+  "source": "..",
+  "destination": "Assets/Upstream",
+  "roots": ["VRPG2"],
+  "skip_dirs": ["Editor", ".git", "Library", "Temp", "Logs", "obj", "altspace", "Dependencies"],
+  "copy_files": ["VRPG2/LICENSE"],
+  "notice": "VRpg 2 by GIB Games (MIT), https://github.com/GIBGames/VRpg"
+}

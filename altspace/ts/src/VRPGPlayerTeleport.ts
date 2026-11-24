@@ -21,7 +21,6 @@ export class VRPGPlayerTeleport extends VRPGComponent {
 
   /** TELE:16-28, for a button of the kit. */
   TeleportPlayer(playerPosition: unknown, yaw: unknown): void {
-    if (this.FromRemote()) return;
     if (!(playerPosition instanceof Vector3) || typeof yaw !== "number") return;
     this._TeleportPlayer(playerPosition, yaw);
   }
@@ -41,7 +40,6 @@ export class VRPGPlayerTeleport extends VRPGComponent {
 
   /** TELE:30-35 */
   DoTeleport(): void {
-    if (this.FromRemote()) return;
     if (!this.isTeleporting) return;
     this.Input.TeleportTo(this.targetPos, this.targetYaw);
     this.SendCustomEventDelayedSeconds("DoEndAnim", 0.1);
@@ -49,7 +47,6 @@ export class VRPGPlayerTeleport extends VRPGComponent {
 
   /** TELE:37-42 */
   DoEndAnim(): void {
-    if (this.FromRemote()) return;
     this.FadeTarget?.SetActive(false);
     this.teleAnim?.SetBool("isDark", false);
     this.isTeleporting = false;

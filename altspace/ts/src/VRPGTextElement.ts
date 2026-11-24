@@ -7,8 +7,9 @@
 // StripTags (TXT:61-72) and the Text getter (TXT:142-148) read.
 //
 // Also here, for the port: VRPGInputField, the page's copy of a TMP_InputField's text. The page cannot read a
-// uGUI field (PORT.md G8); the kit reports every edit through the graph-to-page event "field" with the field's
-// object key and its text, and the page writes the field when code sets it (clearing after a send).
+// uGUI field (PORT.md G8): the kit's relay graph reports each field's text once editing ends (bindings events of
+// kind "field", one method per field), and the page writes the field with the relay op `text` when code sets it
+// (clearing after a send).
 
 import { Color, type HostActions } from "../portkit/src/index.ts";
 import { Utils } from "./VRPGUtils.ts";

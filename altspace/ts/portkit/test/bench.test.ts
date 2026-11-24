@@ -23,3 +23,17 @@ test("a rules bench builds the behaviours from bindings and runs their methods w
   assert.equal(ttt.winner, 1);
   assert.ok(bench.serializations >= 5);
 });
+
+test("an object the prefab had switched off is found, then switched off by the runtime (bindings active: false)", async () => {
+  const { TestWorld } = await import("../src/testing.ts");
+  const changed = JSON.parse(JSON.stringify(bindings));
+  changed.objects.reset.active = false;
+  const world = new TestWorld(game, changed);
+  const ann = world.join({ name: "Ann" });
+  await world.settle();
+  await world.run(500);
+  assert.equal(ann.object(game.slug, "0", "reset").active, false, "switched off on the host");
+  assert.equal(world.instance(ann).objects.get("reset")!.activeSelf, false, "and in the script's mirror");
+  assert.equal(ann.object(game.slug, "0", "seatX").active, true);
+  assert.deepEqual(world.problems(), []);
+});

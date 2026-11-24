@@ -7918,6 +7918,16 @@ ${this.Networking.LocalPlayer.displayName}: ${newLogText}`;
       pathOf: (key) => instance.bindings.objects[key]?.path ?? "",
       me: () => ({ sid: instance.networking.LocalPlayer.sid, uid: instance.networking.LocalPlayer.uid, name: instance.networking.LocalPlayer.displayName }),
       menuOpen: () => mgr().Menu.MenuIsOpen,
+      /** Where the page thinks the board is, and the local head as the page knows it. */
+      menuAt: () => {
+        const p = mgr().Menu.transform.position;
+        return [p.x, p.y, p.z];
+      },
+      head: () => {
+        const poses = mgr().Input.Poses;
+        const p = poses ? poses.head.position : mgr().Input.Position;
+        return p ? [p.x, p.y, p.z, poses ? 1 : 0] : null;
+      },
       shownPanel: () => mgr().Menu.shownPanel,
       diceShown: () => mgr().diceShown,
       fields: () => ({ name: mgr().Menu.nameField.text, title: mgr().Menu.titleField.text }),

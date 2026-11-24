@@ -467,6 +467,10 @@ namespace RpToolkit
             foreach (var t in new[] { Ref(logStandIn, "ICOutputBox"), Ref(logStandIn, "OOCOutputBox"), Ref(logStandIn, "GMOutputBox") })
                 SubCanvas(t.gameObject);
             SubCanvas(content.gameObject);
+
+            // Only a control catches the pointer: a background or a label drawn over a button (the log boxes over the log
+            // tabs, the panel backgrounds) would take its click, and uGUI hands a click to the topmost graphic only.
+            foreach (var graphic in manager.GetComponentsInChildren<Graphic>(true)) graphic.raycastTarget = graphic.GetComponent<Selectable>() != null;
         }
 
         protected override void Finishing(KitStage stage)

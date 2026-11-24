@@ -94,6 +94,9 @@
   async function openMenu() {
     await walk();
     const parked = await probe("pos", "menu");
+    // the page hears the local head only when it changes (pose-update): turning the desktop player's head makes one
+    await cmd("look " + parked);
+    await until(() => debug().head() !== null, 4000);
     await cmd("key Q tap");
     const open = await until(() => debug().menuOpen(), 4000);
     await sleep(800);
@@ -109,8 +112,7 @@
         why = "debug keys " + JSON.stringify(Object.keys((window.__pk1 && window.__pk1.debug) || {})) + "; hooks " + JSON.stringify(Object.keys(debug() || {}));
         why += "; roster " + JSON.stringify(debug().roster()) + "; me " + JSON.stringify(me());
       } catch (e) {
-        why += "; error " + (e && e.stack ? e.stack.split("
-").slice(0, 3).join(" | ") : e);
+        why += "; error " + (e && e.stack ? e.stack.split(String.fromCharCode(10)).slice(0, 3).join(" | ") : e);
       }
       say("INFO", "why the hooks did not answer", why);
     }
@@ -133,6 +135,7 @@
     const at = await probe("pos", "menu");
     const head = await cmd("where");
     const d = dist(vec(at), vec(head));
+    say("INFO", "after Q", `page's board ${JSON.stringify(debug().menuAt())}, page's head ${JSON.stringify(debug().head())}, label0 ${await cmd("probe " + HOLDER + " pos " + enc(debug().pathOf("label0")))}`);
     check(open && Math.abs(d - 0.9) < 0.15 && dist(vec(at), vec(parked)) > 0.2, "Q opens the menu 0.9 m in front of the head (MENU:73-93)", `open ${open}, board ${at}, head ${head}, ${d.toFixed(3)} m; parked was ${parked}`);
 
     // ---- name and title typed into the two fields, then Set ----

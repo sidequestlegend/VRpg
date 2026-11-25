@@ -15,6 +15,14 @@ portkit/tools/playtest.sh altspace altspace/playtest/multi.json rp-toolkit   run
 `playtest.sh` versions the page's script and bundle addresses (`?v=<sha1>`) and empties the local relay's saved room
 before each run (the game's own `run.sh` did both until the fix pass).
 
+## Page script on portkit 552622c, 2026-11-25 evening
+
+Re-synced `ts/portkit` and the package to portkit `552622c`. That commit includes `425bd55`: the page loads kit
+items one at a time, because overlapping loads lost relay graphs and Variables in the app. It also includes
+`0880bf5`: a referee claimant starts only once its claim has stood for 1.5 s, which fixes the equal-term double
+claim, and user-state flushes go one at a time. The bundles are unchanged from the rebuild below. `npm test`:
+**28 of 28** (0 failed). `npm run build`: 511732 bytes. Export Artifacts -> `dist/`: 10 files (5 licence texts), footprint 1.5 x 1.18 x 0 m, bindings da4c55f9d23ab5c94bc2efbc835ab8e2966e8f1f.
+
 ## 2026-11-25 (evening): the head label pushed players (portkit `476075d`)
 
 Shane was shoved about in world 9d7311. Measured in the hub's Play mode with the live script and bundle

@@ -219,6 +219,10 @@
     const fade = await where(debug().pathOf("fadeSphere"));
     const fh = vec(await headAt());
     check(!!fade && dist(fade.at, fh) < 0.3, "the fade sphere (the labels' look-at target) is attached to the local head", `sphere ${fade && fade.at.join(" ")}, head ${fh.join(" ")}`);
+    // ---- the push check (world 9d7311): the SDK gave the label's canvas a solid 5 x 1.5 m box, which moved with the head
+    //      and shoved the wearer; a stand-in body standing still for 5 s with the label on its head is not moved ----
+    const still = await cmd("standstill 5", 20000);
+    check(/^ok still/.test(still), "a body standing still for 5 s with its own label on its head is not pushed (canvas boxes are triggers)", still);
     await cmd("look " + (await probe("pos", "menu")));
 
     // ---- the DS roller: ROLL with no modifiers ----

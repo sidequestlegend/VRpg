@@ -1,6 +1,6 @@
 local: script and bundles from the test server http://localhost:43100
 [main] INFO main in Play, page port 43000
-[main] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 5.4 s
+[main] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 5.5 s
 [main] CMD r1 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main
 [main] REPLY r1 True
 [main] CMD r2 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%204%20-%20Social
@@ -48,7 +48,7 @@ local: script and bundles from the test server http://localhost:43100
 [main] REPLY r20 ok camera at 0.00,1.60,0.00
 [main] CMD r21 click 0.319 1.926 0.900
 [main] REPLY r21 ok screen 642,421 of 1285x842
-[main] PASS name and title typed into the fields reach the page (field events) and Set stores them: {"sid":"rsess_fc81a9b5-150a-449e-9401-c27c1bbc6f98","uid":"ea71beabbcdd9d67f76671884c9073a7","name":"Main Editor","admin":true,"role":3,"charName":"Sir Test","title":"Knight of Play","slot":0,"attached":0}
+[main] PASS name and title typed into the fields reach the page (field events) and Set stores them: {"sid":"rsess_76ab9133-686c-47fc-b644-68cf2be77ada","uid":"ea71beabbcdd9d67f76671884c9073a7","name":"Main Editor","admin":true,"role":3,"charName":"Sir Test","title":"Knight of Play","slot":0,"attached":0}
 [main] CMD r22 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Top/CharPlate/CharName
 [main] REPLY r22 Sir Test
 [main] CMD r23 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Top/CharPlate/CharTitle
@@ -87,146 +87,149 @@ local: script and bundles from the test server http://localhost:43100
 [main] CMD r37 probe - head
 [main] REPLY r37 0.000 1.600 0.000
 [main] PASS the fade sphere (the labels' look-at target) is attached to the local head: sphere 0 1.6 0, head 0 1.6 0
-[main] CMD r38 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu
-[main] REPLY r38 0.000 1.600 0.900
-[main] CMD r39 look 0.000 1.600 0.900
-[main] REPLY r39 ok camera at 0.00,1.60,0.00
-[main] CMD r40 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20DS/D20%20Dice%20Grid/Roll
-[main] REPLY r40 -0.309 1.452 0.900
-[main] CMD r41 look -0.309 1.452 0.900
-[main] REPLY r41 ok camera at 0.00,1.60,0.00
-[main] CMD r42 click -0.309 1.452 0.900
-[main] REPLY r42 ok screen 643,421 of 1285x842
-[main] PASS the DS roller's ROLL puts its line in the OOC log (DS:99-116): Main Editor rolled <color=#FFFFFF>3</color> + 0 = 3!
-[main] CMD r43 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Scroll%20View/Viewport/Content/OOC%20Log%20Text%20Box
-[main] REPLY r43 Main Editor rolled <color=#FFFFFF>3</color> + 0 = 3!
-[main] PASS the OOC box in Unity shows it: Main Editor rolled <color=#FFFFFF>3</color> + 0 = 3!
-[main] CMD r44 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20Switch
-[main] REPLY r44 -0.300 1.198 0.900
-[main] CMD r45 look -0.300 1.198 0.900
-[main] REPLY r45 ok camera at 0.00,1.60,0.00
-[main] CMD r46 click -0.300 1.198 0.900
-[main] REPLY r46 ok screen 642,421 of 1285x842
-[main] CMD r47 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20
-[main] REPLY r47 True
-[main] CMD r48 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20DS
-[main] REPLY r48 False
+[main] CMD r38 standstill 5
+[main] REPLY r38 ok still: body moved 0.000 m, player moved 0.000 m in 5 s at 0.00,0.00,0.00, touched none
+[main] PASS a body standing still for 5 s with its own label on its head is not pushed (canvas boxes are triggers): ok still: body moved 0.000 m, player moved 0.000 m in 5 s at 0.00,0.00,0.00, touched none
+[main] CMD r39 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu
+[main] REPLY r39 0.000 1.600 0.900
+[main] CMD r40 look 0.000 1.600 0.900
+[main] REPLY r40 ok camera at 0.00,1.60,0.00
+[main] CMD r41 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20DS/D20%20Dice%20Grid/Roll
+[main] REPLY r41 -0.309 1.452 0.900
+[main] CMD r42 look -0.309 1.452 0.900
+[main] REPLY r42 ok camera at 0.00,1.60,0.00
+[main] CMD r43 click -0.309 1.452 0.900
+[main] REPLY r43 ok screen 643,421 of 1285x842
+[main] PASS the DS roller's ROLL puts its line in the OOC log (DS:99-116): Main Editor rolled <color=#00FF00>20</color> + 0 = 20!
+[main] CMD r44 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Scroll%20View/Viewport/Content/OOC%20Log%20Text%20Box
+[main] REPLY r44 Main Editor rolled <color=#00FF00>20</color> + 0 = 20!
+[main] PASS the OOC box in Unity shows it: Main Editor rolled <color=#00FF00>20</color> + 0 = 20!
+[main] CMD r45 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20Switch
+[main] REPLY r45 -0.300 1.198 0.900
+[main] CMD r46 look -0.300 1.198 0.900
+[main] REPLY r46 ok camera at 0.00,1.60,0.00
+[main] CMD r47 click -0.300 1.198 0.900
+[main] REPLY r47 ok screen 642,421 of 1285x842
+[main] CMD r48 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20
+[main] REPLY r48 True
+[main] CMD r49 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20DS
+[main] REPLY r49 False
 [main] PASS the switch shows the d20 roller instead of the DS roller (dice="both"): d20 True, ds False
-[main] CMD r49 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20/D20%20Dice%20Grid/d6
-[main] REPLY r49 -0.360 1.572 0.900
-[main] CMD r50 look -0.360 1.572 0.900
-[main] REPLY r50 ok camera at 0.00,1.60,0.00
-[main] CMD r51 click -0.360 1.572 0.900
-[main] REPLY r51 ok screen 643,421 of 1285x842
-[main] CMD r52 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20/D20%20Dice%20Grid/d20
-[main] REPLY r52 -0.309 1.687 0.900
-[main] CMD r53 look -0.309 1.687 0.900
-[main] REPLY r53 ok camera at 0.00,1.60,0.00
-[main] CMD r54 click -0.309 1.687 0.900
-[main] REPLY r54 ok screen 643,421 of 1285x842
-[main] CMD r55 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20/Text%20(TMP)%20(1)
-[main] REPLY r55 Dice Pool: d6 d20<color="green"> + 0</color>
+[main] CMD r50 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20/D20%20Dice%20Grid/d6
+[main] REPLY r50 -0.360 1.572 0.900
+[main] CMD r51 look -0.360 1.572 0.900
+[main] REPLY r51 ok camera at 0.00,1.60,0.00
+[main] CMD r52 click -0.360 1.572 0.900
+[main] REPLY r52 ok screen 643,421 of 1285x842
+[main] CMD r53 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20/D20%20Dice%20Grid/d20
+[main] REPLY r53 -0.309 1.687 0.900
+[main] CMD r54 look -0.309 1.687 0.900
+[main] REPLY r54 ok camera at 0.00,1.60,0.00
+[main] CMD r55 click -0.309 1.687 0.900
+[main] REPLY r55 ok screen 643,421 of 1285x842
+[main] CMD r56 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20/Text%20(TMP)%20(1)
+[main] REPLY r56 Dice Pool: d6 d20<color="green"> + 0</color>
 [main] PASS d6 and d20 go into the pool, and its text reaches Unity: Dice Pool: d6 d20<color="green"> + 0</color>
-[main] CMD r56 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20/D20%20Dice%20Grid/Roll
-[main] REPLY r56 -0.309 1.452 0.900
-[main] CMD r57 look -0.309 1.452 0.900
-[main] REPLY r57 ok camera at 0.00,1.60,0.00
-[main] CMD r58 click -0.309 1.452 0.900
-[main] REPLY r58 ok screen 643,421 of 1285x842
-[main] PASS the d20 roller's Roll puts the pool's line in the OOC log (D5E:89-123): Main Editor: Main Editor rolled d6: 6, d20: 8, Total + 0: 14
-[main] CMD r59 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/IC%20Log%20Button
-[main] REPLY r59 0.280 1.695 0.900
-[main] CMD r60 look 0.280 1.695 0.900
-[main] REPLY r60 ok camera at 0.00,1.60,0.00
-[main] CMD r61 click 0.280 1.695 0.900
-[main] REPLY r61 ok screen 642,421 of 1285x842
-[main] CMD r62 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View
-[main] REPLY r62 True
-[main] CMD r63 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View
-[main] REPLY r63 False
+[main] CMD r57 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Actions/Dice%20d20/D20%20Dice%20Grid/Roll
+[main] REPLY r57 -0.309 1.452 0.900
+[main] CMD r58 look -0.309 1.452 0.900
+[main] REPLY r58 ok camera at 0.00,1.60,0.00
+[main] CMD r59 click -0.309 1.452 0.900
+[main] REPLY r59 ok screen 643,421 of 1285x842
+[main] PASS the d20 roller's Roll puts the pool's line in the OOC log (D5E:89-123): Main Editor: Main Editor rolled d6: 2, d20: 15, Total + 0: 17
+[main] CMD r60 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/IC%20Log%20Button
+[main] REPLY r60 0.280 1.695 0.900
+[main] CMD r61 look 0.280 1.695 0.900
+[main] REPLY r61 ok camera at 0.00,1.60,0.00
+[main] CMD r62 click 0.280 1.695 0.900
+[main] REPLY r62 ok screen 642,421 of 1285x842
+[main] CMD r63 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View
+[main] REPLY r63 True
+[main] CMD r64 probe pk1:rp-toolkit:0 active VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View
+[main] REPLY r64 False
 [main] PASS the IC tab shows the IC log: ic view True
-[main] CMD r64 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/InputField%20IC
-[main] REPLY r64 0.063 1.210 0.900
-[main] CMD r65 look 0.063 1.210 0.900
-[main] REPLY r65 ok camera at 0.00,1.60,0.00
-[main] CMD r66 click 0.063 1.210 0.900
-[main] REPLY r66 ok screen 643,421 of 1285x842
-[main] CMD r67 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/InputField%20IC Hail%20and%20well%20met!
-[main] REPLY r67 ok typed 18, focused before True, now 'Hail and well met!'
+[main] CMD r65 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/InputField%20IC
+[main] REPLY r65 0.063 1.210 0.900
+[main] CMD r66 look 0.063 1.210 0.900
+[main] REPLY r66 ok camera at 0.00,1.60,0.00
+[main] CMD r67 click 0.063 1.210 0.900
+[main] REPLY r67 ok screen 643,421 of 1285x842
+[main] CMD r68 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/InputField%20IC Hail%20and%20well%20met!
+[main] REPLY r68 ok typed 18, focused before True, now 'Hail and well met!'
 [main] INFO type into icInput: ok typed 18, focused before True, now 'Hail and well met!'
-[main] CMD r68 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/LogButton
-[main] REPLY r68 0.348 1.210 0.900
-[main] CMD r69 look 0.348 1.210 0.900
-[main] REPLY r69 ok camera at 0.00,1.60,0.00
-[main] CMD r70 click 0.348 1.210 0.900
-[main] REPLY r70 ok screen 643,421 of 1285x842
+[main] CMD r69 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/LogButton
+[main] REPLY r69 0.348 1.210 0.900
+[main] CMD r70 look 0.348 1.210 0.900
+[main] REPLY r70 ok camera at 0.00,1.60,0.00
+[main] CMD r71 click 0.348 1.210 0.900
+[main] REPLY r71 ok screen 643,421 of 1285x842
 [main] PASS an in-character line goes out under the character's name (LOG:100-133): Sir Test: Hail and well met!
-[main] CMD r71 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/Scroll%20View/Viewport/Content/IC%20Log%20Text%20Box
-[main] REPLY r71 Sir Test: Hail and well met!
+[main] CMD r72 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/Scroll%20View/Viewport/Content/IC%20Log%20Text%20Box
+[main] REPLY r72 Sir Test: Hail and well met!
 [main] PASS the IC box in Unity shows it: Sir Test: Hail and well met!
-[main] CMD r72 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/OOC%20Log%20Button
-[main] REPLY r72 0.369 1.695 0.900
-[main] CMD r73 look 0.369 1.695 0.900
-[main] REPLY r73 ok camera at 0.00,1.60,0.00
-[main] CMD r74 click 0.369 1.695 0.900
-[main] REPLY r74 ok screen 642,421 of 1285x842
-[main] CMD r75 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC
-[main] REPLY r75 0.063 1.210 0.900
-[main] CMD r76 look 0.063 1.210 0.900
-[main] REPLY r76 ok camera at 0.00,1.60,0.00
-[main] CMD r77 click 0.063 1.210 0.900
-[main] REPLY r77 ok screen 643,421 of 1285x842
-[main] CMD r78 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC brb%20%7C%20100%25%20%22real%22%20%5E_%5E
-[main] REPLY r78 ok typed 21, focused before True, now 'brb | 100% "real" ^_^'
+[main] CMD r73 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/OOC%20Log%20Button
+[main] REPLY r73 0.369 1.695 0.900
+[main] CMD r74 look 0.369 1.695 0.900
+[main] REPLY r74 ok camera at 0.00,1.60,0.00
+[main] CMD r75 click 0.369 1.695 0.900
+[main] REPLY r75 ok screen 642,421 of 1285x842
+[main] CMD r76 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC
+[main] REPLY r76 0.063 1.210 0.900
+[main] CMD r77 look 0.063 1.210 0.900
+[main] REPLY r77 ok camera at 0.00,1.60,0.00
+[main] CMD r78 click 0.063 1.210 0.900
+[main] REPLY r78 ok screen 643,421 of 1285x842
+[main] CMD r79 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC brb%20%7C%20100%25%20%22real%22%20%5E_%5E
+[main] REPLY r79 ok typed 21, focused before True, now 'brb | 100% "real" ^_^'
 [main] INFO type into oocInput: ok typed 21, focused before True, now 'brb | 100% "real" ^_^'
-[main] CMD r79 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Button
-[main] REPLY r79 0.348 1.210 0.900
-[main] CMD r80 look 0.348 1.210 0.900
-[main] REPLY r80 ok camera at 0.00,1.60,0.00
-[main] CMD r81 click 0.348 1.210 0.900
-[main] REPLY r81 ok screen 643,421 of 1285x842
+[main] CMD r80 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Button
+[main] REPLY r80 0.348 1.210 0.900
+[main] CMD r81 look 0.348 1.210 0.900
+[main] REPLY r81 ok camera at 0.00,1.60,0.00
+[main] CMD r82 click 0.348 1.210 0.900
+[main] REPLY r82 ok screen 643,421 of 1285x842
 [main] PASS an out-of-character line goes out under the display name, separators intact: Main Editor: brb | 100% "real" ^_^
-[main] CMD r82 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Scroll%20View/Viewport/Content/OOC%20Log%20Text%20Box
-[main] REPLY r82 Main Editor rolled <color=#FFFFFF>3</color> + 0 = 3!
-[main] itor: Main Editor rolled d6: 6, d20: 8, Total + 0: 14
+[main] CMD r83 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Scroll%20View/Viewport/Content/OOC%20Log%20Text%20Box
+[main] REPLY r83 Main Editor rolled <color=#00FF00>20</color> + 0 = 20!
+[main] itor: Main Editor rolled d6: 2, d20: 15, Total + 0: 17
 [main] itor: brb | 100% "real" ^_^
-[main] PASS the OOC box in Unity shows it: in Editor rolled d6: 6, d20: 8, Total + 0: 14
-[main] CMD r83 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC
-[main] REPLY r83 0.063 1.210 0.900
-[main] CMD r84 look 0.063 1.210 0.900
-[main] REPLY r84 ok camera at 0.00,1.60,0.00
-[main] CMD r85 click 0.063 1.210 0.900
-[main] REPLY r85 ok screen 643,421 of 1285x842
-[main] CMD r86 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC %3Csize%3D60%3Ebig%3C%2Fsize%3E%20%3Cb%3Ebold
-[main] REPLY r86 ok typed 27, focused before True, now '<size=60>big</size> <b>bold'
+[main] PASS the OOC box in Unity shows it: n Editor rolled d6: 2, d20: 15, Total + 0: 17
+[main] CMD r84 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC
+[main] REPLY r84 0.063 1.210 0.900
+[main] CMD r85 look 0.063 1.210 0.900
+[main] REPLY r85 ok camera at 0.00,1.60,0.00
+[main] CMD r86 click 0.063 1.210 0.900
+[main] REPLY r86 ok screen 643,421 of 1285x842
+[main] CMD r87 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC %3Csize%3D60%3Ebig%3C%2Fsize%3E%20%3Cb%3Ebold
+[main] REPLY r87 ok typed 27, focused before True, now '<size=60>big</size> <b>bold'
 [main] INFO type into oocInput: ok typed 27, focused before True, now '<size=60>big</size> <b>bold'
-[main] CMD r87 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Button
-[main] REPLY r87 0.348 1.210 0.900
-[main] CMD r88 look 0.348 1.210 0.900
-[main] REPLY r88 ok camera at 0.00,1.60,0.00
-[main] CMD r89 click 0.348 1.210 0.900
-[main] REPLY r89 ok screen 643,421 of 1285x842
+[main] CMD r88 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Button
+[main] REPLY r88 0.348 1.210 0.900
+[main] CMD r89 look 0.348 1.210 0.900
+[main] REPLY r89 ok camera at 0.00,1.60,0.00
+[main] CMD r90 click 0.348 1.210 0.900
+[main] REPLY r90 ok screen 643,421 of 1285x842
 [main] PASS typed rich text is filtered: size dropped, bold kept and closed: Main Editor: big <b>bold</b>
-[main] CMD r90 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Scroll%20View/Viewport/Content/OOC%20Log%20Text%20Box
-[main] REPLY r90 Main Editor rolled <color=#FFFFFF>3</color> + 0 = 3!
-[main] itor: Main Editor rolled d6: 6, d20: 8, Total + 0: 14
+[main] CMD r91 probe pk1:rp-toolkit:0 text VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Scroll%20View/Viewport/Content/OOC%20Log%20Text%20Box
+[main] REPLY r91 Main Editor rolled <color=#00FF00>20</color> + 0 = 20!
+[main] itor: Main Editor rolled d6: 2, d20: 15, Total + 0: 17
 [main] itor: brb | 100% "real" ^_^
 [main] itor: big <b>bold</b>
-[main] PASS the OOC box in Unity shows the filtered line: 8, Total + 0: 14
-[main] CMD r91 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Base%20GUI/CloseButton/Button
-[main] REPLY r91 0.375 2.125 0.900
-[main] CMD r92 look 0.375 2.125 0.900
-[main] REPLY r92 ok camera at 0.00,1.60,0.00
-[main] CMD r93 click 0.375 2.125 0.900
-[main] REPLY r93 ok screen 642,421 of 1285x842
-[main] CMD r94 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu
-[main] REPLY r94 0.000 1.500 2.000
+[main] PASS the OOC box in Unity shows the filtered line: 5, Total + 0: 17
+[main] CMD r92 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Base%20GUI/CloseButton/Button
+[main] REPLY r92 0.375 2.125 0.900
+[main] CMD r93 look 0.375 2.125 0.900
+[main] REPLY r93 ok camera at 0.00,1.60,0.00
+[main] CMD r94 click 0.375 2.125 0.900
+[main] REPLY r94 ok screen 642,421 of 1285x842
+[main] CMD r95 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu
+[main] REPLY r95 0.000 1.500 2.000
 [main] PASS the close button parks the board again (MENU:79-83): 0.000 1.500 2.000 / 0.000 1.500 2.000
-[main] CMD r95 shot board 0 1.6 0.4 0 1.5 2 50
-[main] REPLY r95 Library/PortKit/shots/rp-single_board.jpg
-[main] INFO page result 23 passed, 0 failed
+[main] CMD r96 shot board 0 1.6 0.4 0 1.5 2 50
+[main] REPLY r96 Library/PortKit/shots/rp-single_board.jpg
+[main] INFO page result 24 passed, 0 failed
 [main] DONE
-served: /web/pk-rp-toolkit.js x1, /web/playtest/rp-playtest.js x1, HEAD /kits/windows/rp-toolkit x1
+served: /kits/windows/rp-toolkit x1, /web/pk-rp-toolkit.js x1, /web/playtest/rp-playtest.js x1, HEAD /kits/windows/rp-toolkit x1
 console (main editor): 0 error lines
-RESULT 23 passed, 0 failed
+RESULT 24 passed, 0 failed
 DONE

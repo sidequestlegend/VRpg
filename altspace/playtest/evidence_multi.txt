@@ -1,6 +1,6 @@
 local: script and bundles from the test server http://localhost:43100
 [main] INFO main in Play, page port 43000
-[main] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 6.0 s
+[main] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 5.5 s
 [main] PASS two players in the room: ["Main Editor","Player 2"]
 [main] INFO Main Editor is the world's owner
 [main] PASS the world's owner is a Game Master (role 3), the other player has no role: 3 / 0
@@ -131,7 +131,7 @@ local: script and bundles from the test server http://localhost:43100
 [main] REPLY r58 ok screen 642,421 of 1285x842
 [main] PASS a GM-log line reaches Player 2 (a lead) live: ["Main Editor: GM eyes only"]
 [main] PASS after reloading, Player 2's page holds the same roles, names, slots and IC and OOC lines as the GM's: {"roster":[["ea71beabbcdd9d67f76671884c9073a7",3,"Sir Test","Knight of Play",0],["0f2b21f87e29f9a5936877c44d19f63a",1,"Squire Two","Knight of Play",1]],"ic":["Squire Two: Greetings, game master"],"ooc":["Main Editor: Hello from the GM"]} / {"roster":[["ea71beabbcdd9d67f76671884c9073a7",3,"Sir Test","Knight of Play",0],["0f2b21f87e29f9a5936877c44d19f63a",1,"Squire Two","Knight of Play",1]],"ic":["Squire Two: Greetings, game master"],"ooc":["Main Editor: Hello from the GM"]}
-[main] PASS after reloading, the two pages' digests (per-player synced fields included) match at the same version(): {"version":"4:a6c1b554","digest":"8838ee71"} / {"version":"4:a6c1b554","digest":"8838ee71"}
+[main] PASS after reloading, the two pages' digests (per-player synced fields included) match at the same version(): {"version":"4:7d133d8f","digest":"da68bf64"} / {"version":"4:7d133d8f","digest":"da68bf64"}
 [main] CMD r59 probe - head
 [main] REPLY r59 0.000 1.600 0.000
 [main] CMD r60 probe pk1:rp-toolkit:0 pos VRPG%20Manager/Labels/Label%201/Canvas/Labels
@@ -149,7 +149,7 @@ local: script and bundles from the test server http://localhost:43100
 [main] INFO page result 15 passed, 0 failed
 [main] DONE
 [vp-mppm9c5b43d4] INFO vp-mppm9c5b43d4 in Play, page port 43000
-[vp-mppm9c5b43d4] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 5.2 s
+[vp-mppm9c5b43d4] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 5.3 s
 [vp-mppm9c5b43d4] PASS two players in the room: ["Main Editor","Player 2"]
 [vp-mppm9c5b43d4] INFO Player 2 is a guest
 [vp-mppm9c5b43d4] PASS Player 2 sees itself with no role and the owner as Game Master: 0 / 3
@@ -173,40 +173,40 @@ local: script and bundles from the test server http://localhost:43100
 [vp-mppm9c5b43d4] REPLY r8 ok
 [vp-mppm9c5b43d4] PASS Player 2's menu opens (Q):
 [vp-mppm9c5b43d4] CMD r9 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Title/NameField
-[vp-mppm9c5b43d4] REPLY r9 -0.095 1.879 0.915
-[vp-mppm9c5b43d4] CMD r10 look -0.095 1.879 0.915
+[vp-mppm9c5b43d4] REPLY r9 -0.095 1.925 0.900
+[vp-mppm9c5b43d4] CMD r10 look -0.095 1.925 0.900
 [vp-mppm9c5b43d4] REPLY r10 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r11 click -0.095 1.879 0.915
+[vp-mppm9c5b43d4] CMD r11 click -0.095 1.925 0.900
 [vp-mppm9c5b43d4] REPLY r11 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] CMD r12 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Title/NameField Squire%20Two
 [vp-mppm9c5b43d4] REPLY r12 ok typed 10, focused before True, now 'Squire Two'
 [vp-mppm9c5b43d4] INFO type into nameField: ok typed 10, focused before True, now 'Squire Two'
 [vp-mppm9c5b43d4] CMD r13 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Title/TitleControl/Title_SetTitle
-[vp-mppm9c5b43d4] REPLY r13 0.319 1.881 0.915
-[vp-mppm9c5b43d4] CMD r14 look 0.319 1.881 0.915
+[vp-mppm9c5b43d4] REPLY r13 0.319 1.926 0.900
+[vp-mppm9c5b43d4] CMD r14 look 0.319 1.926 0.900
 [vp-mppm9c5b43d4] REPLY r14 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r15 click 0.319 1.881 0.915
+[vp-mppm9c5b43d4] CMD r15 click 0.319 1.926 0.900
 [vp-mppm9c5b43d4] REPLY r15 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] CMD r16 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/IC%20Log%20Button
-[vp-mppm9c5b43d4] REPLY r16 0.280 1.650 0.904
-[vp-mppm9c5b43d4] CMD r17 look 0.280 1.650 0.904
+[vp-mppm9c5b43d4] REPLY r16 0.280 1.695 0.900
+[vp-mppm9c5b43d4] CMD r17 look 0.280 1.695 0.900
 [vp-mppm9c5b43d4] REPLY r17 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r18 click 0.280 1.650 0.904
+[vp-mppm9c5b43d4] CMD r18 click 0.280 1.695 0.900
 [vp-mppm9c5b43d4] REPLY r18 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] CMD r19 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/InputField%20IC
-[vp-mppm9c5b43d4] REPLY r19 0.063 1.166 0.879
-[vp-mppm9c5b43d4] CMD r20 look 0.063 1.166 0.879
+[vp-mppm9c5b43d4] REPLY r19 0.063 1.210 0.900
+[vp-mppm9c5b43d4] CMD r20 look 0.063 1.210 0.900
 [vp-mppm9c5b43d4] REPLY r20 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r21 click 0.063 1.166 0.879
+[vp-mppm9c5b43d4] CMD r21 click 0.063 1.210 0.900
 [vp-mppm9c5b43d4] REPLY r21 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] CMD r22 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/InputField%20IC Greetings%2C%20game%20master
 [vp-mppm9c5b43d4] REPLY r22 ok typed 22, focused before True, now 'Greetings, game master'
 [vp-mppm9c5b43d4] INFO type into icInput: ok typed 22, focused before True, now 'Greetings, game master'
 [vp-mppm9c5b43d4] CMD r23 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/LogButton
-[vp-mppm9c5b43d4] REPLY r23 0.348 1.166 0.879
-[vp-mppm9c5b43d4] CMD r24 look 0.348 1.166 0.879
+[vp-mppm9c5b43d4] REPLY r23 0.348 1.210 0.900
+[vp-mppm9c5b43d4] CMD r24 look 0.348 1.210 0.900
 [vp-mppm9c5b43d4] REPLY r24 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r25 click 0.348 1.166 0.879
+[vp-mppm9c5b43d4] CMD r25 click 0.348 1.210 0.900
 [vp-mppm9c5b43d4] REPLY r25 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] PASS chat: both lines are on Player 2's page too: [["Main Editor: Hello from the GM"],["Squire Two: Greetings, game master"]]
 [vp-mppm9c5b43d4] CMD r26 probe - head
@@ -236,7 +236,7 @@ local: script and bundles from the test server http://localhost:43100
 [vp-mppm9c5b43d4] CMD r36 look 0.261 3.2 3.4770000000000003
 [vp-mppm9c5b43d4] REPLY r36 ok camera at 0.26,3.20,1.48
 [vp-mppm9c5b43d4] INFO Player 2 reloads its page
-[vp-mppm9c5b43d4] PASS the kit loads from a hand-written bs-snippet and the instance starts (after the reload): after 5.5 s
+[vp-mppm9c5b43d4] PASS the kit loads from a hand-written bs-snippet and the instance starts (after the reload): after 5.0 s
 [vp-mppm9c5b43d4] PASS two players in the room: ["Main Editor","Player 2"]
 [vp-mppm9c5b43d4] INFO Player 2 is a guest (back after a reload)
 [vp-mppm9c5b43d4] PASS after the reload: the GM is still Game Master and Player 2 still Instance Lead (the grant is protected state): [["Main Editor",3],["Player 2",1]]

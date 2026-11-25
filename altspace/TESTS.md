@@ -15,6 +15,24 @@ portkit/tools/playtest.sh altspace altspace/playtest/multi.json rp-toolkit   run
 `playtest.sh` versions the page's script and bundle addresses (`?v=<sha1>`) and empties the local relay's saved room
 before each run (the game's own `run.sh` did both until the fix pass).
 
+## 2026-11-25 (evening): the head label pushed players (portkit `476075d`)
+
+Shane was shoved about in world 9d7311. Measured in the hub's Play mode with the live script and bundle
+(`hub/Assets/Editor/HubPushScan.cs`): the SDK's `BSKitItem` had given each label's world-space canvas a **solid**
+BoxCollider (5.00 x 1.50 m, Default layer, rect 500 x 150 at scale 0.01), centred on the wearer's head because the
+label is attached there; a stand-in body was shoved 0.25 m at all 14 test points. The kit now gives every world-space
+canvas its own trigger box first (`KitStage.CanvasColliders`; Build Prefabs: "36 trigger boxes added to world-space
+canvases"), and `PortKit/Kit/Check` fails a canvas that would end up solid. Rebuilt on `476075d`:
+
+- rung 0/1: `npm test` 28 of 28; `npm run build` the same script (508,915 bytes)
+- rung 2: Check all PASS, with the new line "PASS rp-toolkit canvas colliders: every world-space canvas has a trigger box";
+  bundles PASS (android 1,285 KiB, windows 1,328 KiB)
+- rung 3: **24 passed, 0 failed** (23 before), with the new push check after the label is on the head:
+  `standstill 5` -> "ok still: body moved 0.000 m, player moved 0.000 m in 5 s ..., touched none"; the menu's uGUI
+  buttons are still clicked by the desktop pointer (about 20 clicks in the run)
+- rung 4: **33 passed, 0 failed**, 0 console error lines
+- `dist/` exported (10 files, bindings `da4c55f9...`)
+
 ## Rung 0: static
 
 `npm run typecheck` (tsc, strict) and `npm run lint` (only the platform adapters touch the page or the clock): clean.

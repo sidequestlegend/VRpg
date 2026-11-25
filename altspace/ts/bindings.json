@@ -1006,7 +1006,7 @@
       "object": "noBoxSpawn"
     }
   ],
-  "hash": "d53e682c55306ec883738d848df4cb60c619e5fa",
+  "hash": "da4c55f9d23ab5c94bc2efbc835ab8e2966e8f1f",
   "objects": {
     "bringToMe": {
       "click": false,
@@ -1412,11 +1412,12 @@
     },
     "label0": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 0",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label0Icon0": {
       "click": false,
@@ -1465,19 +1466,21 @@
     },
     "label1": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 1",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label10": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 10",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label10Icon0": {
       "click": false,
@@ -1526,11 +1529,12 @@
     },
     "label11": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 11",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label11Icon0": {
       "click": false,
@@ -1579,11 +1583,12 @@
     },
     "label12": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 12",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label12Icon0": {
       "click": false,
@@ -1632,11 +1637,12 @@
     },
     "label13": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 13",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label13Icon0": {
       "click": false,
@@ -1685,11 +1691,12 @@
     },
     "label14": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 14",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label14Icon0": {
       "click": false,
@@ -1738,11 +1745,12 @@
     },
     "label15": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 15",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label15Icon0": {
       "click": false,
@@ -1791,11 +1799,12 @@
     },
     "label16": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 16",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label16Icon0": {
       "click": false,
@@ -1844,11 +1853,12 @@
     },
     "label17": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 17",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label17Icon0": {
       "click": false,
@@ -1897,11 +1907,12 @@
     },
     "label18": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 18",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label18Icon0": {
       "click": false,
@@ -1950,11 +1961,12 @@
     },
     "label19": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 19",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label19Icon0": {
       "click": false,
@@ -2048,19 +2060,21 @@
     },
     "label2": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 2",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label20": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 20",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label20Icon0": {
       "click": false,
@@ -2109,11 +2123,12 @@
     },
     "label21": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 21",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label21Icon0": {
       "click": false,
@@ -2162,11 +2177,12 @@
     },
     "label22": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 22",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label22Icon0": {
       "click": false,
@@ -2215,11 +2231,12 @@
     },
     "label23": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 23",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label23Icon0": {
       "click": false,
@@ -2268,11 +2285,12 @@
     },
     "label24": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 24",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label24Icon0": {
       "click": false,
@@ -2321,11 +2339,12 @@
     },
     "label25": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 25",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label25Icon0": {
       "click": false,
@@ -2374,11 +2393,12 @@
     },
     "label26": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 26",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label26Icon0": {
       "click": false,
@@ -2427,11 +2447,12 @@
     },
     "label27": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 27",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label27Icon0": {
       "click": false,
@@ -2480,11 +2501,12 @@
     },
     "label28": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 28",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label28Icon0": {
       "click": false,
@@ -2533,11 +2555,12 @@
     },
     "label29": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 29",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label29Icon0": {
       "click": false,
@@ -2631,19 +2654,21 @@
     },
     "label3": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 3",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label30": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 30",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label30Icon0": {
       "click": false,
@@ -2692,11 +2717,12 @@
     },
     "label31": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 31",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label31Icon0": {
       "click": false,
@@ -2790,11 +2816,12 @@
     },
     "label4": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 4",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label4Icon0": {
       "click": false,
@@ -2843,11 +2870,12 @@
     },
     "label5": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 5",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label5Icon0": {
       "click": false,
@@ -2896,11 +2924,12 @@
     },
     "label6": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 6",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label6Icon0": {
       "click": false,
@@ -2949,11 +2978,12 @@
     },
     "label7": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 7",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label7Icon0": {
       "click": false,
@@ -3002,11 +3032,12 @@
     },
     "label8": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 8",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label8Icon0": {
       "click": false,
@@ -3055,11 +3086,12 @@
     },
     "label9": {
       "active": false,
+      "attach": true,
       "click": false,
       "grab": false,
       "path": "VRPG Manager/Labels/Label 9",
       "seat": false,
-      "sync": "transform"
+      "sync": "none"
     },
     "label9Icon0": {
       "click": false,

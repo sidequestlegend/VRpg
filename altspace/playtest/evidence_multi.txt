@@ -17,51 +17,51 @@ local: script and bundles from the test server http://localhost:43100
 [main] REPLY r5 ok
 [main] PASS the GM's menu opens (Q):
 [main] CMD r6 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Navigation/Social
-[main] REPLY r6 -0.555 1.833 0.900
-[main] CMD r7 look -0.555 1.833 0.900
+[main] REPLY r6 -0.555 1.788 0.911
+[main] CMD r7 look -0.555 1.788 0.911
 [main] REPLY r7 ok camera at 0.00,1.60,0.00
-[main] CMD r8 click -0.555 1.833 0.900
+[main] CMD r8 click -0.555 1.788 0.911
 [main] REPLY r8 ok screen 643,421 of 1285x842
 [main] CMD r9 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%204%20-%20Social/Panel%20Content/Player%20Buttons%20Scroll%20View/Viewport/Content/Button%20(1)
-[main] REPLY r9 -0.201 1.806 0.900
-[main] CMD r10 look -0.201 1.806 0.900
+[main] REPLY r9 -0.201 1.761 0.909
+[main] CMD r10 look -0.201 1.761 0.909
 [main] REPLY r10 ok camera at 0.00,1.60,0.00
-[main] CMD r11 click -0.201 1.806 0.900
+[main] CMD r11 click -0.201 1.761 0.909
 [main] REPLY r11 ok screen 643,421 of 1285x842
 [main] CMD r12 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%204%20-%20Social/GM%20Only/MakeController
-[main] REPLY r12 -0.162 1.284 0.900
-[main] CMD r13 look -0.162 1.284 0.900
+[main] REPLY r12 -0.162 1.239 0.883
+[main] CMD r13 look -0.162 1.239 0.883
 [main] REPLY r13 ok camera at 0.00,1.60,0.00
-[main] CMD r14 click -0.162 1.284 0.900
+[main] CMD r14 click -0.162 1.239 0.883
 [main] REPLY r14 ok screen 643,421 of 1285x842
 [main] PASS the GM selects Player 2 in the list and grants a role: Instance Lead (role 1): selected true, role 1
 [main] CMD r15 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Navigation/MainMenu
-[main] REPLY r15 -0.555 1.923 0.900
-[main] CMD r16 look -0.555 1.923 0.900
+[main] REPLY r15 -0.555 1.878 0.915
+[main] CMD r16 look -0.555 1.878 0.915
 [main] REPLY r16 ok camera at 0.00,1.60,0.00
-[main] CMD r17 click -0.555 1.923 0.900
+[main] CMD r17 click -0.555 1.878 0.915
 [main] REPLY r17 ok screen 643,421 of 1285x842
 [main] CMD r18 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/OOC%20Log%20Button
-[main] REPLY r18 0.369 1.695 0.900
-[main] CMD r19 look 0.369 1.695 0.900
+[main] REPLY r18 0.369 1.650 0.904
+[main] CMD r19 look 0.369 1.650 0.904
 [main] REPLY r19 ok camera at 0.00,1.60,0.00
-[main] CMD r20 click 0.369 1.695 0.900
-[main] REPLY r20 ok screen 642,421 of 1285x842
+[main] CMD r20 click 0.369 1.650 0.904
+[main] REPLY r20 ok screen 643,421 of 1285x842
 [main] CMD r21 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC
-[main] REPLY r21 0.063 1.210 0.900
-[main] CMD r22 look 0.063 1.210 0.900
+[main] REPLY r21 0.063 1.166 0.879
+[main] CMD r22 look 0.063 1.166 0.879
 [main] REPLY r22 ok camera at 0.00,1.60,0.00
-[main] CMD r23 click 0.063 1.210 0.900
+[main] CMD r23 click 0.063 1.166 0.879
 [main] REPLY r23 ok screen 643,421 of 1285x842
 [main] CMD r24 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/InputField%20OOC Hello%20from%20the%20GM
 [main] REPLY r24 ok typed 17, focused before True, now 'Hello from the GM'
 [main] INFO type into oocInput: ok typed 17, focused before True, now 'Hello from the GM'
 [main] CMD r25 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/OOC%20Log/View/Button
-[main] REPLY r25 0.348 1.210 0.900
-[main] CMD r26 look 0.348 1.210 0.900
+[main] REPLY r25 0.348 1.166 0.879
+[main] CMD r26 look 0.348 1.166 0.879
 [main] REPLY r26 ok camera at 0.00,1.60,0.00
-[main] CMD r27 click 0.348 1.210 0.900
-[main] REPLY r27 ok screen 643,421 of 1285x842
+[main] CMD r27 click 0.348 1.166 0.879
+[main] REPLY r27 ok screen 642,421 of 1285x842
 [main] PASS chat: the GM's OOC line and Player 2's IC line are both on the GM's page: [["Main Editor: Hello from the GM"],["Squire Two: Greetings, game master"]]
 [main] CMD r28 key W down
 [main] REPLY r28 ok
@@ -70,62 +70,83 @@ local: script and bundles from the test server http://localhost:43100
 [main] CMD r30 probe - head
 [main] REPLY r30 0.000 1.600 0.000
 [main] CMD r31 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Navigation/Social
-[main] REPLY r31 -0.555 1.833 0.900
-[main] CMD r32 look -0.555 1.833 0.900
+[main] REPLY r31 -0.555 1.788 0.911
+[main] CMD r32 look -0.555 1.788 0.911
 [main] REPLY r32 ok camera at 0.00,1.60,0.00
-[main] CMD r33 click -0.555 1.833 0.900
+[main] CMD r33 click -0.555 1.788 0.911
 [main] REPLY r33 ok screen 643,421 of 1285x842
 [main] CMD r34 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%204%20-%20Social/Panel%20Content/Player%20Buttons%20Scroll%20View/Viewport/Content/Button%20(1)
-[main] REPLY r34 -0.201 1.806 0.900
-[main] CMD r35 look -0.201 1.806 0.900
+[main] REPLY r34 -0.201 1.761 0.909
+[main] CMD r35 look -0.201 1.761 0.909
 [main] REPLY r35 ok camera at 0.00,1.60,0.00
-[main] CMD r36 click -0.201 1.806 0.900
+[main] CMD r36 click -0.201 1.761 0.909
 [main] REPLY r36 ok screen 643,421 of 1285x842
-[main] CMD r37 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%204%20-%20Social/GM%20Only/BringToMe
-[main] REPLY r37 0.157 1.411 0.900
-[main] CMD r38 look 0.157 1.411 0.900
-[main] REPLY r38 ok camera at 0.00,1.60,0.00
-[main] CMD r39 click 0.157 1.411 0.900
-[main] REPLY r39 ok screen 643,421 of 1285x842
-[main] PASS GM 'bring': Player 2 is moved in front of the GM: from 0.000 1.600 0.000 to 0.258 3.200 1.478, 1.50 m from the GM's head
-[main] CMD r40 probe - head
-[main] REPLY r40 0.000 1.600 0.000
-[main] CMD r41 findpos Label%201/Canvas/Labels
-[main] REPLY r41 0.164 3.713 0.939 on Canvas
-[main] PASS Player 2's label follows Player 2's head in the GM's Unity and shows above it from the GM's view (Player 2 attached it to its head; its synced transform carries it): text 0.164 3.713 0.939, Player 2's head 0.258 3.2 1.478, GM's view 0 1.6 0, 0.750 m, |cos| to the line of sight 0.000
-[main] CMD r42 findtext Label%201/Canvas/Labels/Text/Nameplate
-[main] REPLY r42 Squire Two
+[main] CMD r37 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%200/Canvas/Labels/Text/Nameplate
+[main] REPLY r37 Sir Test
+[main] CMD r38 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%200/Canvas/Labels/Text/Title%20Plate
+[main] REPLY r38 Knight of Play
+[main] CMD r39 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%204%20-%20Social/GM%20Only/BringToMe
+[main] REPLY r39 0.157 1.366 0.889
+[main] CMD r40 look 0.157 1.366 0.889
+[main] REPLY r40 ok camera at 0.00,1.60,0.00
+[main] CMD r41 click 0.157 1.366 0.889
+[main] REPLY r41 ok screen 643,421 of 1285x842
+[main] PASS GM 'bring': Player 2 is moved in front of the GM: from 0.000 1.600 0.000 to 0.261 3.200 1.477, 1.50 m from the GM's head
+[main] CMD r42 probe - head
+[main] REPLY r42 0.000 1.600 0.000
+[main] CMD r43 probe pk1:rp-toolkit:0 pos VRPG%20Manager/Labels/Label%201/Canvas/Labels
+[main] REPLY r43 0.166 3.713 0.938
+[main] CMD r44 probe pk1:rp-toolkit:0 active VRPG%20Manager/Labels/Label%201/Canvas/Labels
+[main] REPLY r44 True
+[main] PASS Player 2's label follows Player 2's head in the GM's Unity and shows above it from the GM's view (Player 2 attached it to its head with autoSync; the app re-parents the GM's copy): slot 1: text 0.166 3.713 0.938, the wearer's head 0.261 3.2 1.477, view 0 1.6 0, 0.750 m, |cos| to the line of sight 0.000
+[main] CMD r45 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%201/Canvas/Labels/Text/Nameplate
+[main] REPLY r45 Squire Two
 [main] PASS Player 2's label shows the name Player 2 set: Squire Two
-[main] CMD r43 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Navigation/MainMenu
-[main] REPLY r43 -0.555 1.923 0.900
-[main] CMD r44 look -0.555 1.923 0.900
-[main] REPLY r44 ok camera at 0.00,1.60,0.00
-[main] CMD r45 click -0.555 1.923 0.900
-[main] REPLY r45 ok screen 643,421 of 1285x842
-[main] CMD r46 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/GM%20log%20Button
-[main] REPLY r46 0.190 1.695 0.900
-[main] CMD r47 look 0.190 1.695 0.900
+[main] CMD r46 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Navigation/MainMenu
+[main] REPLY r46 -0.555 1.878 0.915
+[main] CMD r47 look -0.555 1.878 0.915
 [main] REPLY r47 ok camera at 0.00,1.60,0.00
-[main] CMD r48 click 0.190 1.695 0.900
+[main] CMD r48 click -0.555 1.878 0.915
 [main] REPLY r48 ok screen 643,421 of 1285x842
-[main] CMD r49 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/GM%20Log%20/View/InputField%20GM
-[main] REPLY r49 0.063 1.210 0.900
-[main] CMD r50 look 0.063 1.210 0.900
+[main] CMD r49 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/GM%20log%20Button
+[main] REPLY r49 0.190 1.650 0.904
+[main] CMD r50 look 0.190 1.650 0.904
 [main] REPLY r50 ok camera at 0.00,1.60,0.00
-[main] CMD r51 click 0.063 1.210 0.900
+[main] CMD r51 click 0.190 1.650 0.904
 [main] REPLY r51 ok screen 643,421 of 1285x842
-[main] CMD r52 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/GM%20Log%20/View/InputField%20GM GM%20eyes%20only
-[main] REPLY r52 ok typed 12, focused before True, now 'GM eyes only'
+[main] CMD r52 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/GM%20Log%20/View/InputField%20GM
+[main] REPLY r52 0.063 1.166 0.879
+[main] CMD r53 look 0.063 1.166 0.879
+[main] REPLY r53 ok camera at 0.00,1.60,0.00
+[main] CMD r54 click 0.063 1.166 0.879
+[main] REPLY r54 ok screen 643,421 of 1285x842
+[main] CMD r55 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/GM%20Log%20/View/InputField%20GM GM%20eyes%20only
+[main] REPLY r55 ok typed 12, focused before True, now 'GM eyes only'
 [main] INFO type into gmInput: ok typed 12, focused before True, now 'GM eyes only'
-[main] CMD r53 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/GM%20Log%20/View/Button
-[main] REPLY r53 0.348 1.210 0.900
-[main] CMD r54 look 0.348 1.210 0.900
-[main] REPLY r54 ok camera at 0.00,1.60,0.00
-[main] CMD r55 click 0.348 1.210 0.900
-[main] REPLY r55 ok screen 643,421 of 1285x842
+[main] CMD r56 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/GM%20Log%20/View/Button
+[main] REPLY r56 0.348 1.166 0.879
+[main] CMD r57 look 0.348 1.166 0.879
+[main] REPLY r57 ok camera at 0.00,1.60,0.00
+[main] CMD r58 click 0.348 1.166 0.879
+[main] REPLY r58 ok screen 642,421 of 1285x842
 [main] PASS a GM-log line reaches Player 2 (a lead) live: ["Main Editor: GM eyes only"]
 [main] PASS after reloading, Player 2's page holds the same roles, names, slots and IC and OOC lines as the GM's: {"roster":[["ea71beabbcdd9d67f76671884c9073a7",3,"Sir Test","Knight of Play",0],["0f2b21f87e29f9a5936877c44d19f63a",1,"Squire Two","Knight of Play",1]],"ic":["Squire Two: Greetings, game master"],"ooc":["Main Editor: Hello from the GM"]} / {"roster":[["ea71beabbcdd9d67f76671884c9073a7",3,"Sir Test","Knight of Play",0],["0f2b21f87e29f9a5936877c44d19f63a",1,"Squire Two","Knight of Play",1]],"ic":["Squire Two: Greetings, game master"],"ooc":["Main Editor: Hello from the GM"]}
-[main] INFO page result 12 passed, 0 failed
+[main] PASS after reloading, the two pages' digests (per-player synced fields included) match at the same version(): {"version":"4:a6c1b554","digest":"8838ee71"} / {"version":"4:a6c1b554","digest":"8838ee71"}
+[main] CMD r59 probe - head
+[main] REPLY r59 0.000 1.600 0.000
+[main] CMD r60 probe pk1:rp-toolkit:0 pos VRPG%20Manager/Labels/Label%201/Canvas/Labels
+[main] REPLY r60 0.166 3.713 0.938
+[main] CMD r61 probe pk1:rp-toolkit:0 active VRPG%20Manager/Labels/Label%201/Canvas/Labels
+[main] REPLY r61 True
+[main] PASS after the reload: Player 2's label is back over Player 2's head in the GM's Unity: slot 1: text 0.166 3.713 0.938, the wearer's head 0.261 3.2 1.477, view 0 1.6 0, 0.750 m, |cos| to the line of sight 0.000
+[main] CMD r62 probe - head
+[main] REPLY r62 0.000 1.600 0.000
+[main] CMD r63 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%200/Canvas/Labels/Text/Nameplate
+[main] REPLY r63 Sir Test
+[main] CMD r64 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%200/Canvas/Labels/Text/Title%20Plate
+[main] REPLY r64 Knight of Play
+[main] PASS Player 2 finished its late-join label check:
+[main] INFO page result 15 passed, 0 failed
 [main] DONE
 [vp-mppm9c5b43d4] INFO vp-mppm9c5b43d4 in Play, page port 43000
 [vp-mppm9c5b43d4] PASS the kit loads from a hand-written bs-snippet and the instance starts: after 5.2 s
@@ -152,67 +173,93 @@ local: script and bundles from the test server http://localhost:43100
 [vp-mppm9c5b43d4] REPLY r8 ok
 [vp-mppm9c5b43d4] PASS Player 2's menu opens (Q):
 [vp-mppm9c5b43d4] CMD r9 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Title/NameField
-[vp-mppm9c5b43d4] REPLY r9 -0.095 1.925 0.900
-[vp-mppm9c5b43d4] CMD r10 look -0.095 1.925 0.900
+[vp-mppm9c5b43d4] REPLY r9 -0.095 1.879 0.915
+[vp-mppm9c5b43d4] CMD r10 look -0.095 1.879 0.915
 [vp-mppm9c5b43d4] REPLY r10 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r11 click -0.095 1.925 0.900
+[vp-mppm9c5b43d4] CMD r11 click -0.095 1.879 0.915
 [vp-mppm9c5b43d4] REPLY r11 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] CMD r12 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Title/NameField Squire%20Two
 [vp-mppm9c5b43d4] REPLY r12 ok typed 10, focused before True, now 'Squire Two'
 [vp-mppm9c5b43d4] INFO type into nameField: ok typed 10, focused before True, now 'Squire Two'
 [vp-mppm9c5b43d4] CMD r13 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Title/TitleControl/Title_SetTitle
-[vp-mppm9c5b43d4] REPLY r13 0.319 1.926 0.900
-[vp-mppm9c5b43d4] CMD r14 look 0.319 1.926 0.900
+[vp-mppm9c5b43d4] REPLY r13 0.319 1.881 0.915
+[vp-mppm9c5b43d4] CMD r14 look 0.319 1.881 0.915
 [vp-mppm9c5b43d4] REPLY r14 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r15 click 0.319 1.926 0.900
+[vp-mppm9c5b43d4] CMD r15 click 0.319 1.881 0.915
 [vp-mppm9c5b43d4] REPLY r15 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] CMD r16 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Log%20Buttons/IC%20Log%20Button
-[vp-mppm9c5b43d4] REPLY r16 0.280 1.695 0.900
-[vp-mppm9c5b43d4] CMD r17 look 0.280 1.695 0.900
+[vp-mppm9c5b43d4] REPLY r16 0.280 1.650 0.904
+[vp-mppm9c5b43d4] CMD r17 look 0.280 1.650 0.904
 [vp-mppm9c5b43d4] REPLY r17 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r18 click 0.280 1.695 0.900
+[vp-mppm9c5b43d4] CMD r18 click 0.280 1.650 0.904
 [vp-mppm9c5b43d4] REPLY r18 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] CMD r19 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/InputField%20IC
-[vp-mppm9c5b43d4] REPLY r19 0.063 1.210 0.900
-[vp-mppm9c5b43d4] CMD r20 look 0.063 1.210 0.900
+[vp-mppm9c5b43d4] REPLY r19 0.063 1.166 0.879
+[vp-mppm9c5b43d4] CMD r20 look 0.063 1.166 0.879
 [vp-mppm9c5b43d4] REPLY r20 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r21 click 0.063 1.210 0.900
+[vp-mppm9c5b43d4] CMD r21 click 0.063 1.166 0.879
 [vp-mppm9c5b43d4] REPLY r21 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] CMD r22 type pk1:rp-toolkit:0 VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/InputField%20IC Greetings%2C%20game%20master
 [vp-mppm9c5b43d4] REPLY r22 ok typed 22, focused before True, now 'Greetings, game master'
 [vp-mppm9c5b43d4] INFO type into icInput: ok typed 22, focused before True, now 'Greetings, game master'
 [vp-mppm9c5b43d4] CMD r23 probe pk1:rp-toolkit:0 pos VRPG%20Manager/VRPG%20Local%20Menu/Menu%20Canvas/Panels/Panel%200%20-%20Main/Log/Logs/IC%20Log/View/LogButton
-[vp-mppm9c5b43d4] REPLY r23 0.348 1.210 0.900
-[vp-mppm9c5b43d4] CMD r24 look 0.348 1.210 0.900
+[vp-mppm9c5b43d4] REPLY r23 0.348 1.166 0.879
+[vp-mppm9c5b43d4] CMD r24 look 0.348 1.166 0.879
 [vp-mppm9c5b43d4] REPLY r24 ok camera at 0.00,1.60,0.00
-[vp-mppm9c5b43d4] CMD r25 click 0.348 1.210 0.900
+[vp-mppm9c5b43d4] CMD r25 click 0.348 1.166 0.879
 [vp-mppm9c5b43d4] REPLY r25 ok screen 1280,351 of 2560x702
 [vp-mppm9c5b43d4] PASS chat: both lines are on Player 2's page too: [["Main Editor: Hello from the GM"],["Squire Two: Greetings, game master"]]
 [vp-mppm9c5b43d4] CMD r26 probe - head
 [vp-mppm9c5b43d4] REPLY r26 0.000 1.600 0.000
 [vp-mppm9c5b43d4] CMD r27 probe - head
-[vp-mppm9c5b43d4] REPLY r27 0.258 3.200 1.478
-[vp-mppm9c5b43d4] PASS GM 'bring' moves Player 2 to about 1.5 m in front of the GM (GMD:524-554): from 0.000 1.600 0.000 to 0.258 3.200 1.478; GM head 0.000 1.600 0.000; 1.50 m across
-[vp-mppm9c5b43d4] CMD r28 findpos Label%201/Canvas/Labels
-[vp-mppm9c5b43d4] REPLY r28 0.258 3.950 1.478 on Canvas
-[vp-mppm9c5b43d4] INFO Player 2's own label in its own Unity: 0.258 3.95 1.478 under Canvas
-[vp-mppm9c5b43d4] CMD r29 look 0.558 3.2 3.4779999999999998
-[vp-mppm9c5b43d4] REPLY r29 ok camera at 0.26,3.20,1.48
-[vp-mppm9c5b43d4] CMD r30 look -0.04199999999999998 3.2 3.4779999999999998
-[vp-mppm9c5b43d4] REPLY r30 ok camera at 0.26,3.20,1.48
-[vp-mppm9c5b43d4] CMD r31 look 0.258 3.2 3.4779999999999998
-[vp-mppm9c5b43d4] REPLY r31 ok camera at 0.26,3.20,1.48
+[vp-mppm9c5b43d4] REPLY r27 0.261 3.200 1.477
+[vp-mppm9c5b43d4] PASS GM 'bring' moves Player 2 to about 1.5 m in front of the GM (GMD:524-554): from 0.000 1.600 0.000 to 0.261 3.200 1.477; GM head 0.000 1.600 0.000; 1.50 m across
+[vp-mppm9c5b43d4] CMD r28 probe pk1:rp-toolkit:0 pos VRPG%20Manager/Labels/Label%201/Canvas/Labels
+[vp-mppm9c5b43d4] REPLY r28 0.261 3.950 1.477
+[vp-mppm9c5b43d4] CMD r29 probe pk1:rp-toolkit:0 active VRPG%20Manager/Labels/Label%201/Canvas/Labels
+[vp-mppm9c5b43d4] REPLY r29 True
+[vp-mppm9c5b43d4] INFO Player 2's own label in its own Unity: 0.261 3.95 1.477
+[vp-mppm9c5b43d4] CMD r30 probe pk1:rp-toolkit:0 pos VRPG%20Manager/Labels/Label%200/Canvas/Labels
+[vp-mppm9c5b43d4] REPLY r30 -0.095 2.113 -0.539
+[vp-mppm9c5b43d4] CMD r31 probe pk1:rp-toolkit:0 active VRPG%20Manager/Labels/Label%200/Canvas/Labels
+[vp-mppm9c5b43d4] REPLY r31 True
+[vp-mppm9c5b43d4] PASS the GM's label (attached before Player 2 came) follows the GM's head in Player 2's Unity and shows above it from Player 2's view: slot 0: text -0.095 2.113 -0.539, the wearer's head 0 1.6 0, view 0.261 3.2 1.477, 0.750 m, |cos| to the line of sight 0.000
+[vp-mppm9c5b43d4] CMD r32 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%200/Canvas/Labels/Text/Nameplate
+[vp-mppm9c5b43d4] REPLY r32 Sir Test
+[vp-mppm9c5b43d4] CMD r33 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%200/Canvas/Labels/Text/Title%20Plate
+[vp-mppm9c5b43d4] REPLY r33 Knight of Play
+[vp-mppm9c5b43d4] PASS the GM's label in Player 2's Unity reads what it reads in the GM's own: ["Sir Test","Knight of Play"] / ["Sir Test","Knight of Play"]
+[vp-mppm9c5b43d4] CMD r34 look 0.5609999999999999 3.2 3.4770000000000003
+[vp-mppm9c5b43d4] REPLY r34 ok camera at 0.26,3.20,1.48
+[vp-mppm9c5b43d4] CMD r35 look -0.03899999999999998 3.2 3.4770000000000003
+[vp-mppm9c5b43d4] REPLY r35 ok camera at 0.26,3.20,1.48
+[vp-mppm9c5b43d4] CMD r36 look 0.261 3.2 3.4770000000000003
+[vp-mppm9c5b43d4] REPLY r36 ok camera at 0.26,3.20,1.48
 [vp-mppm9c5b43d4] INFO Player 2 reloads its page
-[vp-mppm9c5b43d4] PASS the kit loads from a hand-written bs-snippet and the instance starts (after the reload): after 5.0 s
+[vp-mppm9c5b43d4] PASS the kit loads from a hand-written bs-snippet and the instance starts (after the reload): after 5.5 s
 [vp-mppm9c5b43d4] PASS two players in the room: ["Main Editor","Player 2"]
 [vp-mppm9c5b43d4] INFO Player 2 is a guest (back after a reload)
 [vp-mppm9c5b43d4] PASS after the reload: the GM is still Game Master and Player 2 still Instance Lead (the grant is protected state): [["Main Editor",3],["Player 2",1]]
 [vp-mppm9c5b43d4] PASS after the reload: the recent OOC and IC lines are back (the referee's recent lines): [["Main Editor: Hello from the GM"],["Squire Two: Greetings, game master"]]
 [vp-mppm9c5b43d4] PASS after the reload: Player 2's name comes back from this device, and the Name field is filled: ["Squire Two",{"name":"Squire Two","title":"Knight of Play"}]
 [vp-mppm9c5b43d4] PASS after the reload: no GM-log line came back (they are never published): []
-[vp-mppm9c5b43d4] INFO page result 6 passed, 0 failed
+[vp-mppm9c5b43d4] CMD r1 probe - head
+[vp-mppm9c5b43d4] REPLY r1 0.261 3.200 1.477
+[vp-mppm9c5b43d4] CMD r2 probe - head
+[vp-mppm9c5b43d4] REPLY r2 0.261 3.200 1.477
+[vp-mppm9c5b43d4] CMD r3 probe pk1:rp-toolkit:0 pos VRPG%20Manager/Labels/Label%200/Canvas/Labels
+[vp-mppm9c5b43d4] REPLY r3 -0.095 2.113 -0.539
+[vp-mppm9c5b43d4] CMD r4 probe pk1:rp-toolkit:0 active VRPG%20Manager/Labels/Label%200/Canvas/Labels
+[vp-mppm9c5b43d4] REPLY r4 True
+[vp-mppm9c5b43d4] PASS after the reload: the GM's label follows the GM's head in Player 2's Unity (reproduced on the new kit copy): slot 0: text -0.095 2.113 -0.539, the wearer's head 0 1.6 0, view 0.261 3.2 1.477, 0.750 m, |cos| to the line of sight 0.000
+[vp-mppm9c5b43d4] CMD r5 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%200/Canvas/Labels/Text/Nameplate
+[vp-mppm9c5b43d4] REPLY r5 Sir Test
+[vp-mppm9c5b43d4] CMD r6 probe pk1:rp-toolkit:0 text VRPG%20Manager/Labels/Label%200/Canvas/Labels/Text/Title%20Plate
+[vp-mppm9c5b43d4] REPLY r6 Knight of Play
+[vp-mppm9c5b43d4] PASS after the reload: the GM's label reads what it reads in the GM's own Unity: ["Sir Test","Knight of Play"] / ["Sir Test","Knight of Play"]
+[vp-mppm9c5b43d4] INFO page result 8 passed, 0 failed
 [vp-mppm9c5b43d4] DONE
 served: /web/pk-rp-toolkit.js x3, /web/playtest/rp-playtest.js x3, HEAD /kits/windows/rp-toolkit x3
 console (main editor): 0 error lines
-RESULT 26 passed, 0 failed
+RESULT 33 passed, 0 failed
 DONE

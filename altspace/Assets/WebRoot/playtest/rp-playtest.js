@@ -1,8 +1,8 @@
 // Rungs 3 and 4: the roleplay toolkit in editor Play mode, driven through the SDK's desktop player with the port kit's
 // input (InputSim: a mouse and keyboard of the test's own; uGUI buttons are clicked through the canvas's raycaster, as a
 // person's mouse does) and checked in Unity with the kit's probe command. Typing goes into the kit's TMP_InputFields
-// through the kit's "type" command (InputSim); objects the SDK has attached to a head (labels, fade sphere) are found by
-// name with the game's "findpos" (RpTestCommands.cs). Not part of the snippet: the test page loads it before the snippet.
+// through the kit's "type" command (InputSim); a label the SDK has re-parented under a remote avatar is found by the kit's
+// probe (KitProbe.Find falls back to the name). Not part of the snippet: the test page loads it before the snippet.
 //
 // window.__rpPlan: "single" (one page: menu, name and title, both rollers, an IC and an OOC line) or "multi" (two Local
 // Multiplayer players: the main editor is the world's owner, a game master; Player 2 is refused, then granted a role;
@@ -64,11 +64,22 @@
   const mine = () => debug().roster().find((p) => p.sid === me().sid);
   /** Where the local view is in Unity (the main camera). */
   const headAt = () => cmd("probe - head");
-  /** A kit object found by name anywhere in the scene: "x y z on|off parent". */
-  const findpos = async (name) => {
-    const r = await cmd("findpos " + enc(name));
-    return r.startsWith("error") ? null : { at: vec(r.split(" ").slice(0, 3).join(" ")), on: r.split(" ")[3] === "on", parent: r.split(" ")[4] };
+  /**
+   * Where a kit object is in Unity, by its path under the kit root, and whether it is on: the kit's probe, which finds an
+   * object the SDK has re-parented under an avatar (a remote player's label) by its name (KitProbe.Find). The label
+   * containers are centred RectTransforms, so "pos" is their pivot.
+   */
+  const where = async (path) => {
+    const r = await cmd("probe " + HOLDER + " pos " + enc(path));
+    if (r.startsWith("error")) {
+      say("INFO", "probe pos " + path, r);
+      return null;
+    }
+    const on = await cmd("probe " + HOLDER + " active " + enc(path));
+    return { at: vec(r), on: on === "True" };
   };
+  /** A label's text container (`label<n>`'s Canvas/Labels), the point the checks below measure. */
+  const labelText = (slot) => where(debug().pathOf("label" + slot) + "/Canvas/Labels");
   /** Polls until `get` gives a value `ok` accepts (probes run ahead of the relay), else the last value. */
   async function settle(get, ok, ms) {
     const end = Date.now() + (ms || 5000);
@@ -78,6 +89,26 @@
       value = await get();
     }
     return value;
+  }
+
+  /**
+   * A player's label seen from `eye`: the label is a billboard turned to this viewer, its text 0.75 m from the wearer's
+   * head along the billboard's up, which is square to this viewer's line of sight and leans upward, so from here it shows
+   * straight above the head. Polls for up to 10 s (the attachment travels by the wearer's user state).
+   */
+  async function aboveHead(slot, head, eye) {
+    const near = async () => {
+      const c = await labelText(slot);
+      if (!c || !c.on) return { c, ok: false };
+      const off = [c.at[0] - head[0], c.at[1] - head[1], c.at[2] - head[2]];
+      const sight = [eye[0] - head[0], eye[1] - head[1], eye[2] - head[2]];
+      const len = Math.hypot(...off);
+      const square = Math.abs(off[0] * sight[0] + off[1] * sight[1] + off[2] * sight[2]) / (len * Math.hypot(...sight));
+      return { c, len, square, ok: Math.abs(len - 0.75) < 0.1 && square < 0.15 && off[1] > 0.3 };
+    };
+    const v = await settle(near, (x) => x.ok, 10000);
+    v.detail = `slot ${slot}: text ${v.c ? v.c.at.join(" ") + (v.c.on ? "" : " (off)") : "not found"}, the wearer's head ${head.join(" ")}, view ${eye.join(" ")}, ${v.len !== undefined ? v.len.toFixed(3) : "-"} m, |cos| to the line of sight ${v.square !== undefined ? v.square.toFixed(3) : "-"}`;
+    return v;
   }
 
   /** A uGUI button (or a field) of the kit, clicked with the test's mouse: turn to it, click its centre. */
@@ -166,28 +197,28 @@
     const plateTitle = await probe("text", "plateCharTitle");
     check(plate === "Sir Test" && plateTitle === "Knight of Play", "the header plates show them in Unity (relay op text)", `'${plate}' / '${plateTitle}'`);
     const slot = mine().slot;
-    const labelName = slot >= 0 ? await cmd("findtext " + enc(`Label ${slot}/Canvas/Labels/Text/Nameplate`)) : "no slot";
-    const labelTitle = slot >= 0 ? await cmd("findtext " + enc(`Label ${slot}/Canvas/Labels/Text/Title Plate`)) : "";
-    const labelAt = slot >= 0 ? await findpos(`Label ${slot}`) : null;
+    const labelName = slot >= 0 ? await probe("text", `label${slot}Name`) : "no slot";
+    const labelTitle = slot >= 0 ? await probe("text", `label${slot}Title`) : "";
+    const labelAt = slot >= 0 ? await where(debug().pathOf(`label${slot}`)) : null;
     check(labelName === "Sir Test" && labelTitle === "Knight of Play" && !!labelAt && labelAt.on, "the player's own name label shows them", `slot ${slot}: '${labelName}' / '${labelTitle}', on ${labelAt && labelAt.on}`);
 
-    // ---- the label follows the head: attached to it (AttachToHead, synced), its canvas 0.75 m straight above ----
-    check(mine().attached === slot, "the page took its label's synced transform and attached the label to its head", `slot ${slot}, attached ${mine().attached}`);
+    // ---- the label follows the head: attached to it (AttachToHead with autoSync), its canvas 0.75 m straight above ----
+    check(mine().attached === slot, "the page attached its label to its head (autoSync)", `slot ${slot}, attached ${mine().attached}`);
     const canvasAbove = async () => {
       const h = vec(await headAt());
-      const c = await findpos(`Label ${slot}/Canvas/Labels`);
+      const c = await labelText(slot);
       return { h, c, ok: !!c && Math.hypot(c.at[0] - h[0], c.at[2] - h[2]) < 0.2 && Math.abs(c.at[1] - h[1] - 0.75) < 0.25 };
     };
     const level = await settle(canvasAbove, (v) => v.ok, 6000);
-    check(level.ok, "the label's canvas sits about 0.75 m over the head in Unity (head attachment; a billboard)", `canvas ${level.c && level.c.at.join(" ")} under ${level.c && level.c.parent}, head ${level.h.join(" ")}`);
+    check(level.ok, "the label's canvas sits about 0.75 m over the head in Unity (head attachment; a billboard)", `canvas ${level.c && level.c.at.join(" ")}, head ${level.h.join(" ")}`);
     // look down at the floor in front: the head tilts, the label stays straight above it (the constraint works in world axes)
     const hv = level.h;
     await cmd(`look ${hv[0]} ${hv[1] - 1.5} ${hv[2] + 0.6}`);
     const tilted = await settle(canvasAbove, (v) => v.ok, 4000);
     check(tilted.ok, "with the head tilted down the label stays straight above it", `canvas ${tilted.c && tilted.c.at.join(" ")}, head ${tilted.h.join(" ")}`);
-    const fade = await findpos("FadeSphere");
+    const fade = await where(debug().pathOf("fadeSphere"));
     const fh = vec(await headAt());
-    check(!!fade && dist(fade.at, fh) < 0.3, "the fade sphere (the labels' look-at target) is attached to the local head", `sphere ${fade && fade.at.join(" ")} under ${fade && fade.parent}, head ${fh.join(" ")}`);
+    check(!!fade && dist(fade.at, fh) < 0.3, "the fade sphere (the labels' look-at target) is attached to the local head", `sphere ${fade && fade.at.join(" ")}, head ${fh.join(" ")}`);
     await cmd("look " + (await probe("pos", "menu")));
 
     // ---- the DS roller: ROLL with no modifiers ----
@@ -329,7 +360,9 @@
       const gmHead = await headAt();
       await click("navSocial");
       await selectRow(p2.sid);
-      send({ kind: "bringing", head: gmHead });
+      const ownName = await probe("text", `label${mine().slot}Name`);
+      const ownTitle = await probe("text", `label${mine().slot}Title`);
+      send({ kind: "bringing", head: gmHead, label: [ownName, ownTitle] });
       await click("bringToMe");
       const arrived = await word("brought", 60000);
       check(!!arrived && arrived.ok, "GM 'bring': Player 2 is moved in front of the GM", arrived ? arrived.detail : "no word from Player 2");
@@ -338,20 +371,9 @@
       if (p.slot >= 0 && arrived && arrived.head) {
         const want = vec(arrived.head);
         const eye = vec(await headAt());
-        // The label is a billboard turned to this viewer: its text is 0.75 m from Player 2's head along the billboard's up,
-        // which is square to this viewer's line of sight and leans upward, so from here it shows straight above the head.
-        const near = async () => {
-          const c = await findpos(`Label ${p.slot}/Canvas/Labels`);
-          if (!c || !c.on) return { c, ok: false };
-          const off = [c.at[0] - want[0], c.at[1] - want[1], c.at[2] - want[2]];
-          const sight = [eye[0] - want[0], eye[1] - want[1], eye[2] - want[2]];
-          const len = Math.hypot(...off);
-          const square = Math.abs(off[0] * sight[0] + off[1] * sight[1] + off[2] * sight[2]) / (len * Math.hypot(...sight));
-          return { c, len, square, ok: Math.abs(len - 0.75) < 0.1 && square < 0.15 && off[1] > 0.3 };
-        };
-        const seen = await settle(near, (v) => v.ok, 10000);
-        check(seen.ok, "Player 2's label follows Player 2's head in the GM's Unity and shows above it from the GM's view (Player 2 attached it to its head; its synced transform carries it)", `text ${seen.c && seen.c.at.join(" ")}, Player 2's head ${want.join(" ")}, GM's view ${eye.join(" ")}, ${seen.len && seen.len.toFixed(3)} m, |cos| to the line of sight ${seen.square && seen.square.toFixed(3)}`);
-        const name = await cmd("findtext " + enc(`Label ${p.slot}/Canvas/Labels/Text/Nameplate`));
+        const seen = await aboveHead(p.slot, want, eye);
+        check(seen.ok, "Player 2's label follows Player 2's head in the GM's Unity and shows above it from the GM's view (Player 2 attached it to its head with autoSync; the app re-parents the GM's copy)", seen.detail);
+        const name = await probe("text", `label${p.slot}Name`);
         check(name === "Squire Two", "Player 2's label shows the name Player 2 set", name);
       } else check(false, "Player 2's label sits over Player 2's head", `slot ${p.slot}, head ${arrived && arrived.head}`);
       // ---- a GM-log line: it reaches Player 2 (a lead) live, and is never stored for a late joiner (review finding 2) ----
@@ -366,6 +388,20 @@
       const again = await word("back", 150000);
       const same = again ? await until(() => debug().view() === again.view, 15000, 250) : false;
       check(!!same, "after reloading, Player 2's page holds the same roles, names, slots and IC and OOC lines as the GM's", again ? `${again.view} / ${debug().view()}` : "no word");
+      // portkit's digest now covers per-player synced fields (labels, grants, recent lines): compared at equal version()
+      if (again) {
+        const atVersion = await until(() => debug().version() === again.stamp.version, 15000, 250);
+        const mineNow = debug().stamp();
+        check(!!atVersion && mineNow.digest === again.stamp.digest, "after reloading, the two pages' digests (per-player synced fields included) match at the same version()", `${JSON.stringify(again.stamp)} / ${JSON.stringify(mineNow)}`);
+        // Player 2's reloaded page attached its label again; the GM's copy follows Player 2's head again
+        const eye = vec(await headAt());
+        const p2 = other();
+        const relabel = await aboveHead(p2.slot, vec(again.head), eye);
+        check(relabel.ok, "after the reload: Player 2's label is back over Player 2's head in the GM's Unity", relabel.detail);
+        send({ kind: "gmAt", head: await headAt(), label: [await probe("text", `label${mine().slot}Name`), await probe("text", `label${mine().slot}Title`)] });
+        const fin = await word("lateLabel", 60000);
+        check(!!fin, "Player 2 finished its late-join label check", fin ? "" : "no word");
+      }
     } else {
       // ---- Player 2: no role, so a privileged request is refused by the others ----
       check(mine().role === 0 && other().role === 3, "Player 2 sees itself with no role and the owner as Game Master", `${mine().role} / ${other().role}`);
@@ -403,8 +439,15 @@
       const flat = Math.hypot(vec(to)[0] - gmHead[0], vec(to)[2] - gmHead[2]);
       const ok = dist(vec(from), vec(to)) > 0.5 && Math.abs(flat - 1.5) < 0.4;
       check(ok, "GM 'bring' moves Player 2 to about 1.5 m in front of the GM (GMD:524-554)", `from ${from} to ${to}; GM head ${bring && bring.head}; ${flat.toFixed(2)} m across`);
-      const own = await findpos(`Label ${mine().slot}/Canvas/Labels`);
-      say("INFO", "Player 2's own label in its own Unity", own ? `${own.at.join(" ")} under ${own.parent}` : "not found");
+      const own = await labelText(mine().slot);
+      say("INFO", "Player 2's own label in its own Unity", own ? own.at.join(" ") : "not found");
+      // ---- the GM's label, in Player 2's Unity: the GM attached it before Player 2 came (the late case) ----
+      if (bring) {
+        const gmLabel = await aboveHead(other().slot, gmHead, vec(to));
+        check(gmLabel.ok, "the GM's label (attached before Player 2 came) follows the GM's head in Player 2's Unity and shows above it from Player 2's view", gmLabel.detail);
+        const gmText = [await probe("text", `label${other().slot}Name`), await probe("text", `label${other().slot}Title`)];
+        check(JSON.stringify(gmText) === JSON.stringify(bring.label), "the GM's label in Player 2's Unity reads what it reads in the GM's own", `${JSON.stringify(gmText)} / ${JSON.stringify(bring.label)}`);
+      }
       send({ kind: "brought", ok, head: to, detail: `from ${from} to ${to}, ${flat.toFixed(2)} m from the GM's head` });
       // a person's head is never quite still: turn it a little, as the GM checks where the label is
       for (const dx of [0.3, -0.3, 0]) {
@@ -441,7 +484,17 @@
     check(!!name, "after the reload: Player 2's name comes back from this device, and the Name field is filled", JSON.stringify([mine().charName, debug().fields()]));
     check(debug().lines(2).length === 0, "after the reload: no GM-log line came back (they are never published)", JSON.stringify(debug().lines(2)));
     await sleep(2500);
-    send({ kind: "back", view: debug().view() });
+    send({ kind: "back", view: debug().view(), stamp: debug().stamp(), head: await headAt() });
+    // the GM's label: its attachment came from the GM's user state to this page's new copy of the kit
+    const at = await word("gmAt", 60000);
+    if (at) {
+      const gmSlot = debug().roster().find((p) => p.admin).slot;
+      const v = await aboveHead(gmSlot, vec(at.head), vec(await headAt()));
+      check(v.ok, "after the reload: the GM's label follows the GM's head in Player 2's Unity (reproduced on the new kit copy)", v.detail);
+      const text = [await probe("text", `label${gmSlot}Name`), await probe("text", `label${gmSlot}Title`)];
+      check(JSON.stringify(text) === JSON.stringify(at.label), "after the reload: the GM's label reads what it reads in the GM's own Unity", `${JSON.stringify(text)} / ${JSON.stringify(at.label)}`);
+    } else check(false, "after the reload: word of the GM's head", "none");
+    send({ kind: "lateLabel" });
     try {
       sessionStorage.removeItem("rpTestReloaded");
     } catch (e) {

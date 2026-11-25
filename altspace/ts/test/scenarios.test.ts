@@ -423,25 +423,35 @@ test("name labels follow players joining and leaving; names are stripped for non
   assert.deepEqual(problems(t), []);
 });
 
-test("each player's label is attached to that player's own head, its synced transform theirs; the alert volume reaches the audio source", async () => {
+test("each player's label is attached to that player's own head with autoSync, and the others see it there; the alert volume reaches the audio source", async () => {
   const t = new Table({}, { owner: "ann" });
   const ann = t.join({ uid: "ann", name: "Ann" });
   const bob = t.join({ uid: "bob", name: "Bob" });
   await t.settle();
-  const attachedOn = (c: FakeClient) => [...c.attached.entries()].filter(([path]) => /\/Labels\/Label \d+$/.test(path));
-  const expectOwn = (c: FakeClient) => {
+  const isLabel = (path: string) => /\/Labels\/Label \d+$/.test(path);
+  const attachedOn = (c: FakeClient) => [...c.attached.entries()].filter(([path]) => isLabel(path));
+  const expectOwn = (c: FakeClient, others: FakeClient[]) => {
     const slot = t.object(c, c).ShownSlot;
     assert.ok(slot >= 0, `${c.name} holds a slot`);
     assert.equal(t.object(c, c).AttachedSlot, slot);
     const path = bindings.objects[`label${slot}`].path as string;
-    // One label on this client, its own, on its own head (point 0); its synced transform (the instance's id) is this
-    // player's, so the app sends the pose the attachment gives it to everyone.
-    assert.deepEqual(attachedOn(c).map(([p, at]) => [p.endsWith("/" + path), at]), [[true, { uid: c.uid, point: 0 }]], c.name);
-    assert.equal(bindings.objects[`label${slot}`].sync, "transform");
-    assert.equal(t.world.room.serverObjectOwner(`pk1/${SLUG}/0/label${slot}`), c.sid, `${c.name} owns its label's transform`);
+    // One label on this client, its own, on its own head (point 0), with autoSync; the kit marks the labels attachable
+    // and not synced, so every client gave the object the same attachment id as the kit loaded.
+    assert.deepEqual(attachedOn(c).map(([p, at]) => [p.endsWith("/" + path), at.uid, at.point, at.autoSync]), [[true, c.uid, 0, true]], c.name);
+    assert.equal(bindings.objects[`label${slot}`].attach, true);
+    assert.equal(bindings.objects[`label${slot}`].sync, "none");
+    // Every other client that was there when it was attached re-parents its own copy of that slot under this player's
+    // head (and no other copy for them). (The fake room shares an attachment only with the clients present as it is
+    // made: a later arrival does not reproduce it, though the SDK's LocalAttachmentBridge does, from the wearer's user
+    // state; kit gap, PORT.md 0.8. Rung 4 checks the late case in Play mode.)
+    for (const o of others) {
+      const seen = [...o.remoteAttached.entries()].filter(([p, at]) => isLabel(p) && at.uid === c.uid);
+      assert.deepEqual(seen.map(([p, at]) => [p.endsWith("/" + path), at.point]), [[true, 0]], `${o.name} sees ${c.name}'s label on ${c.name}'s head`);
+    }
   };
-  expectOwn(ann);
-  expectOwn(bob);
+  expectOwn(ann, []); // Ann attached hers before Bob came (see above)
+  expectOwn(bob, [ann]);
+  assert.ok(![ann, bob].some((c) => c.notes.some((n) => n.includes("does not have") || n.includes("refused"))), "every attachment was reproduced");
   // Nobody places labels from published head positions any more: nothing about heads is in anyone's user state.
   for (const c of [ann, bob]) assert.ok(!JSON.stringify(t.world.room.userStateOf(c.sid)).includes("head"), `${c.name}: no head record`);
   // Bob leaves and comes back: his new session attaches the slot it takes.
@@ -450,8 +460,8 @@ test("each player's label is attached to that player's own head, its synced tran
   const bob2 = t.join({ uid: "bob", name: "Bob" });
   await t.world.settle();
   await t.run(STEP);
-  expectOwn(bob2);
-  expectOwn(ann);
+  expectOwn(bob2, [ann]);
+  expectOwn(ann, []);
 
   // The volume buttons set the IM alert's AudioSource.volume through the relay (op audioVolume).
   t.press(ann, "volUp");

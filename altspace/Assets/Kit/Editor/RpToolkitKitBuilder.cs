@@ -395,7 +395,7 @@ namespace RpToolkit
             O("grid", gridPlane);
 
             // ---- the name labels: 32 copies of the player object's label canvas. Each player's page attaches the label it holds
-            //      to its own head and syncs its transform; the canvas pivots there, a look-at constraint turns it to the viewer
+            //      to its own head with autoSync (the labels are attachable); the canvas pivots there, a look-at constraint turns it to the viewer
             //      (the fade sphere, which every page attaches to its own head), and its text sits LabelHeight along the
             //      canvas's up, so the viewer sees it above the head whichever way the head tilts ----
             var labelsRoot = stage.Create("Labels", root.transform);
@@ -432,10 +432,11 @@ namespace RpToolkit
                 labelText.position += Vector3.up * LabelHeight;
                 CleanUi(label);
                 O($"label{i}", label.transform);
-                // A synced transform: the label's holder owns it and attaches it to its own head; the app sends the pose to
-                // everyone. (An autoSync attachment is not used: other clients' copies of a kit object carry no network id,
-                // so the app cannot reproduce the attachment there; measured in Local Multiplayer, PORT.md 0.7.)
-                stage.Object(label, sync: "transform");
+                // Attachable (bindings "attach": true): every client gives it the same attachment id as the kit loads, so when
+                // its holder attaches it to their head with autoSync the others re-parent their own copy under that avatar.
+                // (Until portkit c971100 only the attaching page had the id; the labels were holder-owned synced transforms,
+                // PORT.md 0.7, 0.8.)
+                stage.Attachable(label);
                 O($"label{i}Name", lc.Find("Labels/Text/Nameplate"));
                 O($"label{i}Title", lc.Find("Labels/Text/Title Plate"));
                 var icons = new[] { "NormalImage", "ControllerImage", "AdminImage", "JanitorImage" };

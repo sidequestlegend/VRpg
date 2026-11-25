@@ -12,10 +12,11 @@
 //   - The label over the player's head: upstream moves it to the owner's head every physics tick (PO:101-112),
 //     which needs other players' head positions the page does not have (G4). Here the kit holds a pool of label
 //     objects (`label<n>`); each player claims a free slot (`labelSlot`, settled by player id when two claim one),
-//     every client writes the texts and the role icon into that slot, and the slot's holder takes the slot's synced
-//     transform and attaches the slot to their own head (`AttachToHead`), so the app moves it with that head and sends
-//     its pose to everyone. (Not the attachment's own `autoSync`: other clients' copies of the object have no network
-//     id, so the app cannot reproduce the attachment there; found in Local Multiplayer, PORT.md 0.7.) In the kit the
+//     every client writes the texts and the role icon into that slot, and the slot's holder attaches the slot to their
+//     own head with the attachment's `autoSync` (`AttachToHead(..., true)`): the kit marks the label objects attachable
+//     (`KitStage.Attachable`), so every client gave each the same attachment id as the kit loaded, and the app re-parents
+//     the others' copies under the holder's avatar. (Until portkit c971100 only the attaching page had the id, so the
+//     labels were holder-owned synced transforms instead; PORT.md 0.7, 0.8.) In the kit the
 //     label's canvas pivots at the attachment point and turns to the viewer with world up (a look-at constraint on the
 //     fade sphere, which every page attaches to its own head), its text `label-height` (0.75 m, PO:106) above.
 //   - What the referee publishes for everyone (the toolkit keeps nothing in public space state): the recent IC and
@@ -122,8 +123,7 @@ export class VRPGPlayerObject extends VRPGComponent {
     // The kit puts the text KIT_LABEL_HEIGHT above the attachment point, upright; a different `label-height` moves the
     // attachment point itself (along the head's up, so that part tilts with the head).
     const extra = this.VRPG.ConfigData.GetNumber("label-height", KIT_LABEL_HEIGHT) - KIT_LABEL_HEIGHT;
-    label.TakeOwnership();
-    label.AttachToHead(new Vector3(0, extra, 0), Quaternion.identity, false);
+    label.AttachToHead(new Vector3(0, extra, 0), Quaternion.identity, true);
   }
 
   /** The label slot the local player has attached to its head (tests read it). */
